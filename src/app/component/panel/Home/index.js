@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import style from 'css/home.scss';
 import Header from './Header';
 import Login from './Login';
+import Register from './Register';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 export default class Home extends Component {
     render() {
@@ -12,7 +14,10 @@ export default class Home extends Component {
                     <Header />
                 </div>
                 <div className={style.auth}>
-                    <Login />
+                    <Switch>
+                    <Route path="/home" exact component={Login} />
+                    <Route path="/register" exact component={Register} />
+                    </Switch>
                 </div>
                 </div>
 

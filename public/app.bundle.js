@@ -12765,7 +12765,9 @@ var AppRouter = function (_Component) {
                         _reactRouterDom.Switch,
                         null,
                         _react2.default.createElement(_reactRouterDom.Redirect, { from: '/', to: '/home', exact: true }),
-                        _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _Home2.default })
+                        _react2.default.createElement(_reactRouterDom.Redirect, { from: '/login', to: '/home' }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _Home2.default }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/register', component: _Home2.default })
                     )
                 )
             );
@@ -30001,7 +30003,7 @@ var Header = function (_Component) {
                     _react2.default.createElement(
                         'p',
                         null,
-                        'Sebuah fasilitas untuk mengunggah file yang terintegrasi dengan cloud storage dropbox dan Google Drive'
+                        'Sebuah fasilitas untuk mengunggah file yang terintegrasi dengan cloud storage Dropbox dan Google Drive'
                     )
                 ),
                 _react2.default.createElement(
@@ -30104,7 +30106,7 @@ var Login = function (_Component) {
                             'div',
                             { className: _login2.default.input },
                             _react2.default.createElement(_input2.default, {
-                                type: 'email',
+                                type: 'text',
                                 label: 'Username or email',
                                 icon: 'email',
                                 value: this.state.email,
@@ -30121,7 +30123,7 @@ var Login = function (_Component) {
                         _react2.default.createElement(
                             'button',
                             { className: 'custom-button' },
-                            'Login'
+                            'Sign In'
                         )
                     )
                 ),
@@ -30177,6 +30179,12 @@ var _Login = __webpack_require__(267);
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _Register = __webpack_require__(349);
+
+var _Register2 = _interopRequireDefault(_Register);
+
+var _reactRouterDom = __webpack_require__(227);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30211,7 +30219,12 @@ var Home = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: _home2.default.auth },
-                        _react2.default.createElement(_Login2.default, null)
+                        _react2.default.createElement(
+                            _reactRouterDom.Switch,
+                            null,
+                            _react2.default.createElement(_reactRouterDom.Route, { path: '/home', exact: true, component: _Login2.default }),
+                            _react2.default.createElement(_reactRouterDom.Route, { path: '/register', exact: true, component: _Register2.default })
+                        )
                     )
                 ),
                 _react2.default.createElement(
@@ -30241,7 +30254,7 @@ exports = module.exports = __webpack_require__(36)();
 
 
 // module
-exports.push([module.i, ".home-header--container--3HHlVo0G {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  max-width: 400px;\n  min-width: 300px; }\n  .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n    border-bottom: 1px solid #D8D8D8; }\n    .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG img {\n      width: 95px;\n      height: 100%;\n      margin: 30px;\n      margin-top: 30px;\n      margin-left: 20px; }\n    .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG .home-header--title--2cZUr1d1 {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column; }\n      .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG .home-header--title--2cZUr1d1 h1 {\n        font-size: 75pt;\n        line-height: 0px;\n        color: #848484;\n        font-weight: 100; }\n  .home-header--container--3HHlVo0G .home-header--middle--3Gszj37B p {\n    font-weight: 300;\n    padding-left: 20px; }\n  .home-header--container--3HHlVo0G .home-header--bottom--1h7X-cyp {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    .home-header--container--3HHlVo0G .home-header--bottom--1h7X-cyp img {\n      margin: 20px;\n      width: 100px;\n      height: 100%; }\n", "", {"version":3,"sources":["/./src/app/css/home-header.scss"],"names":[],"mappings":"AAAA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB;EAC/B,iBAAiB;EACjB,iBAAiB,EAAE;EACnB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,YAAY;IACZ,iCAAiC,EAAE;IACnC;MACE,YAAY;MACZ,aAAa;MACb,aAAa;MACb,iBAAiB;MACjB,kBAAkB,EAAE;IACtB;MACE,qBAAqB;MACrB,qBAAqB;MACrB,cAAc;MACd,6BAA6B;MAC7B,8BAA8B;UAC1B,2BAA2B;cACvB,uBAAuB,EAAE;MACjC;QACE,gBAAgB;QAChB,iBAAiB;QACjB,eAAe;QACf,iBAAiB,EAAE;EACzB;IACE,iBAAiB;IACjB,mBAAmB,EAAE;EACvB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB,EAAE;IAC9B;MACE,aAAa;MACb,aAAa;MACb,aAAa,EAAE","file":"home-header.scss","sourcesContent":[".container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  max-width: 400px;\n  min-width: 300px; }\n  .container .top {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n    border-bottom: 1px solid #D8D8D8; }\n    .container .top img {\n      width: 95px;\n      height: 100%;\n      margin: 30px;\n      margin-top: 30px;\n      margin-left: 20px; }\n    .container .top .title {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column; }\n      .container .top .title h1 {\n        font-size: 75pt;\n        line-height: 0px;\n        color: #848484;\n        font-weight: 100; }\n  .container .middle p {\n    font-weight: 300;\n    padding-left: 20px; }\n  .container .bottom {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    .container .bottom img {\n      margin: 20px;\n      width: 100px;\n      height: 100%; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, ".home-header--container--3HHlVo0G {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  max-width: 400px;\n  min-width: 300px; }\n  @media screen and (max-width: 400px) {\n    .home-header--container--3HHlVo0G {\n      padding: 20px; } }\n  .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n    border-bottom: 1px solid #D8D8D8; }\n    .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG img {\n      height: 170px;\n      margin: 30px;\n      margin-top: 30px;\n      margin-left: 20px; }\n      @media screen and (max-width: 400px) {\n        .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG img {\n          height: 135px; } }\n    .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG .home-header--title--2cZUr1d1 {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column; }\n      .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG .home-header--title--2cZUr1d1 h1 {\n        font-size: 75pt;\n        line-height: 0px;\n        color: #848484;\n        font-weight: 100; }\n        @media screen and (max-width: 400px) {\n          .home-header--container--3HHlVo0G .home-header--top--3gx_DFhG .home-header--title--2cZUr1d1 h1 {\n            font-size: 55pt; } }\n  .home-header--container--3HHlVo0G .home-header--middle--3Gszj37B p {\n    font-weight: 300;\n    padding-left: 20px; }\n  .home-header--container--3HHlVo0G .home-header--bottom--1h7X-cyp {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    .home-header--container--3HHlVo0G .home-header--bottom--1h7X-cyp img {\n      margin: 20px;\n      width: 100px; }\n", "", {"version":3,"sources":["/./src/app/css/home-header.scss"],"names":[],"mappings":"AAAA;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB;EAC/B,iBAAiB;EACjB,iBAAiB,EAAE;EACnB;IACE;MACE,cAAc,EAAE,EAAE;EACtB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,YAAY;IACZ,iCAAiC,EAAE;IACnC;MACE,cAAc;MACd,aAAa;MACb,iBAAiB;MACjB,kBAAkB,EAAE;MACpB;QACE;UACE,cAAc,EAAE,EAAE;IACxB;MACE,qBAAqB;MACrB,qBAAqB;MACrB,cAAc;MACd,6BAA6B;MAC7B,8BAA8B;UAC1B,2BAA2B;cACvB,uBAAuB,EAAE;MACjC;QACE,gBAAgB;QAChB,iBAAiB;QACjB,eAAe;QACf,iBAAiB,EAAE;QACnB;UACE;YACE,gBAAgB,EAAE,EAAE;EAC9B;IACE,iBAAiB;IACjB,mBAAmB,EAAE;EACvB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB,EAAE;IAC9B;MACE,aAAa;MACb,aAAa,EAAE","file":"home-header.scss","sourcesContent":[".container {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  max-width: 400px;\n  min-width: 300px; }\n  @media screen and (max-width: 400px) {\n    .container {\n      padding: 20px; } }\n  .container .top {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n    border-bottom: 1px solid #D8D8D8; }\n    .container .top img {\n      height: 170px;\n      margin: 30px;\n      margin-top: 30px;\n      margin-left: 20px; }\n      @media screen and (max-width: 400px) {\n        .container .top img {\n          height: 135px; } }\n    .container .top .title {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n      -webkit-box-orient: vertical;\n      -webkit-box-direction: normal;\n          -ms-flex-direction: column;\n              flex-direction: column; }\n      .container .top .title h1 {\n        font-size: 75pt;\n        line-height: 0px;\n        color: #848484;\n        font-weight: 100; }\n        @media screen and (max-width: 400px) {\n          .container .top .title h1 {\n            font-size: 55pt; } }\n  .container .middle p {\n    font-weight: 300;\n    padding-left: 20px; }\n  .container .bottom {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center; }\n    .container .bottom img {\n      margin: 20px;\n      width: 100px; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 exports.locals = {
@@ -30261,7 +30274,7 @@ exports = module.exports = __webpack_require__(36)();
 
 
 // module
-exports.push([module.i, ".home--container--2T-tRir_ .home--content--3uxFZBcn {\n  height: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  padding-top: 60px; }\n  .home--container--2T-tRir_ .home--content--3uxFZBcn .home--header--1HHUncCQ, .home--container--2T-tRir_ .home--content--3uxFZBcn .home--auth--o7JRhxvK {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n\n.home--container--2T-tRir_ .home--footer--oV8QtXIi {\n  width: 100%;\n  margin-top: 62px; }\n  .home--container--2T-tRir_ .home--footer--oV8QtXIi p {\n    text-align: center;\n    font-weight: 300; }\n", "", {"version":3,"sources":["/./src/app/css/home.scss"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,oBAAoB;MAChB,gBAAgB;EACpB,kBAAkB,EAAE;EACpB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;QAChB,YAAY;YACR,QAAQ,EAAE;;AAEtB;EACE,YAAY;EACZ,iBAAiB,EAAE;EACnB;IACE,mBAAmB;IACnB,iBAAiB,EAAE","file":"home.scss","sourcesContent":[".container .content {\n  height: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  padding-top: 60px; }\n  .container .content .header, .container .content .auth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n\n.container .footer {\n  width: 100%;\n  margin-top: 62px; }\n  .container .footer p {\n    text-align: center;\n    font-weight: 300; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, ".home--container--2T-tRir_ .home--content--3uxFZBcn {\n  height: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  padding-top: 60px; }\n  .home--container--2T-tRir_ .home--content--3uxFZBcn .home--header--1HHUncCQ, .home--container--2T-tRir_ .home--content--3uxFZBcn .home--auth--o7JRhxvK {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n\n.home--container--2T-tRir_ .home--footer--oV8QtXIi {\n  width: 100%;\n  margin-top: 62px;\n  margin-bottom: 20px;\n  padding: 0px 20px; }\n  .home--container--2T-tRir_ .home--footer--oV8QtXIi p {\n    text-align: center;\n    font-weight: 300; }\n", "", {"version":3,"sources":["/./src/app/css/home.scss"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,oBAAoB;MAChB,gBAAgB;EACpB,kBAAkB,EAAE;EACpB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;QAChB,YAAY;YACR,QAAQ,EAAE;;AAEtB;EACE,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;EACpB,kBAAkB,EAAE;EACpB;IACE,mBAAmB;IACnB,iBAAiB,EAAE","file":"home.scss","sourcesContent":[".container .content {\n  height: 90%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  padding-top: 60px; }\n  .container .content .header, .container .content .auth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 1;\n        -ms-flex: 1;\n            flex: 1; }\n\n.container .footer {\n  width: 100%;\n  margin-top: 62px;\n  margin-bottom: 20px;\n  padding: 0px 20px; }\n  .container .footer p {\n    text-align: center;\n    font-weight: 300; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 exports.locals = {
@@ -31551,6 +31564,203 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _login = __webpack_require__(274);
+
+var _login2 = _interopRequireDefault(_login);
+
+var _input = __webpack_require__(285);
+
+var _input2 = _interopRequireDefault(_input);
+
+var _reactRouterDom = __webpack_require__(227);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Register = function (_Component) {
+    _inherits(Register, _Component);
+
+    function Register() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, Register);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Register.__proto__ || Object.getPrototypeOf(Register)).call.apply(_ref, [this].concat(args))), _this), _this.state = { username: '', password: '', email: '' }, _this.handleChange = function (name, value) {
+            _this.setState(_extends({}, _this.state, _defineProperty({}, name, value)));
+        }, _this.onSubmitHandler = function (e) {
+            e.preventDefault();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(Register, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: _login2.default.container },
+                _react2.default.createElement(
+                    'div',
+                    { className: _login2.default.header },
+                    _react2.default.createElement(
+                        'h1',
+                        null,
+                        'Register'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: _login2.default.form },
+                    _react2.default.createElement(
+                        'form',
+                        { onSubmit: this.onSubmitHandler },
+                        _react2.default.createElement(
+                            'div',
+                            { className: _login2.default.input },
+                            _react2.default.createElement(_input2.default, {
+                                type: 'text',
+                                label: 'Username',
+                                icon: 'account_circle',
+                                value: this.state.email,
+                                onChange: this.handleChange.bind(this, 'email')
+                            }),
+                            _react2.default.createElement(_input2.default, {
+                                type: 'email',
+                                label: 'Email',
+                                icon: 'email',
+                                value: this.state.email,
+                                onChange: this.handleChange.bind(this, 'email')
+                            }),
+                            _react2.default.createElement(_input2.default, {
+                                type: 'password',
+                                label: 'Password',
+                                icon: 'lock',
+                                value: this.state.password,
+                                onChange: this.handleChange.bind(this, 'password')
+                            })
+                        ),
+                        _react2.default.createElement(
+                            'button',
+                            { className: 'custom-button' },
+                            'Sign Up'
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: _login2.default.footer },
+                    _react2.default.createElement(
+                        'p',
+                        null,
+                        'Sudah memiliki akun? ',
+                        _react2.default.createElement(
+                            _reactRouterDom.Link,
+                            { to: '/login' },
+                            'LOGIN'
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Register;
+}(_react.Component);
+
+exports.default = Register;
 
 /***/ })
 /******/ ]);

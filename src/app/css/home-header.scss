@@ -4,17 +4,24 @@
     max-width: 400px;
     min-width: 300px;
 
+    @media screen and (max-width: 400px) {
+        padding: 20px;
+    }
+
     .top {
         display: flex;
         width: 100%;
         border-bottom: 1px solid #D8D8D8;
 
         img {
-            width: 95px;
-            height: 100%;
+            height: 170px;
             margin: 30px;
             margin-top: 30px;
             margin-left: 20px;
+            
+            @media screen and (max-width: 400px) {
+                height: 135px;
+            }
         }
 
         .title {  
@@ -26,6 +33,10 @@
                 line-height: 0px;
                 color: #848484;
                 font-weight: 100;
+
+                @media screen and (max-width: 400px) {
+                    font-size: 55pt;
+                }
             }
         }
     }
@@ -44,7 +55,6 @@
         img {
             margin: 20px;
             width: 100px;
-            height: 100%;
         }
     }
 }

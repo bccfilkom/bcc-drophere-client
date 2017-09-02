@@ -13,7 +13,7 @@ export default class Header extends Component {
                     </div>
                 </div>
                 <div className={style.middle}>
-                    <p>Sebuah fasilitas untuk mengunggah file yang terintegrasi dengan cloud storage dropbox dan Google Drive</p>
+                    <p>Sebuah fasilitas untuk mengunggah file yang terintegrasi dengan cloud storage Dropbox dan Google Drive</p>
                 </div>
                 <div className={style.bottom}>
                     <img src="/img/dropbox-logo-sm.png" alt="BCC LOGO" />

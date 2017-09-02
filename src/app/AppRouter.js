@@ -9,7 +9,9 @@ export default class AppRouter extends Component {
                 <div>
                     <Switch>
                     <Redirect from="/" to="/home" exact />
+                    <Redirect from="/login" to="/home" />
                     <Route path="/home" component={Home} />
+                    <Route path="/register" component={Home} />
                     </Switch>
                 </div>
             </BrowserRouter>
