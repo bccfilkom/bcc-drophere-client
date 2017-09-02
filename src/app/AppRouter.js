@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import ExamplePage from './component/panel/ExamplePage';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Home from './component/panel/Home';
 
 export default class AppRouter extends Component {
     render() {
         return (
             <BrowserRouter>
                 <div>
-                    <Route path="/" component={ExamplePage} />
+                    <Switch>
+                    <Redirect from="/" to="/home" exact />
+                    <Route path="/home" component={Home} />
+                    </Switch>
                 </div>
             </BrowserRouter>
         );

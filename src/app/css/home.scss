@@ -1,0 +1,25 @@
+.container {
+    .content {
+        height: 90%;
+        display: flex;
+        flex-wrap: wrap;
+        padding-top: 60px;
+        
+        .header, .auth {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+    }
+
+    .footer {
+        width: 100%;
+        margin-top: 62px;
+
+        p {
+            text-align: center;
+            font-weight: 300;
+        }
+    }
+}
