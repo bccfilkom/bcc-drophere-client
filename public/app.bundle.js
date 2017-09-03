@@ -15398,6 +15398,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
@@ -15408,7 +15410,13 @@ var _profile = __webpack_require__(372);
 
 var _profile2 = _interopRequireDefault(_profile);
 
+var _CustomInput = __webpack_require__(378);
+
+var _CustomInput2 = _interopRequireDefault(_CustomInput);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -15420,9 +15428,23 @@ var Profile = function (_Component) {
     _inherits(Profile, _Component);
 
     function Profile() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, Profile);
 
-        return _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Profile.__proto__ || Object.getPrototypeOf(Profile)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            username: '',
+            password: '',
+            email: ''
+        }, _this.handleChange = function (name, value) {
+            _this.setState(_extends({}, _this.state, _defineProperty({}, name, value)));
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(Profile, [{
@@ -15436,81 +15458,24 @@ var Profile = function (_Component) {
                     null,
                     'Profil'
                 ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                ),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Profil'
-                )
+                _react2.default.createElement(_CustomInput2.default, {
+                    type: 'text',
+                    label: 'Username',
+                    value: this.state.username,
+                    onChange: this.handleChange.bind(this, 'username')
+                }),
+                _react2.default.createElement(_CustomInput2.default, {
+                    type: 'text',
+                    label: 'Email',
+                    value: this.state.email,
+                    onChange: this.handleChange.bind(this, 'email')
+                }),
+                _react2.default.createElement(_CustomInput2.default, {
+                    type: 'text',
+                    label: 'Password',
+                    value: this.state.passowrd,
+                    onChange: this.handleChange.bind(this, 'password')
+                })
             );
         }
     }]);
@@ -46304,6 +46269,241 @@ if(false) {
 	if(!content.locals) {
 		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./footer.scss", function() {
 			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./footer.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 377 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _customButtonPrimary = __webpack_require__(382);
+
+var _customButtonPrimary2 = _interopRequireDefault(_customButtonPrimary);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
+    var small = _ref.small,
+        children = _ref.children,
+        onClick = _ref.onClick;
+
+    return _react2.default.createElement(
+        'div',
+        { className: _customButtonPrimary2.default },
+        _react2.default.createElement(
+            'button',
+            { onClick: onClick, className: _customButtonPrimary2.default.btn + (small ? ' ' + _customButtonPrimary2.default.sm : '') },
+            children
+        )
+    );
+};
+
+/***/ }),
+/* 378 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _input = __webpack_require__(128);
+
+var _input2 = _interopRequireDefault(_input);
+
+var _customInput = __webpack_require__(380);
+
+var _customInput2 = _interopRequireDefault(_customInput);
+
+var _CustomButton = __webpack_require__(377);
+
+var _CustomButton2 = _interopRequireDefault(_CustomButton);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CustomInput = function (_Component) {
+    _inherits(CustomInput, _Component);
+
+    function CustomInput() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        _classCallCheck(this, CustomInput);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CustomInput.__proto__ || Object.getPrototypeOf(CustomInput)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            disabled: true
+        }, _this.handleClick = function (e) {
+            // this.element.focus();
+            if (_this.state.disabled) {
+                _this.setState({ disabled: false });
+                // if (this.element) {
+                //     this.element.focus();
+                //     this.element.focus();
+                // }
+            }
+
+            if (_this.props.onSave) _this.props.onSave();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(CustomInput, [{
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            if (!this.state.disabled) this.element.focus();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'div',
+                { className: _customInput2.default.container },
+                _react2.default.createElement(_input2.default, _extends({}, this.props, {
+                    disabled: this.state.disabled,
+                    innerRef: function innerRef(el) {
+                        return _this2.element = el;
+                    }
+
+                })),
+                _react2.default.createElement(
+                    _CustomButton2.default,
+                    { onClick: this.handleClick, small: true },
+                    this.state.disabled ? 'Ganti' : 'Simpan'
+                )
+            );
+        }
+    }]);
+
+    return CustomInput;
+}(_react.Component);
+
+exports.default = CustomInput;
+
+/***/ }),
+/* 379 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)();
+// imports
+
+
+// module
+exports.push([module.i, ".custom-input--container--26--1jbI {\n  position: relative; }\n  .custom-input--container--26--1jbI button {\n    position: absolute;\n    right: 0;\n    top: -10px; }\n", "", {"version":3,"sources":["/./src/app/css/custom-input.scss"],"names":[],"mappings":"AAAA;EACE,mBAAmB,EAAE;EACrB;IACE,mBAAmB;IACnB,SAAS;IACT,WAAW,EAAE","file":"custom-input.scss","sourcesContent":[".container {\n  position: relative; }\n  .container button {\n    position: absolute;\n    right: 0;\n    top: -10px; }\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+exports.locals = {
+	"container": "custom-input--container--26--1jbI"
+};
+
+/***/ }),
+/* 380 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(379);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(13)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./custom-input.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./custom-input.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 381 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)();
+// imports
+
+
+// module
+exports.push([module.i, ".custom-button-primary--btn--3xTBQGKE {\n  padding: 10px 70px;\n  border-radius: 50px;\n  -webkit-transition: .3s;\n  transition: .3s;\n  color: white;\n  background: none;\n  margin-top: 30px;\n  font-size: 15pt;\n  cursor: pointer;\n  display: block;\n  margin-bottom: 20px;\n  background: #009cff;\n  border: #009cff solid 1px; }\n\n.custom-button-primary--btn--3xTBQGKE:hover {\n  background: #00bcd4;\n  border-color: #00bcd4;\n  -webkit-transition: .3s;\n  transition: .3s;\n  color: white;\n  text-decoration: none; }\n\n.custom-button-primary--btn--3xTBQGKE:active {\n  background: #04565f;\n  border-color: #04565f;\n  -webkit-transition: 0s;\n  transition: 0s;\n  color: white;\n  text-decoration: none; }\n\n.custom-button-primary--sm--2viEBNIn {\n  padding: 5px 20px;\n  font-size: 12pt;\n  text-align: center; }\n", "", {"version":3,"sources":["/./src/app/css/custom-button-primary.scss"],"names":[],"mappings":"AAAA;EACE,mBAAmB;EACnB,oBAAoB;EACpB,wBAAwB;EACxB,gBAAgB;EAChB,aAAa;EACb,iBAAiB;EACjB,iBAAiB;EACjB,gBAAgB;EAChB,gBAAgB;EAChB,eAAe;EACf,oBAAoB;EACpB,oBAAoB;EACpB,0BAA0B,EAAE;;AAE9B;EACE,oBAAoB;EACpB,sBAAsB;EACtB,wBAAwB;EACxB,gBAAgB;EAChB,aAAa;EACb,sBAAsB,EAAE;;AAE1B;EACE,oBAAoB;EACpB,sBAAsB;EACtB,uBAAuB;EACvB,eAAe;EACf,aAAa;EACb,sBAAsB,EAAE;;AAE1B;EACE,kBAAkB;EAClB,gBAAgB;EAChB,mBAAmB,EAAE","file":"custom-button-primary.scss","sourcesContent":[".btn {\n  padding: 10px 70px;\n  border-radius: 50px;\n  -webkit-transition: .3s;\n  transition: .3s;\n  color: white;\n  background: none;\n  margin-top: 30px;\n  font-size: 15pt;\n  cursor: pointer;\n  display: block;\n  margin-bottom: 20px;\n  background: #009cff;\n  border: #009cff solid 1px; }\n\n.btn:hover {\n  background: #00bcd4;\n  border-color: #00bcd4;\n  -webkit-transition: .3s;\n  transition: .3s;\n  color: white;\n  text-decoration: none; }\n\n.btn:active {\n  background: #04565f;\n  border-color: #04565f;\n  -webkit-transition: 0s;\n  transition: 0s;\n  color: white;\n  text-decoration: none; }\n\n.sm {\n  padding: 5px 20px;\n  font-size: 12pt;\n  text-align: center; }\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+exports.locals = {
+	"btn": "custom-button-primary--btn--3xTBQGKE",
+	"sm": "custom-button-primary--sm--2viEBNIn"
+};
+
+/***/ }),
+/* 382 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(381);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(13)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./custom-button-primary.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./custom-button-primary.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
