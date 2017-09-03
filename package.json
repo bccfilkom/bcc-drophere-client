@@ -1,7 +1,7 @@
 {
-  "name": "first-react-app",
-  "version": "1.0.0",
-  "description": "",
+  "name": "bcc-drophere-client",
+  "version": "0.1.0",
+  "description": "dropitto.me alternative made by BCC",
   "main": "index.js",
   "scripts": {
     "start": "webpack && node server",
