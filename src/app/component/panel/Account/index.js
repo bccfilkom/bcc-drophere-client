@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Profile from './Profile';
 import Header from './Header';
+import Menu from './Menu';
 
 export default class Home extends Component {
     render() {
@@ -13,27 +14,17 @@ export default class Home extends Component {
                     <Header />
                 </div>
 
-                <div className={style.content}>
-                    <Switch>
-                    <Redirect from="/account" to="/account/profile" />
-                    <Route path="/account/profile" component={Profile} />
-                    </Switch>
-                </div>
+                <div className={style['content-wrapper']}>
+                    <div className={style.menu}>
+                        <Menu />
+                    </div>
 
-                <div className={style.footer}>
-
-                </div>
-
-                <div className={style.content}>
-                <div className={style.header}>
-                    
-                </div>
-                <div className={style.auth}>
-                    <Switch>
-                    <Redirect from="/account" to="/account/profile" />
-                    <Route path="/account/profile" component={Profile} />
-                    </Switch>
-                </div>
+                    <div className={style.content}>
+                        <Switch>
+                        <Redirect from="/account" exact to="/account/profile" />
+                        <Route path="/account/profile" component={Profile} />
+                        </Switch>
+                    </div>
                 </div>
 
                 <div className={style.footer}>
