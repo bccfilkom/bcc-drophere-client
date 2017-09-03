@@ -46600,6 +46600,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
@@ -46609,6 +46611,10 @@ var _react2 = _interopRequireDefault(_react);
 var _dropFile = __webpack_require__(384);
 
 var _dropFile2 = _interopRequireDefault(_dropFile);
+
+var _FileItem = __webpack_require__(393);
+
+var _FileItem2 = _interopRequireDefault(_FileItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -46622,14 +46628,40 @@ var DropFile = function (_Component) {
     _inherits(DropFile, _Component);
 
     function DropFile() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, DropFile);
 
-        return _possibleConstructorReturn(this, (DropFile.__proto__ || Object.getPrototypeOf(DropFile)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DropFile.__proto__ || Object.getPrototypeOf(DropFile)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            file: null
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(DropFile, [{
+        key: 'handleFile',
+        value: function handleFile(file) {
+            this.setState({ file: file });
+            // console.log(e.dataTransfer.files.item(0));            
+            // let fr = new FileReader();
+            // fr.onload = ev => {
+            //     console.log(ev.target.result);
+            // }
+            // fr.readAsText(e.dataTransfer.files.item(0));
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
+            var fileList = void 0;
+            if (this.state.file && _typeof(this.state.file) === "object") fileList = _react2.default.createElement(_FileItem2.default, { title: this.state.file.name, size: this.state.file.size });
+
             return _react2.default.createElement(
                 'div',
                 { className: _dropFile2.default.container },
@@ -46650,7 +46682,9 @@ var DropFile = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _dropFile2.default['drop-file-container'] },
+                    { className: _dropFile2.default['drop-file-container'], ref: function ref(el) {
+                            return _this2.dropArea = el;
+                        } },
                     _react2.default.createElement(
                         'span',
                         { className: _dropFile2.default['drop-title'] },
@@ -46672,11 +46706,52 @@ var DropFile = function (_Component) {
                                 { className: _dropFile2.default['upload-file-button'] },
                                 'PILIH FILE UNTUK DIUNGGAH'
                             ),
-                            _react2.default.createElement('input', { type: 'file', name: 'uploadFile', id: 'uploadFile', className: _dropFile2.default['upload-file'] })
+                            _react2.default.createElement('input', { type: 'file', ref: function ref(e) {
+                                    return _this2.fileUploadElement = e;
+                                }, name: 'uploadFile', id: 'uploadFile', className: _dropFile2.default['upload-file'] })
                         )
                     )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { ref: function ref(e) {
+                            return _this2.fileListContainer = e;
+                        }, className: _dropFile2.default['file-list-container'] },
+                    fileList
                 )
             );
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this3 = this;
+
+            this.dropArea.ondragenter = function (e, event) {
+                e.preventDefault();
+                _this3.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
+            };
+            this.dropArea.ondragover = function (e) {
+                e.preventDefault();
+                if (!_this3.dropArea.classList.contains(_dropFile2.default['drop-file-container-ondrag'])) _this3.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
+            };
+            this.dropArea.ondragleave = function (e) {
+                e.preventDefault();
+                _this3.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
+            };
+            this.dropArea.ondrop = function (e) {
+                e.preventDefault();
+                _this3.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
+                // console.log(typeof e.dataTransfer.files.item(0) === "object");
+                // console.log(e.dataTransfer.files.item(0));
+                // this.selectedFile = e.dataTransfer.files.item(0);
+                _this3.handleFile(e.dataTransfer.files.item(0));
+            };
+            this.fileUploadElement.onchange = function (e) {
+                e.preventDefault();
+                _this3.handleFile(e.target.files[0]);
+                // console.log(e.target.files);
+                // console.log(e.dataTransfer.files);
+            };
         }
     }]);
 
@@ -46694,7 +46769,7 @@ exports = module.exports = __webpack_require__(11)();
 
 
 // module
-exports.push([module.i, ".drop-file--container--4vcHcZYa {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n  .drop-file--container--4vcHcZYa .drop-file--title--2prTag6L {\n    font-weight: 600;\n    font-size: 42px; }\n  .drop-file--container--4vcHcZYa .drop-file--subtitle--35CCCLXD {\n    font-weight: 400;\n    font-size: 28px;\n    color: #949494; }\n  .drop-file--container--4vcHcZYa .drop-file--time-limit--wS7igyux {\n    color: #949494; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-title--3ejvaHiu {\n    font-size: 32px; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-separator--3K1ZBQDL {\n    font-size: 12px; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-file-container--PwEOSAFm {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 450px;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-container--1_KNH2o2 {\n    margin-top: 20px; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file--3f2U7Baq {\n    display: none; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-button--1rQajxuQ {\n    padding: 10px;\n    border-radius: 10px;\n    border: 1px solid #318bf3; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-button--1rQajxuQ:hover {\n    background-color: #318bf3;\n    color: #eeeeee; }\n", "", {"version":3,"sources":["/./src/app/css/drop-file.scss"],"names":[],"mappings":"AAAA;EACE,gCAAgC;EAChC,gCAAgC;EAChC,yBAAyB;EACzB,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;EAC5B,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB,EAAE;EACjC;IACE,iBAAiB;IACjB,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,gBAAgB;IAChB,eAAe,EAAE;EACnB;IACE,eAAe,EAAE;EACnB;IACE,gBAAgB,EAAE;EACpB;IACE,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,WAAW;IACX,cAAc;IACd,4CAA4C;YACpC,oCAAoC,EAAE;EAChD;IACE,iBAAiB,EAAE;EACrB;IACE,cAAc,EAAE;EAClB;IACE,cAAc;IACd,oBAAoB;IACpB,0BAA0B,EAAE;EAC9B;IACE,0BAA0B;IAC1B,eAAe,EAAE","file":"drop-file.scss","sourcesContent":[".container {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n  .container .title {\n    font-weight: 600;\n    font-size: 42px; }\n  .container .subtitle {\n    font-weight: 400;\n    font-size: 28px;\n    color: #949494; }\n  .container .time-limit {\n    color: #949494; }\n  .container .drop-title {\n    font-size: 32px; }\n  .container .drop-separator {\n    font-size: 12px; }\n  .container .drop-file-container {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 450px;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .container .upload-file-container {\n    margin-top: 20px; }\n  .container .upload-file {\n    display: none; }\n  .container .upload-file-button {\n    padding: 10px;\n    border-radius: 10px;\n    border: 1px solid #318bf3; }\n  .container .upload-file-button:hover {\n    background-color: #318bf3;\n    color: #eeeeee; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, ".drop-file--container--4vcHcZYa {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n  .drop-file--container--4vcHcZYa .drop-file--title--2prTag6L {\n    font-weight: 600;\n    font-size: 42px; }\n  .drop-file--container--4vcHcZYa .drop-file--subtitle--35CCCLXD {\n    font-weight: 400;\n    font-size: 28px;\n    color: #949494; }\n  .drop-file--container--4vcHcZYa .drop-file--time-limit--wS7igyux {\n    color: #949494; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-title--3ejvaHiu {\n    font-size: 32px; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-separator--3K1ZBQDL {\n    font-size: 16px; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-file-container-ondrag--2RdIw41K {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .drop-file--container--4vcHcZYa .drop-file--drop-file-container--PwEOSAFm {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 450px;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .drop-file--container--4vcHcZYa .drop-file--file-list-container--1232D-vG {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .drop-file--container--4vcHcZYa .drop-file--file-list-item--3qFrfyps {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-container--1_KNH2o2 {\n    margin-top: 20px; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file--3f2U7Baq {\n    display: none; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-button--1rQajxuQ {\n    padding: 10px;\n    border-radius: 10px;\n    border: 1px solid #318bf3; }\n  .drop-file--container--4vcHcZYa .drop-file--upload-file-button--1rQajxuQ:hover {\n    background-color: #318bf3;\n    color: #eeeeee; }\n", "", {"version":3,"sources":["/./src/app/css/drop-file.scss"],"names":[],"mappings":"AAAA;EACE,gCAAgC;EAChC,gCAAgC;EAChC,yBAAyB;EACzB,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;EAC5B,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB,EAAE;EACjC;IACE,iBAAiB;IACjB,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,gBAAgB;IAChB,eAAe,EAAE;EACnB;IACE,eAAe,EAAE;EACnB;IACE,gBAAgB,EAAE;EACpB;IACE,gBAAgB,EAAE;EACpB;IACE,qCAAqC;IACrC,eAAe,EAAE;EACnB;IACE,iBAAiB;IACjB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,WAAW;IACX,cAAc;IACd,4CAA4C;YACpC,oCAAoC,EAAE;EAChD;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,iBAAiB;IACjB,WAAW,EAAE;EACf;IACE,YAAY;IACZ,mBAAmB;IACnB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,+BAA+B;IAC/B,8BAA8B;QAC1B,wBAAwB;YACpB,oBAAoB;IAC5B,0BAA0B;QACtB,uBAAuB;YACnB,+BAA+B;IACvC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,4CAA4C;YACpC,oCAAoC,EAAE;EAChD;IACE,iBAAiB,EAAE;EACrB;IACE,cAAc,EAAE;EAClB;IACE,cAAc;IACd,oBAAoB;IACpB,0BAA0B,EAAE;EAC9B;IACE,0BAA0B;IAC1B,eAAe,EAAE","file":"drop-file.scss","sourcesContent":[".container {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n  .container .title {\n    font-weight: 600;\n    font-size: 42px; }\n  .container .subtitle {\n    font-weight: 400;\n    font-size: 28px;\n    color: #949494; }\n  .container .time-limit {\n    color: #949494; }\n  .container .drop-title {\n    font-size: 32px; }\n  .container .drop-separator {\n    font-size: 16px; }\n  .container .drop-file-container-ondrag {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .container .drop-file-container {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 450px;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .container .file-list-container {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .container .file-list-item {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    -webkit-box-shadow: 0 1px 0 0 #d0d0d0 inset;\n            box-shadow: 0 1px 0 0 #d0d0d0 inset; }\n  .container .upload-file-container {\n    margin-top: 20px; }\n  .container .upload-file {\n    display: none; }\n  .container .upload-file-button {\n    padding: 10px;\n    border-radius: 10px;\n    border: 1px solid #318bf3; }\n  .container .upload-file-button:hover {\n    background-color: #318bf3;\n    color: #eeeeee; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 exports.locals = {
@@ -46704,7 +46779,10 @@ exports.locals = {
 	"time-limit": "drop-file--time-limit--wS7igyux",
 	"drop-title": "drop-file--drop-title--3ejvaHiu",
 	"drop-separator": "drop-file--drop-separator--3K1ZBQDL",
+	"drop-file-container-ondrag": "drop-file--drop-file-container-ondrag--2RdIw41K",
 	"drop-file-container": "drop-file--drop-file-container--PwEOSAFm",
+	"file-list-container": "drop-file--file-list-container--1232D-vG",
+	"file-list-item": "drop-file--file-list-item--3qFrfyps",
 	"upload-file-container": "drop-file--upload-file-container--1_KNH2o2",
 	"upload-file": "drop-file--upload-file--3f2U7Baq",
 	"upload-file-button": "drop-file--upload-file-button--1rQajxuQ"
@@ -47025,6 +47103,78 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
+
+/***/ }),
+/* 393 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _dropFile = __webpack_require__(384);
+
+var _dropFile2 = _interopRequireDefault(_dropFile);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function formatBytes(bytes, decimals) {
+    if (bytes == 0) return '0 Bytes';
+    var k = 1024,
+        dm = decimals || 2,
+        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+var FileItem = function (_Component) {
+    _inherits(FileItem, _Component);
+
+    function FileItem() {
+        _classCallCheck(this, FileItem);
+
+        return _possibleConstructorReturn(this, (FileItem.__proto__ || Object.getPrototypeOf(FileItem)).apply(this, arguments));
+    }
+
+    _createClass(FileItem, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: _dropFile2.default['file-list-item'] },
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    this.props.title
+                ),
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    formatBytes(this.props.size)
+                )
+            );
+        }
+    }]);
+
+    return FileItem;
+}(_react.Component);
+
+exports.default = FileItem;
 
 /***/ })
 /******/ ]);
