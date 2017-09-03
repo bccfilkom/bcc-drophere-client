@@ -1,0 +1,32 @@
+.container {
+    max-width: 250px;
+
+    a {
+        text-decoration: none !important;
+    }
+}
+
+.fly {
+    position: fixed;
+    top: 88px;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+}
+
+.selected {
+    border-right: #2196F3 solid 3px;
+}
+
+.normal {
+    border-right:  #E8E8E8 solid 3px;
+}
+
+.subheader {
+    text-align: center;
+    margin: 10px 0px;
+    padding-left: 0px;
+    font-size: 12pt;
+    color: #575757;
+    font-weight: 600;
+}

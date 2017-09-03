@@ -1,8 +1,11 @@
 import axios from 'axios';
-import types from './types';
+import { 
+    UPDATE_SELECTED,
+    UPDATE_PAGE,
+} from './types';
 
-export const updateSelected = (id, selected) => ({ type: types.UPDATE_SELECTED, id, selected });
+export const updateSelected = (id, selected) => ({ type: UPDATE_SELECTED, id, selected });
 
-export const updatePage = (id, page) => ({ type: types.UPDATE_PAGE, id, page });
+export const updatePage = (id, page) => ({ type: UPDATE_PAGE, id, page });
 
 //TEMPAT MENGUBAH STATE
