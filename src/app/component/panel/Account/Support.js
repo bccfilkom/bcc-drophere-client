@@ -18,7 +18,7 @@ export default class Support extends Component {
                 <CustomInput
                 type="text"
                 label="Masukkan pesan anda"
-                value={this.state.pesan}
+                value={this.state.message}
                 onChange={this.handleChange.bind(this, "message")}
                 />
             </div>

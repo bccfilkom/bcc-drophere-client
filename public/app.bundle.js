@@ -47026,7 +47026,7 @@ var Support = function (_Component) {
                 _react2.default.createElement(_CustomInput2.default, {
                     type: 'text',
                     label: 'Masukkan pesan anda',
-                    value: this.state.pesan,
+                    value: this.state.message,
                     onChange: this.handleChange.bind(this, "message")
                 })
             );
