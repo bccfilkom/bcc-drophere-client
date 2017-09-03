@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import style from 'css/example.scss';
+import style from 'css/profile.scss';
 
-export default class ExamplePage extends Component {
+export default class Profile extends Component {
     render() {
         return (
             <div className={style.container}>
-                <h1>Hello React!</h1>
+                
             </div>
         );
     }

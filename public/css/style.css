@@ -1,3 +1,128 @@
-.haha {
-    background-color: black;
+/* ====== FONT FACE ====== */
+
+@font-face {
+    font-family: "museo";
+    src: url('/font/MuseoSans-100.otf');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: "museo";
+    src: url('/font/MuseoSans-300.otf');
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "museo";
+    src: url('/font/MuseoSans-500.otf');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "museo";
+    src: url('/font/MuseoSans-700.otf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "museo";
+    src: url('/font/MuseoSans-900.otf');
+    font-weight: 900;
+}
+
+/* ====== DEFAULT ====== */
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	font-family: "museo", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+	font-size: 11pt;
+	line-height: 1.5;
+	height: 100%;
+    font-weight: normal;
+    color: #5a5a5a;
+}
+
+body {
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+    overflow-x: hidden;
+    background-image: url('/img/background-diagonal.png');
+    background-color: #FAFAFA;
+}
+
+html, body, #app, #app>div {
+  	height: 100%
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 90%; 
+    margin: auto;
+    overflow: hidden;
+}
+
+.container-one-page {
+    padding-top: 100px;
+	padding-bottom: 100px;
+}
+
+.bg-cover {
+	background-size: cover;
+}
+
+.bg-center {
+	background-position: center;
+}
+
+/*    DEFAULT    */
+.content {
+    margin-top: 50px;
+}
+
+h1 {
+    font-weight: normal;
+}
+
+.shadow {
+    width: 100%;
+    background: black;
+    height: 100%;
+    opacity: .8;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.custom-button {
+    padding: 10px 70px;
+    border: #009cff solid 1px;
+    border-radius: 50px;
+    transition: .3s;
+    color: #009cff;
+    background: none;
+    margin-top: 30px;
+    font-size: 15pt;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.custom-button:hover {    
+    background: #009cff;
+    border-color: #009cff;
+    transition: .3s;
+    color: white;
+    text-decoration: none;
+}
+
+.custom-button:active {
+    background: rgb(4, 86, 95);
+    border-color: rgb(4, 86, 95);
+    transition: 0s;
+    color: white;
+    text-decoration: none;
 }
