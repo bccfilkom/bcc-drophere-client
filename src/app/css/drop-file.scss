@@ -18,7 +18,11 @@
         font-size: 32px;
     }
     .drop-separator {
-        font-size: 12px;
+        font-size: 16px;
+    }
+    .drop-file-container-ondrag { 
+        background-color: #318bf3 !important;
+        color: #ffffff;
     }
     .drop-file-container {
         margin-top: 20px;
@@ -31,6 +35,24 @@
         background-color: rgb(228, 239, 243);
         width: 90%;
         height: 450px;
+        box-shadow: 0 1px 0 0 rgb(208, 208, 208) inset;
+    }
+    .file-list-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+        width: 90%;
+    }
+    .file-list-item {
+        width: 100%;
+        padding: 10px 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border-radius: 10px;
+        border: 1px solid rgb(208, 208, 208);
+        background-color: rgb(228, 239, 243);
         box-shadow: 0 1px 0 0 rgb(208, 208, 208) inset;
     }
     .upload-file-container {
