@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Profile from './Profile';
-import Header from './Header';
+import Header from '../../common/Header';
 import Menu from '../../common/Menu';
 import style from 'css/account-content.scss';
 

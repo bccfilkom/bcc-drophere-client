@@ -15387,65 +15387,7 @@ var updatePage = exports.updatePage = function updatePage(id, page) {
 //TEMPAT MENGUBAH STATE
 
 /***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _accountHeader = __webpack_require__(367);
-
-var _accountHeader2 = _interopRequireDefault(_accountHeader);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Profile = function (_Component) {
-    _inherits(Profile, _Component);
-
-    function Profile() {
-        _classCallCheck(this, Profile);
-
-        return _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).apply(this, arguments));
-    }
-
-    _createClass(Profile, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                { className: _accountHeader2.default.container + ' wrapper' },
-                _react2.default.createElement('img', { src: '/img/bcc-logo-vertical-fit.png', alt: 'BCC LOGO' }),
-                _react2.default.createElement(
-                    'h1',
-                    null,
-                    'DROP HERE'
-                )
-            );
-        }
-    }]);
-
-    return Profile;
-}(_react.Component);
-
-exports.default = Profile;
-
-/***/ }),
+/* 148 */,
 /* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44870,7 +44812,7 @@ var _Profile = __webpack_require__(149);
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
-var _Header = __webpack_require__(148);
+var _Header = __webpack_require__(374);
 
 var _Header2 = _interopRequireDefault(_Header);
 
@@ -45035,13 +44977,17 @@ var _Profile = __webpack_require__(149);
 
 var _Profile2 = _interopRequireDefault(_Profile);
 
-var _Header = __webpack_require__(148);
+var _Header = __webpack_require__(374);
 
 var _Header2 = _interopRequireDefault(_Header);
 
 var _Content = __webpack_require__(340);
 
 var _Content2 = _interopRequireDefault(_Content);
+
+var _Footer = __webpack_require__(373);
+
+var _Footer2 = _interopRequireDefault(_Footer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45066,25 +45012,13 @@ var Home = function (_Component) {
             return _react2.default.createElement(
                 'div',
                 { className: _account2.default.container },
-                _react2.default.createElement(
-                    'div',
-                    { className: _account2.default.header },
-                    _react2.default.createElement(_Header2.default, null)
-                ),
+                _react2.default.createElement(_Header2.default, null),
                 _react2.default.createElement(
                     'div',
                     { className: _account2.default['content-wrapper'] },
                     _react2.default.createElement(_Content2.default, this.props)
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _account2.default.footer },
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        'Copyright \xA9 2017 Basic Computing Community. All rights reserved'
-                    )
-                )
+                _react2.default.createElement(_Footer2.default, null)
             );
         }
     }]);
@@ -45479,6 +45413,10 @@ var _Register = __webpack_require__(344);
 
 var _Register2 = _interopRequireDefault(_Register);
 
+var _Footer = __webpack_require__(373);
+
+var _Footer2 = _interopRequireDefault(_Footer);
+
 var _reactRouterDom = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -45523,15 +45461,7 @@ var Home = function (_Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _home2.default.footer },
-                    _react2.default.createElement(
-                        'p',
-                        null,
-                        'Copyright \xA9 2017 Basic Computing Community. All rights reserved'
-                    )
-                )
+                _react2.default.createElement(_Footer2.default, null)
             );
         }
     }]);
@@ -46233,6 +46163,147 @@ if(false) {
 	if(!content.locals) {
 		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./profile.scss", function() {
 			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./profile.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 373 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _footer = __webpack_require__(376);
+
+var _footer2 = _interopRequireDefault(_footer);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (_ref) {
+    var right = _ref.right;
+
+    return _react2.default.createElement(
+        'div',
+        { className: _footer2.default.footer },
+        _react2.default.createElement(
+            'p',
+            null,
+            'Copyright \xA9 2017 Basic Computing Community. All rights reserved'
+        )
+    );
+};
+
+/***/ }),
+/* 374 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _accountHeader = __webpack_require__(367);
+
+var _accountHeader2 = _interopRequireDefault(_accountHeader);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Profile = function (_Component) {
+    _inherits(Profile, _Component);
+
+    function Profile() {
+        _classCallCheck(this, Profile);
+
+        return _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).apply(this, arguments));
+    }
+
+    _createClass(Profile, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: _accountHeader2.default.container + ' wrapper' },
+                _react2.default.createElement('img', { src: '/img/bcc-logo-vertical-fit.png', alt: 'BCC LOGO' }),
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'DROP HERE'
+                )
+            );
+        }
+    }]);
+
+    return Profile;
+}(_react.Component);
+
+exports.default = Profile;
+
+/***/ }),
+/* 375 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)();
+// imports
+
+
+// module
+exports.push([module.i, ".footer--footer--13Ti73TZ {\n  width: 100%;\n  margin-top: 62px;\n  margin-bottom: 20px;\n  padding: 0px 20px; }\n  .footer--footer--13Ti73TZ p {\n    text-align: center;\n    font-weight: 300; }\n", "", {"version":3,"sources":["/./src/app/css/footer.scss"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,iBAAiB;EACjB,oBAAoB;EACpB,kBAAkB,EAAE;EACpB;IACE,mBAAmB;IACnB,iBAAiB,EAAE","file":"footer.scss","sourcesContent":[".footer {\n  width: 100%;\n  margin-top: 62px;\n  margin-bottom: 20px;\n  padding: 0px 20px; }\n  .footer p {\n    text-align: center;\n    font-weight: 300; }\n"],"sourceRoot":"webpack://"}]);
+
+// exports
+exports.locals = {
+	"footer": "footer--footer--13Ti73TZ"
+};
+
+/***/ }),
+/* 376 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(375);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(13)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./footer.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./footer.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
