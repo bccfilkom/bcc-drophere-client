@@ -13,7 +13,6 @@ export default class AppRouter extends Component {
                     <Redirect from="/login" to="/home" />
                     <Route path="/home" component={Home} />
                     <Route path="/register" component={Home} />
-                    
                     <Route path="/account" component={Account} />
                     </Switch>
                 </div>

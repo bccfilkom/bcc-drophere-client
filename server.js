@@ -25,8 +25,9 @@ app.use('/api', api);
 
 //REACT APP
 app.get('*', (req, res) => {
+   console.log('Debugging');
     res.sendFile(path.join(__dirname, '/public/index.html'));
-});npm
+});
 
 //SERVER LISTENING
 app.listen(port, () => console.log(`server running at port ${port}`));
