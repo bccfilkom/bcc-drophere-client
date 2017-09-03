@@ -25,7 +25,6 @@ app.use('/api', api);
 
 //REACT APP
 app.get('*', (req, res) => {
-   console.log('Debugging');
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
