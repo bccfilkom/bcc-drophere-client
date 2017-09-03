@@ -43,7 +43,7 @@ export default class Register extends Component {
                             label='Password'
                             icon='lock' 
                             value={this.state.password} 
-                            onChange={this.handleChange.bind(this, 'password')} 
+                            onChange={this.handleChange.bind(this, 'password')}
                         />
                         </div>
                         <button className="custom-button">Sign Up</button>
