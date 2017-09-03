@@ -45035,10 +45035,6 @@ var _reactRouterDom = __webpack_require__(21);
 
 var _reactRedux = __webpack_require__(36);
 
-var _Profile = __webpack_require__(149);
-
-var _Profile2 = _interopRequireDefault(_Profile);
-
 var _Header = __webpack_require__(379);
 
 var _Header2 = _interopRequireDefault(_Header);
@@ -45046,6 +45042,14 @@ var _Header2 = _interopRequireDefault(_Header);
 var _Menu = __webpack_require__(147);
 
 var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Profile = __webpack_require__(149);
+
+var _Profile2 = _interopRequireDefault(_Profile);
+
+var _Support = __webpack_require__(394);
+
+var _Support2 = _interopRequireDefault(_Support);
 
 var _accountContent = __webpack_require__(152);
 
@@ -45159,7 +45163,8 @@ var Content = function (_Component) {
                         _reactRouterDom.Switch,
                         null,
                         _react2.default.createElement(_reactRouterDom.Redirect, { from: '/account', exact: true, to: '/account/profile' }),
-                        _react2.default.createElement(_reactRouterDom.Route, { path: '/account/profile', component: _Profile2.default })
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/account/profile', component: _Profile2.default }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/account/support', component: _Support2.default })
                     )
                 )
             );
@@ -47175,6 +47180,113 @@ var FileItem = function (_Component) {
 }(_react.Component);
 
 exports.default = FileItem;
+
+/***/ }),
+/* 394 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _accountSupport = __webpack_require__(396);
+
+var _accountSupport2 = _interopRequireDefault(_accountSupport);
+
+var _CustomInput = __webpack_require__(388);
+
+var _CustomInput2 = _interopRequireDefault(_CustomInput);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Support = function (_Component) {
+    _inherits(Support, _Component);
+
+    function Support() {
+        _classCallCheck(this, Support);
+
+        return _possibleConstructorReturn(this, (Support.__proto__ || Object.getPrototypeOf(Support)).apply(this, arguments));
+    }
+
+    _createClass(Support, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                { className: _accountSupport2.default.container },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Support'
+                )
+            );
+        }
+    }]);
+
+    return Support;
+}(_react.Component);
+
+exports.default = Support;
+
+/***/ }),
+/* 395 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(11)();
+// imports
+
+
+// module
+exports.push([module.i, "", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"account-support.scss","sourceRoot":"webpack://"}]);
+
+// exports
+
+
+/***/ }),
+/* 396 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(395);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// Prepare cssTransformation
+var transform;
+
+var options = {}
+options.transform = transform
+// add the styles to the DOM
+var update = __webpack_require__(13)(content, options);
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./account-support.scss", function() {
+			var newContent = require("!!../../../node_modules/css-loader/index.js??ref--1-1!../../../node_modules/postcss-loader/lib/index.js!../../../node_modules/sass-loader/lib/loader.js!./account-support.scss");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);
