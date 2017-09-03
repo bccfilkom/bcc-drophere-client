@@ -3,6 +3,7 @@ import style from 'css/home.scss';
 import Header from './Header';
 import Login from './Login';
 import Register from './Register';
+import Footer from '../../common/Footer';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 export default class Home extends Component {
@@ -22,9 +23,7 @@ export default class Home extends Component {
                 </div>
                 </div>
 
-                <div className={style.footer}>
-                    <p>Copyright &copy; 2017 Basic Computing Community. All rights reserved</p>
-                </div>
+                <Footer />
             </div>
         );
     }

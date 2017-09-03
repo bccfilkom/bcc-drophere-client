@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import style from 'css/profile.scss';
 import CustomInput from '../../common/CustomInput';
 
-export default class Profile extends Component {
+export default class Connection extends Component {
     state = {
-        username: '',
-        password: '',
         email: '',
+        password: '',
     }
 
     handleChange = (name, value) => {

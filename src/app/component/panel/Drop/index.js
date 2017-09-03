@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import style from 'css/account.scss';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
-import Profile from './Profile';
+import DropFile from './DropFile';
 import Header from '../../common/Header';
 import Content from './Content';
-import Footer from '../../common/Footer';
 
-export default class Home extends Component {
+export default class Drop extends Component {
     render() {
         return (
             <div className={style.container}>
-                <Header /> 
+                <div className={style.header}>
+                    <Header />
+                </div>
 
                 <div className={style['content-wrapper']}>
                     <Content  {...this.props}  />
                 </div>
 
-                <Footer />
+                <div className={style.footer}>
+                    <p>Copyright &copy; 2017 Basic Computing Community. All rights reserved</p>
+                </div>
             </div>
         );
     }
