@@ -77,7 +77,7 @@ class Content extends Component {
             <div ref={el => this.element = el} className={style.container + ' wrapper'}>
                 <div ref={el => this.menu = $(el)} className={style.menu}>
                     <Menu  {...this.props} data={this.data} onClick={this.onClick} />
-                </div>
+                </div> 
 
                 <div className={style.content}>
                     <Switch>
