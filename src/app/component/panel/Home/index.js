@@ -9,6 +9,7 @@ export default class Home extends Component {
     render() {
         return (
             <div className={style.container}>
+            <div className=
                 <div className={style.content}>
                 <div className={style.header}>
                     <Header />
