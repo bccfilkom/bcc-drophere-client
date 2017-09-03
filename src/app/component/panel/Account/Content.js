@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Profile from './Profile';
+
 import Header from '../../common/Header';
 import Menu from '../../common/Menu';
+
+import Profile from './Profile';
+import Support from './Support';
+
 import style from 'css/account-content.scss';
 
 import * as actions from 'action';
@@ -83,6 +87,7 @@ class Content extends Component {
                     <Switch>
                     <Redirect from="/account" exact to="/account/profile" />
                     <Route path="/account/profile" component={Profile} />
+                    <Route path="/account/support" component={Support} />
                     </Switch>
                 </div>
             </div>
