@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import style from 'css/login.scss';
-import Input from 'react-toolbox/lib/input';
+import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
 
 export default class Register extends Component {
@@ -18,7 +18,8 @@ export default class Register extends Component {
         return(
             <div className={style.container}>
                 <div className={style.header}>
-                    <h1>Register</h1>
+                <h1>Kumpulkan Filemu di Sini!</h1>
+                <p>Dapatkan kemudahan dalam menerima filemu di sini</p>
                 </div>
 
                 <div className={style.form}>
@@ -29,7 +30,7 @@ export default class Register extends Component {
                             label='Username'
                             icon='account_circle' 
                             value={this.state.email} 
-                            onChange={this.handleChange.bind(this, 'email')} 
+                            onChange={this.handleChange.bind(this, 'username')} 
                         />
                         <Input 
                             type='email'
@@ -46,12 +47,12 @@ export default class Register extends Component {
                             onChange={this.handleChange.bind(this, 'password')}
                         />
                         </div>
-                        <button className="custom-button">Sign Up</button>
+                        <button className="custom-button">Daftar</button>
                     </form>
                 </div>
 
                 <div className={style.footer}>
-                    <p>Sudah memiliki akun? <Link to="/login">LOGIN</Link></p>
+                    <p>Sudah memiliki akun? <Link to="/login">Masuk</Link></p>
                 </div>
             </div>
         );

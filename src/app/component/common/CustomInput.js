@@ -10,13 +10,8 @@ export default class CustomInput extends Component {
     }
 
     handleClick = e => {
-        // this.element.focus();
         if (this.state.disabled) {
             this.setState({disabled: false});
-            // if (this.element) {
-            //     this.element.focus();
-            //     this.element.focus();
-            // }
         }
 
         if (this.props.onSave) this.props.onSave();

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import style from 'css/login.scss';
-import Input from 'react-toolbox/lib/input';
+import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
 
 export default class Login extends Component {
@@ -18,7 +18,8 @@ export default class Login extends Component {
         return(
             <div className={style.container}>
                 <div className={style.header}>
-                    <h1>Login</h1>
+                    <h1>Kumpulkan Filemu di Sini!</h1>
+                    <p>Dapatkan kemudahan dalam menerima filemu di sini</p>
                 </div>
 
                 <div className={style.form}>
@@ -39,12 +40,12 @@ export default class Login extends Component {
                             onChange={this.handleChange.bind(this, 'password')} 
                         />
                         </div>
-                        <button className="custom-button">Sign In</button>
+                        <button className="custom-button">Masuk</button>
                     </form>
                 </div>
 
                 <div className={style.footer}>
-                    <p>Belum punya akun? <Link to="/register">DAFTAR SEKARANG</Link></p>
+                    <p>Belum punya akun? <Link to="/register">Daftar</Link></p>
                 </div>
             </div>
         );

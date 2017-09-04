@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    p {
+        width: 280px;
+        margin-right: 33px;
+        text-align: right;
+        margin-top: 5px;
+    }
+
+    .input {
+        width: 100%;
+    }
+}

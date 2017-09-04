@@ -37,7 +37,7 @@
 
 html, body {
 	font-family: "museo", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-	font-size: 11pt;
+	font-size: 10pt;
 	line-height: 1.5;
 	height: 100%;
     font-weight: normal;
@@ -61,7 +61,6 @@ html, body, #app, #app>div {
     width: 100%;
     max-width: 90%; 
     margin: auto;
-    overflow: hidden;
 }
 
 .container-one-page {
@@ -97,18 +96,17 @@ h1 {
 }
 
 .custom-button {
-    padding: 10px 70px;
+    padding: 9px 64px;
     border: #009cff solid 1px;
     border-radius: 50px;
     transition: .3s;
     color: #009cff;
     background: none;
-    margin-top: 30px;
-    font-size: 15pt;
+    font-size: 13pt;
     cursor: pointer;
     display: block;
     width: 100%;
-    margin-bottom: 20px;
+    margin: 5px 0;
 }
 
 .custom-button:hover {    
@@ -130,4 +128,25 @@ h1 {
 a, a:visited{
     text-decoration: none;
     font-weight: 300;
+}
+
+h1, h2 {
+    font-weight: 300;
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+.btn-container-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ====== PARTICLES ====== */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }

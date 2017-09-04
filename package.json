@@ -4,7 +4,7 @@
   "description": "dropitto.me alternative made by BCC",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && node server",
+    "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,6 +17,7 @@
     "mongodb": "^2.2.29",
     "mongoose": "^4.10.8",
     "react": "^15.5.4",
+    "react-apollo": "^1.4.15",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
     "react-router": "^2.8.1",

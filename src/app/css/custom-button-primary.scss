@@ -1,16 +1,15 @@
 .btn {
-    padding: 10px 70px;
+    padding: 8px 20px;
     border-radius: 50px;
     transition: .3s;
     color: white;
     background: none;
-    margin-top: 30px;
-    font-size: 15pt;
+    font-size: 12pt;
     cursor: pointer;
     display: block;
-    margin-bottom: 20px;
     background: #009cff;
     border: #009cff solid 1px;
+    margin: 30px 5px 20px 5px;
 }
 
 .btn:hover {    
@@ -27,6 +26,21 @@
     transition: 0s;
     color: white;
     text-decoration: none;
+}
+
+.red {
+    background: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.red:hover {
+    background: #e5675a;
+    border-color: #e5675a;
+}
+
+.red:active {
+    background: #c0392b;
+    border-color: #c0392b;
 }
 
 .sm {
