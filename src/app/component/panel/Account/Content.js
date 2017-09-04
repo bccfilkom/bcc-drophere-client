@@ -40,7 +40,7 @@ class Content extends Component {
 
     data = [
         { caption: 'Profil', leftIcon: 'account_circle', url: '/profile' },
-        { caption: 'Koneksi', leftIcon: 'backup', url: '/connection' },
+        { caption: 'Penyimpanan', leftIcon: 'backup', url: '/storage' },
         { caption: 'Halaman', leftIcon: 'pages', url: '/pages' },
         { caption: 'Dukungan', leftIcon: 'assignment_ind', url: '/support' },
     ];
@@ -88,7 +88,7 @@ class Content extends Component {
                     <Switch>
                     <Redirect from="/account" exact to="/account/profile" />
                     <Route path="/account/profile" component={Profile} />
-                    <Route path="/account/connection" component={Connection} />
+                    <Route path="/account/storage" component={Connection} />
                     <Route path="/account/pages" component={Pages} />
                     <Route path="/account/support" component={Support} />
                     </Switch>

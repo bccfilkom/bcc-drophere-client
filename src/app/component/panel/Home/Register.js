@@ -3,7 +3,7 @@ import style from 'css/login.scss';
 import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
 
-class Register extends Component {
+export default class Register extends Component {
     state = { username: '', password: '', email: '' };
     
     handleChange = (name, value) => {

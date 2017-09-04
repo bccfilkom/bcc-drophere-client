@@ -46672,7 +46672,7 @@ var Content = function (_Component) {
             } else if (pathname.search('/account/support') != -1) {
                 _this.props.updateSelected(_id.MENU, 3);
             }
-        }, _this.data = [{ caption: 'Profil', leftIcon: 'account_circle', url: '/profile' }, { caption: 'Koneksi', leftIcon: 'backup', url: '/connection' }, { caption: 'Halaman', leftIcon: 'pages', url: '/pages' }, { caption: 'Dukungan', leftIcon: 'assignment_ind', url: '/support' }], _this.onClick = function (i) {
+        }, _this.data = [{ caption: 'Profil', leftIcon: 'account_circle', url: '/profile' }, { caption: 'Penyimpanan', leftIcon: 'backup', url: '/storage' }, { caption: 'Halaman', leftIcon: 'pages', url: '/pages' }, { caption: 'Dukungan', leftIcon: 'assignment_ind', url: '/support' }], _this.onClick = function (i) {
             _this.props.updateSelected(_id.MENU, i);
         }, _this.handleScroll = function (e) {
             var scrollTop = win.scrollTop();
@@ -46737,7 +46737,7 @@ var Content = function (_Component) {
                         null,
                         _react2.default.createElement(_reactRouterDom.Redirect, { from: '/account', exact: true, to: '/account/profile' }),
                         _react2.default.createElement(_reactRouterDom.Route, { path: '/account/profile', component: _Profile2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { path: '/account/connection', component: _Connection2.default }),
+                        _react2.default.createElement(_reactRouterDom.Route, { path: '/account/storage', component: _Connection2.default }),
                         _react2.default.createElement(_reactRouterDom.Route, { path: '/account/pages', component: _Pages2.default }),
                         _react2.default.createElement(_reactRouterDom.Route, { path: '/account/support', component: _Support2.default })
                     )
@@ -47984,6 +47984,10 @@ exports.default = Login;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -48111,6 +48115,8 @@ var Register = function (_Component) {
 
     return Register;
 }(_react.Component);
+
+exports.default = Register;
 
 /***/ }),
 /* 374 */
