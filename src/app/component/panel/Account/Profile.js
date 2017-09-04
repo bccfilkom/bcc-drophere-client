@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import Input from 'react-toolbox/lib/input';
+import { Button, IconButton } from 'react-toolbox/lib/button';
 
-import style from 'css/profile.scss';
-import CustomInput from '../../common/CustomInput';
+import theme1 from 'css/common-button.scss';
+import theme2 from 'css/rtb-danger-button.scss';
+
+import style from 'css/account-profile.scss';
 
 export default class Profile extends Component {
     state = {
@@ -18,26 +22,30 @@ export default class Profile extends Component {
         return (
             <div className={style.container}>
                 <h1>Profil</h1>
-                <CustomInput
+                <Input
                     type="text"
                     label="Username"
                     value={this.state.username}
                     onChange={this.handleChange.bind(this, 'username')}
                 />
 
-                <CustomInput
+                <Input
                     type="text"
                     label="Email"
                     value={this.state.email}
                     onChange={this.handleChange.bind(this, 'email')}
                 />
                 
-                <CustomInput
+                <Input
                     type="text"
                     label="Password"
                     value={this.state.passowrd}
                     onChange={this.handleChange.bind(this, 'password')}
                 />
+
+                <div className={style['button-wrapper']}>
+                    <Button theme={theme1} onClick={this.onClick} icon="save" label="Save" raised primary />
+                </div>
             </div>
         );
     }

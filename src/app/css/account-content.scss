@@ -1,19 +1,20 @@
 .container {
     .content {
-        margin-top: 50px;
         position: relative;
         margin-left: 300px;
+        max-width: 600px;
+        width: 100%;
     }
 }
 
 .menu {
     position: absolute;
-    margin-top: 50px;
+    margin-top: -5px;
     margin-left: 20px;
     width: 250px;
 }
 
 .menu-fly {
     position: fixed;
-    top: 0;
+    top: 50px;
 }

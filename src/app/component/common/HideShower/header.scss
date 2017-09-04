@@ -1,0 +1,23 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 27px;
+    background: #e2e2e2;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 300;
+}
+
+.container:hover {
+    background: #00BCD4;
+    color: white;
+    transition: .3s;
+}
+
+.container:active {
+    background: #0091a4;
+    color: white;
+    transition: 0s;
+}

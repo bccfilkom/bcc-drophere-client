@@ -1,0 +1,26 @@
+.container {
+    width: 100%;
+    border: 1px solid #e3e3e3;
+    border-radius: 0 0 10px 10px;
+    border-top: none;
+    overflow: hidden;
+    transform-origin: top center;
+    padding: 0;
+    height: 0;
+}
+
+.open {
+    transform: scale(1, 1);
+    height: auto;
+    padding: 20px;
+    border-width: 1px;
+    transition: .3s;
+}
+
+.close {
+    transform: scale(1, 0);
+    height: 0;
+    padding: 0;
+    border-width: 0;
+    transition: .3s;
+}

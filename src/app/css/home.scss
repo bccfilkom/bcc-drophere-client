@@ -1,27 +1,21 @@
 .container {
     .content {
-        height: 90%;
+        height: 500px;
         display: flex;
         flex-wrap: wrap;
-        padding-top: 60px;
         
         .header, .auth {
             display: flex;
-            align-items: center;
             justify-content: center;
             flex: 1;
         }
-    }
+        
+        .header {
+            padding-top: 100px;
+        }
 
-    .footer {
-        width: 100%;
-        margin-top: 62px;
-        margin-bottom: 20px;
-        padding: 0px 20px;
-
-        p {
-            text-align: center;
-            font-weight: 300;
+        .auth {
+            padding-top: 80px;
         }
     }
 }

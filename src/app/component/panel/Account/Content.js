@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Profile from './Profile';
-import Header from '../../common/Header';
-import Menu from '../../common/Menu';
-import style from 'css/account-content.scss';
-
 import * as actions from 'action';
 import { MENU } from '../../../action/id';
+
+import Profile from './Profile';
+import Pages from './Pages';
+import Connection from './Connection';
+
+import Header from '../../common/Header';
+import Menu from '../../common/Menu';
+
+import style from 'css/account-content.scss';
 
 class Content extends Component {
     componentWillReceiveProps(next) {
@@ -35,7 +39,7 @@ class Content extends Component {
 
     data = [
         { caption: 'Profil', leftIcon: 'account_circle', url: '/profile' },
-        { caption: 'Koneksi', leftIcon: 'timeline', url: '/connection' },
+        { caption: 'Koneksi', leftIcon: 'backup', url: '/connection' },
         { caption: 'Halaman', leftIcon: 'pages', url: '/pages' },
         { caption: 'Dukungan', leftIcon: 'assignment_ind', url: '/support' },
     ];
@@ -54,7 +58,7 @@ class Content extends Component {
 
     handleScroll = e => {
         var scrollTop = win.scrollTop();
-        var firstPosition = this.element.offsetTop || 360;
+        var firstPosition = this.element.offsetTop - 50 || 360;
         
         if (!this.menu) return;
 
@@ -83,6 +87,8 @@ class Content extends Component {
                     <Switch>
                     <Redirect from="/account" exact to="/account/profile" />
                     <Route path="/account/profile" component={Profile} />
+                    <Route path="/account/connection" component={Connection} />
+                    <Route path="/account/pages" component={Pages} />
                     </Switch>
                 </div>
             </div>

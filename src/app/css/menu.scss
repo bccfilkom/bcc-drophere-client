@@ -16,6 +16,10 @@
 
 .selected {
     border-right: #2196F3 solid 3px;
+
+    span {
+        color: #2196F3 !important;
+    }
 }
 
 .normal {
