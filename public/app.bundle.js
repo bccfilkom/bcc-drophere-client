@@ -21845,7 +21845,7 @@ var AppRouter = function (_Component) {
     _createClass(AppRouter, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            particlesJS.load('particles-js', '/json/particles.json', function () {
+            if (window.location.pathname.search('account') == -1) particlesJS.load('particles-js', '/json/particles.json', function () {
                 console.log('callback - particles.js config loaded');
             });
         }

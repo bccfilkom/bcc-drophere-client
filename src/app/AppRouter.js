@@ -6,6 +6,7 @@ import Drop from './component/panel/Drop';
 
 export default class AppRouter extends Component {
     componentDidMount() {
+        if (window.location.pathname.search('account') == -1)
         particlesJS.load('particles-js', '/json/particles.json', function() {
             console.log('callback - particles.js config loaded');
         });
