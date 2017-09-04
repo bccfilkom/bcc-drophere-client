@@ -16399,6 +16399,13 @@ var AppRouter = function (_Component) {
     }
 
     _createClass(AppRouter, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            particlesJS.load('particles-js', '/json/particles.json', function () {
+                console.log('callback - particles.js config loaded');
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -16407,6 +16414,7 @@ var AppRouter = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     null,
+                    _react2.default.createElement('div', { id: 'particles-js' }),
                     _react2.default.createElement(
                         _reactRouterDom.Switch,
                         null,
@@ -48145,11 +48153,19 @@ var Home = function (_Component) {
     }
 
     _createClass(Home, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            particlesJS.load('particles-js', '/json/particles.json', function () {
+                console.log('callback - particles.js config loaded');
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
                 { className: _home2.default.container },
+                _react2.default.createElement('div', { id: 'particles-js' }),
                 _react2.default.createElement(
                     'div',
                     { className: _home2.default.content },

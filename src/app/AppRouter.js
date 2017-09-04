@@ -5,10 +5,17 @@ import Account from './component/panel/Account';
 import Drop from './component/panel/Drop';
 
 export default class AppRouter extends Component {
+    componentDidMount() {
+        particlesJS.load('particles-js', '/json/particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    }
+
     render() {
         return (
             <BrowserRouter>
                 <div>
+                    <div id="particles-js"></div>
                     <Switch>
                     <Redirect from="/" to="/home" exact />
                     <Redirect from="/login" to="/home" />
