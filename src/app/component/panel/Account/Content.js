@@ -7,6 +7,7 @@ import { MENU } from '../../../action/id';
 
 import Profile from './Profile';
 import Pages from './Pages';
+import Support from './Support';
 import Connection from './Connection';
 
 import Header from '../../common/Header';
@@ -89,6 +90,7 @@ class Content extends Component {
                     <Route path="/account/profile" component={Profile} />
                     <Route path="/account/connection" component={Connection} />
                     <Route path="/account/pages" component={Pages} />
+                    <Route path="/account/support" component={Support} />
                     </Switch>
                 </div>
             </div>

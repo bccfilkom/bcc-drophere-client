@@ -15,7 +15,7 @@ export default class NewPage extends Component {
         description: '',
         notification: '',
         deadline: '',
-    }
+    } 
 
     handleChange(name, value) {
         this.setState({[name]: value});
