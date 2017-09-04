@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import DropFile from './DropFile';
+import Password from './Password';
 import Header from './Header';
 import Menu from '../../common/Menu';
 import style from 'css/drop-content.scss';
@@ -15,13 +16,14 @@ class Content extends Component {
         return (
             <div className={style.container + ' wrapper'}>
                 <div className={style.content}>
-                    {/* 
+                    
                     <Switch>
-                        <Redirect from="/drop" exact to="/drop/password" />
-                        <Route path="/drop/password" component={DropFile} />
+                        {/* <Redirect from="/drop" exact to="/drop/password" /> */}
+                        <Route path="/drop/password" exact component={Password} />
+                        <Route path="/drop/" exact component={DropFile} />
                     </Switch>
-                     */}
-                    <DropFile />
+                    {/* <Password /> */}
+                    {/* <DropFile /> */}
                 </div>
             </div>
         );

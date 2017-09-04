@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontIcon } from 'react-toolbox';
 import style from 'css/drop-file.scss';
 
 function formatBytes(bytes,decimals) {
@@ -15,7 +16,10 @@ export default class FileItem extends Component {
         return (
             <div className={style['file-list-item']}>
                 <span>{this.props.title}</span>
-                <span>{formatBytes(this.props.size)}</span>
+                <span>
+                    {/* <FontIcon value="check" className={style['icon-small']} /> */}
+                {formatBytes(this.props.size)}
+                </span>
             </div>
         );
     }

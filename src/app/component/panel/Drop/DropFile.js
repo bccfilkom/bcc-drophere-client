@@ -27,7 +27,9 @@ export default class DropFile extends Component {
                 <span className={style.title}>Kirim File ke Laporan Praktikum Bab 4</span>
                 <span className={style.subtitle}>Tarik atau pilih file untuk diunggah</span>
                 <span className={style['time-limit']}>Tautan akan ditutup pada : Minggu, 27 Agustus 2017 pukul 23:59 WIB</span>
-                <div className={style['drop-file-container']} ref={el => this.dropArea = el}>
+                <div
+                    className={style['drop-file-container']}
+                    ref={el => this.dropArea = el}>
                     <span className={style['drop-title']}>TARIK FILE KE SINI</span>
                     <span className={style['drop-separator']}>- ATAU -</span>
                     <div className={style['upload-file-container']}>
@@ -37,7 +39,9 @@ export default class DropFile extends Component {
                         </label>
                     </div>
                 </div>
-                <div ref={e => this.fileListContainer = e} className={style['file-list-container']}>
+                <div
+                    ref={e => this.fileListContainer = e}
+                    className={style['file-list-container']}>
                     {fileList}
                 </div>
             </div>
