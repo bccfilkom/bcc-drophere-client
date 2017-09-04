@@ -3,7 +3,7 @@ import style from 'css/login.scss';
 import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
 
-export default class Register extends Component {
+class Register extends Component {
     state = { username: '', password: '', email: '' };
     
     handleChange = (name, value) => {
@@ -30,7 +30,7 @@ export default class Register extends Component {
                             label='Username'
                             icon='account_circle' 
                             value={this.state.email} 
-                            onChange={this.handleChange.bind(this, 'email')} 
+                            onChange={this.handleChange.bind(this, 'username')} 
                         />
                         <Input 
                             type='email'
