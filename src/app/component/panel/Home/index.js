@@ -18,15 +18,15 @@ export default class Home extends Component {
             <div className={style.container}>
                 <div id="particles-js"></div>
                 <div className={style.content}>
-                <div className={style.header}>
-                    <Header />
-                </div>
-                <div className={style.auth}>
-                    <Switch>
-                    <Route path="/home" exact component={Login} />
-                    <Route path="/register" exact component={Register} />
-                    </Switch>
-                </div>
+                    <div className={style.header}>
+                        <Header />
+                    </div>
+                    <div className={style.auth}>
+                        <Switch>
+                            <Route path="/home" exact component={Login} />
+                            <Route path="/register" exact component={Register} />
+                        </Switch>
+                    </div>
                 </div>
                 <Footer />
             </div>

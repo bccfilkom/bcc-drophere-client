@@ -6,6 +6,8 @@
     align-items: center;
     flex-direction: column;
     font-weight: 300;
+    height: 100%;
+    
     .title {
         font-weight: 300;
         font-size: 42px;
@@ -40,7 +42,7 @@
         border: 1px solid rgb(208, 208, 208);
         background-color: rgb(228, 239, 243);
         width: 90%;
-        height: 450px;
+        height: 100%;
     }
     .file-list-container {
         display: flex;
@@ -62,7 +64,7 @@
         font-size: 16px;
     }
     .upload-file-container {
-        margin-top: 20px;
+        margin: 20px 0;
     }
     .upload-file {
         display: none; // z-index: -1;

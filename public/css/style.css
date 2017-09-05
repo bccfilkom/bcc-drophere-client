@@ -60,7 +60,7 @@ html, body, #app, #app>div {
 .wrapper {
     width: 100%;
     max-width: 90%; 
-    margin: auto;
+    margin: 0 auto;
 }
 
 .container-one-page {

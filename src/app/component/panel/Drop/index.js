@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 import DropFile from './DropFile';
 import Header from '../../common/Header';
+import Footer from '../../common/Footer';
 import Content from './Content';
 
 export default class Drop extends Component {
@@ -18,9 +19,7 @@ export default class Drop extends Component {
                     <Content  {...this.props}  />
                 </div>
 
-                <div className={style.footer}>
-                    <p>Copyright &copy; 2017 Basic Computing Community. All rights reserved</p>
-                </div>
+                <Footer/>
             </div>
         );
     }
