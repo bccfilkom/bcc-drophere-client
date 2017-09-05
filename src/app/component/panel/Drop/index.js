@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import DropFile from './DropFile';
 import Header from '../../common/Header';
 import Content from './Content';
+import Footer from '../../common/Footer';
 
 export default class Drop extends Component {
     render() {
@@ -14,13 +15,11 @@ export default class Drop extends Component {
                     <Header />
                 </div>
 
-                <div className={style['content-wrapper']}>
+                <div style={{height: '70%'}}>
                     <Content  {...this.props}  />
                 </div>
 
-                <div className={style.footer}>
-                    <p>Copyright &copy; 2017 Basic Computing Community. All rights reserved</p>
-                </div>
+                <Footer />
             </div>
         );
     }

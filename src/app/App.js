@@ -9,7 +9,7 @@ import { ApolloClient, createNetworkInterface, ApolloProvider } from 'react-apol
 import AppRouter from './AppRouter';
 
 const networkInterface = createNetworkInterface({
-    uri: '45.32.115.11:6321/graphq',
+    uri: 'https://45.32.115.11:6321/graphq',
 });
 
 const client = new ApolloClient({

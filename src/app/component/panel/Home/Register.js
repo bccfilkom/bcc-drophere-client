@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import style from 'css/login.scss';
 import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
+import { graphql, gql } from 'react-apollo';
 
-export default class Register extends Component {
+class Register extends Component {
     state = { username: '', password: '', email: '' };
     
     handleChange = (name, value) => {
@@ -12,6 +13,14 @@ export default class Register extends Component {
 
     onSubmitHandler = e => {
         e.preventDefault();
+
+        var { username, email, password } = this.state;
+        console.log(this.props.mutate);
+        this.props.mutate({variables: {username, email, password}}).then(data => {
+            console.log(data, 'jadi nih');
+        }).catch(err => {
+            console.log(err, 'error nihhh');
+        });
     }
 
     render() {
@@ -29,7 +38,7 @@ export default class Register extends Component {
                             type='text'
                             label='Username'
                             icon='account_circle' 
-                            value={this.state.email} 
+                            value={this.state.username} 
                             onChange={this.handleChange.bind(this, 'username')} 
                         />
                         <Input 
@@ -58,3 +67,13 @@ export default class Register extends Component {
         );
     }
 }
+
+var submitRepo = gql`
+mutation register($username: String!, $email: String!, $password: String!) {
+    register(username: $username, email: $email, password: $password) {
+        user
+    }
+}
+`;
+
+export default graphql(submitRepo)(Register);
