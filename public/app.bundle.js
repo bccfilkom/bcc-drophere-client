@@ -7540,33 +7540,10 @@ exports.ListItemContent = ListItemContent;
 
 /***/ }),
 /* 60 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var g;
-
-// This works in non-strict mode
-g = function () {
-	return this;
-}();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1, eval)("this");
-} catch (e) {
-	// This works if the window reference is available
-	if ((typeof window === "undefined" ? "undefined" : _typeof(window)) === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\react\\react-app\\bcc-dropithere\\node_modules\\webpack\\buildin\\global.js'");
 
 /***/ }),
 /* 61 */
@@ -7705,10 +7682,7 @@ exports.default = function (props) {
 /* 64 */
 /***/ (function(module, exports) {
 
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\react\\react-app\\bcc-dropithere\\node_modules\\webpack\\buildin\\amd-options.js'");
 
 /***/ }),
 /* 65 */
@@ -19907,33 +19881,9 @@ exports.default = valueEqual;
 
 /***/ }),
 /* 189 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-module.exports = function (module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function () {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function get() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function get() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\react\\react-app\\bcc-dropithere\\node_modules\\webpack\\buildin\\module.js'");
 
 /***/ }),
 /* 190 */
