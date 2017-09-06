@@ -13,7 +13,6 @@ export default class EditPage extends Component {
     componentWillMount() {
         axios.get('/json/pages.json').then(res => {
             this.setState({data: res.data});
-            console.log(res);
         });
     }
 

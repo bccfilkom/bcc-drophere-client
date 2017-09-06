@@ -86,7 +86,7 @@ class Content extends Component {
 
                 <div className={style.content}>
                     <Switch>
-                    <Redirect from="/account" exact to="/account/profile" />
+                    <Redirect from="/account" exact to="/account/pages" />
                     <Route path="/account/profile" component={Profile} />
                     <Route path="/account/storage" component={Connection} />
                     <Route path="/account/pages" component={Pages} />

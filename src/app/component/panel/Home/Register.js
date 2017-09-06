@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import style from 'css/login.scss';
 import Input from '../../common/WrappedInput';
 import { Link } from 'react-router-dom';
-import { graphql, gql } from 'react-apollo';
+import { connect } from 'react-redux';
+import * as actions from 'action';
 
 class Register extends Component {
     state = { username: '', password: '', email: '' };
@@ -15,8 +16,8 @@ class Register extends Component {
         e.preventDefault();
 
         var { username, email, password } = this.state;
-        console.log(this.props.mutate);
-        this.props.mutate({variables: {username, email, password}}).then(data => {
+        
+        this.props.register(username, email, password).then(data => {
             console.log(data, 'jadi nih');
         }).catch(err => {
             console.log(err, 'error nihhh');
@@ -68,12 +69,8 @@ class Register extends Component {
     }
 }
 
-var submitRepo = gql`
-mutation register($username: String!, $email: String!, $password: String!) {
-    register(username: $username, email: $email, password: $password) {
-        user
-    }
-}
-`;
+function mapStateToProps({logintoken}) {
+    return {logintoken};
+};
 
-export default graphql(submitRepo)(Register);
+export default connect(mapStateToProps, actions)(Register);

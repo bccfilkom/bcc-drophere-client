@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Input from 'react-toolbox/lib/input';
 import { Button, IconButton } from 'react-toolbox/lib/button';
+import { connect } from 'react-redux';
+import * as actions from 'action';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
 
 import style from 'css/account-profile.scss';
 
-export default class Profile extends Component {
+import Loading from '../../common/Loading';
+
+class Profile extends Component {
     state = {
         username: '',
         password: '',
@@ -18,10 +22,20 @@ export default class Profile extends Component {
         this.setState({...this.state, [name]: value});
     };
 
+    static id = "profileLoading";
+
+    onSubmit = e => {
+        console.log('aoaooas')
+        e.preventDefault();
+        
+        this.props.updateLoading(Profile.id);
+    }
+
     render() {
         return (
             <div className={style.container}>
                 <h1>Profil</h1>
+                <form onSubmit={this.onSubmit}>
                 <Input
                     type="text"
                     label="Username"
@@ -44,9 +58,18 @@ export default class Profile extends Component {
                 />
 
                 <div className={style['button-wrapper']}>
-                    <Button theme={theme1} onClick={this.onClick} icon="save" label="Save" raised primary />
+                    <Button theme={theme1} onClick={this.onSubmit} icon="save" label="Save" raised primary />
                 </div>
+
+                {this.props.loading ? <Loading /> : '' }
+                </form>
             </div>
         );
     }
 }
+
+function mapStateToProps({ loading }, props) {
+    return { loading: loading[Profile.id] };
+}
+
+export default connect(mapStateToProps, actions)(Profile);
