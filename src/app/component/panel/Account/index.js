@@ -8,6 +8,10 @@ import Content from './Content';
 import Footer from '../../common/Footer';
 
 export default class Home extends Component {
+    componentDidMount() {
+        this.props.updateParticle(false);
+    }
+
     render() {
         return (
             <div className={style.container}>

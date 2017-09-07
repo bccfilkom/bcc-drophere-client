@@ -8,6 +8,10 @@ import Content from './Content';
 import Footer from '../../common/Footer';
 
 export default class Drop extends Component {
+    componentDidMount() {
+        this.props.updateParticle(true);
+    }
+    
     render() {
         return (
             <div className={style.container}>

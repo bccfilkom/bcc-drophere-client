@@ -7,6 +7,10 @@ import Footer from '../../common/Footer';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 export default class Home extends Component {
+    componentDidMount() {
+        this.props.updateParticle(true);
+    }
+
     render() {
         return (
             <div className={style.container}>

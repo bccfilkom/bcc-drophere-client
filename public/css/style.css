@@ -151,22 +151,24 @@ h1, h2 {
     z-index: -1;
 }
 
+form {
+    position: relative;
+}
+
 /* ====== ANIMATION ====== */
-.example-enter {
-    opacity: 0.01;
+.switch-wrapper {
+    position: relative;
 }
-  
-.example-enter.example-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
+
+.switch-wrapper > div {
+    position: absolute;
+    width: 100%;
 }
-  
-.example-leave {
-    opacity: 1;
+
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 15px;
+    border-radius: 10px;
 }
-  
-.example-leave.example-leave-active {
-    opacity: 0.01;
-    transition: opacity 300ms ease-in;
-}
-  

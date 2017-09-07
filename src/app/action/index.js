@@ -3,7 +3,9 @@ import {
     UPDATE_SELECTED,
     UPDATE_PAGE,
     REGISTER,
-    UPDATE_LOADING
+    UPDATE_LOADING,
+    LOGIN,
+    UPDATE_PARTICLE,
 } from './types';
 
 export const updateSelected = (id, selected) => ({ type: UPDATE_SELECTED, id, selected });
@@ -24,9 +26,44 @@ export const register = (username, email, password) => axios.post('http://45.32.
     },
     operationName: 'register'
 }).then(res => {
-    var logintoken = res.data.data.register.logintoken;
-    window.localStorage.setItem('bccdrophere_token', logintoken);
-    return { type: REGISTER, logintoken};
-}).catch(err => console.log(err, 'error nih!'));
+    var register = res.data.data.register;
+    if (register) {
+        var logintoken = register.logintoken;
+        window.localStorage.setItem('bccdrophere_token', logintoken);
+        
+        return { type: LOGIN, logintoken};
+    }
+    
+    return {type: LOGIN, errors: res.data.errors, error: res.data.errors[0].message};
+}).catch((res) => {
+    console.log(res, 'fck');
+});
+
+export const login = (username, password) => axios.post('http://45.32.115.11:6321/graphql', {
+    query: `
+    mutation login($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            logintoken
+        }
+    }`, 
+    variables: {
+        username, password
+    },
+    operationName: 'login'
+}).then(res => {
+    var login = res.data.data.login;
+    if (login) {
+        var logintoken = login.logintoken;
+        window.localStorage.setItem('bccdrophere_token', logintoken);
+        
+        return { type: LOGIN, logintoken};
+    }
+    
+    return {type: LOGIN, errors: res.data.errors, error: res.data.errors[0].message};
+}).catch((res) => {
+    console.log(res, 'fck');
+});
+
+export const updateParticle = payload => ({type: UPDATE_PARTICLE, payload});
 
 //TEMPAT MENGUBAH STATE
