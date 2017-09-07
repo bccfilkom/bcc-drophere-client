@@ -23,16 +23,16 @@ class Storage extends Component {
         this.setState({...this.state, [name]: value});
     };
 
-    updateToken = dropboxtoken => {
+    updateToken = token => {
         axios.post('http://45.32.115.11:6321/graphql', {
             query: `
-            mutation dropboxtoken($dropboxtoken: String!) {
-                dropboxtoken(dropboxtoken: $dropboxtoken) {
+            mutation dropboxtoken($token: String!) {
+                dropboxtoken(token: $token) {
                     msg
                 }
             }`, 
             variables: {
-                dropboxtoken
+                token
             },
             operationName: 'dropboxtoken'
         }).then(res => {
@@ -44,7 +44,7 @@ class Storage extends Component {
             
             console.log(res.data.errors);
         }).catch((res) => {
-            console.log(res, 'fck');
+            console.log(res, 'Error occurred');
         });
     }
 
@@ -79,7 +79,7 @@ class Storage extends Component {
     render() {
         return (
             <div className={style.container}>
-                <h1>Koneksi Dropbox</h1>
+                <h1>Koneksi </h1>
                 {this.renderContent()}
                 {this.props.loading ? <Loading /> : '' }
             </div>
