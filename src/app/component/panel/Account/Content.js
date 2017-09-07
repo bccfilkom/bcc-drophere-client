@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AnimatedSwitch, spring } from 'react-router-transition';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import * as actions from 'action';
 import { MENU } from '../../../action/id';
@@ -115,26 +116,24 @@ class Content extends Component {
 
         }
 
+        var location = this.props.location;
+
         return (
             <div ref={el => this.element = el} className={style.container + ' wrapper'}>
                 <div ref={el => this.menu = $(el)} className={style.menu}>
                     <Menu  {...this.props} data={this.data} onClick={this.onClick} />
                 </div> 
-
+                
                 <div className={style.content}>
-                    <AnimatedSwitch
-                    atEnter={bounceTransition.atEnter}
-                    atLeave={bounceTransition.atLeave}
-                    atActive={bounceTransition.atActive}
-                    mapStyles={mapStyles}
-                    className="switch-wrapper"
-                    >
+                <TransitionGroup>
+                    <Switch >
                     <Redirect from="/account" exact to="/account/pages" />
                     <Route path="/account/pages" component={Pages} />
                     <Route path="/account/profile" component={Profile} />
                     <Route path="/account/storage" component={Connection} />
                     <Route path="/account/support" component={Support} />
-                    </AnimatedSwitch>
+                    </Switch>
+                </TransitionGroup>
                 </div>
             </div>
         );
@@ -146,4 +145,4 @@ function mapStateToProps({ selected }, props) {
     return { selected: selected[MENU] };
 }
 
-export default connect(mapStateToProps, actions)(Content);
+export default connect(mapStateToProps, actions)(withRouter(Content));

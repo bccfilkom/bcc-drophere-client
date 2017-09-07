@@ -13,7 +13,7 @@ export default class Support extends Component {
 
     render() {
         return (
-            <div className={style.container}>
+            <div className={style.container + ' opening-transition'}>
                 <h1>Support</h1>
                 <CustomInput
                 type="text"

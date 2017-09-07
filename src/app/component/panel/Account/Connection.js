@@ -27,7 +27,7 @@ export default class Connection extends Component {
     renderContent() {
         if (true) {
             return(
-                <div className={style['button-wrapper']}>
+                <div className={style['button-wrapper'] + ' opening-transition'}>
                     <Button theme={theme1} onClick={this.onClick} icon="link" label="Authorize" raised primary />
                 </div>
             );

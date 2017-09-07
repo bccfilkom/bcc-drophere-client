@@ -31,9 +31,13 @@ class Profile extends Component {
         this.props.updateLoading(Profile.id);
     }
 
+    componentWillAppear() {
+        console.log($('switch-wrapper > div'));
+    }
+
     render() {
         return (
-            <div className={style.container}>
+            <div className={style.container + ' opening-transition'}>
                 <h1>Profil</h1>
                 <form onSubmit={this.onSubmit}>
                 <Input

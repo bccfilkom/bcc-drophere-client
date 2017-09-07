@@ -161,9 +161,27 @@ form {
 }
 
 .switch-wrapper > div {
-    position: absolute;
+    position: relative;
     width: 100%;
 }
+
+.example-enter {
+    opacity: 0.01;
+  }
+  
+  .example-enter.example-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+  }
+  
+  .example-leave {
+    opacity: 1;
+  }
+  
+  .example-leave.example-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+  }
 
 .error {
     color: #a94442;
@@ -171,4 +189,23 @@ form {
     border-color: #ebccd1;
     padding: 15px;
     border-radius: 10px;
+}
+
+.opening-transition {
+    animation-name: fade;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
+    transition-timing-function: cubic-bezier(.31,.03,.5,1.5);
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

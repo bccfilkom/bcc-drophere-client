@@ -6,7 +6,6 @@ import DropFile from './DropFile';
 import Header from '../../common/Header';
 import Footer from '../../common/Footer';
 import Content from './Content';
-import Footer from '../../common/Footer';
 
 export default class Drop extends Component {
     componentDidMount() {
