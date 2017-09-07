@@ -150,3 +150,25 @@ h1, h2 {
     height: 100%;
     z-index: -1;
 }
+
+form {
+    position: relative;
+}
+
+/* ====== ANIMATION ====== */
+.switch-wrapper {
+    position: relative;
+}
+
+.switch-wrapper > div {
+    position: absolute;
+    width: 100%;
+}
+
+.error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 15px;
+    border-radius: 10px;
+}

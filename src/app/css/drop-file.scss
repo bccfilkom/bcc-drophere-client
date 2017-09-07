@@ -6,16 +6,17 @@
     align-items: center;
     flex-direction: column;
     font-weight: 300;
+    font-size: 8pt;
     height: 100%;
-    
+
     .title {
         font-weight: 300;
-        font-size: 42px;
+        font-size: 25px;
     }
     .subtitle {
         font-weight: 300;
-        font-size: 20px;
-        color: #949494;
+        font-size: 14px;
+        color: #5a5a5a;
         line-height: 2;
     }
     .time-limit {
@@ -23,10 +24,10 @@
         font-weight: 500;
     }
     .drop-title {
-        font-size: 32px;
+        font-size: 20px;
     }
     .drop-separator {
-        font-size: 16px;
+        font-size: 15px;
     }
     .drop-file-container-ondrag { 
         background-color: #318bf3 !important;
@@ -43,6 +44,10 @@
         background-color: rgb(228, 239, 243);
         width: 90%;
         height: 100%;
+<<<<<<< HEAD
+=======
+        max-height: 340px
+>>>>>>> da0758f437d5b11718effceb9079ca919be05158
     }
     .file-list-container {
         display: flex;
@@ -75,7 +80,7 @@
         // position: absolute;
     }
     .upload-file-button {
-        padding: 10px 20px;
+        padding: 7px 12px;
         border-radius: 12px;
         border: 1px solid #858585;
         transition: .3s;

@@ -4,9 +4,9 @@
   "description": "dropitto.me alternative made by BCC",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack-dev": "webpack --progress --watch"
+    "start": "webpack -p && node server",
+    "webpack-dev": "webpack --progress --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -23,11 +23,14 @@
     "react-redux": "^5.0.5",
     "react-router": "^2.8.1",
     "react-router-dom": "^4.1.1",
+    "react-router-transition": "^1.0.0",
     "react-toolbox": "^2.0.0-beta.12",
+    "react-transition-group": "^1.2.0",
     "redux": "^3.7.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
-    "validator": "^7.1.0"
+    "validator": "^7.1.0",
+    "webpack": "^2.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",

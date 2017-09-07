@@ -6,8 +6,13 @@ import DropFile from './DropFile';
 import Header from '../../common/Header';
 import Footer from '../../common/Footer';
 import Content from './Content';
+import Footer from '../../common/Footer';
 
 export default class Drop extends Component {
+    componentDidMount() {
+        this.props.updateParticle(true);
+    }
+    
     render() {
         return (
             <div className={style.container}>
@@ -15,11 +20,11 @@ export default class Drop extends Component {
                     <Header />
                 </div>
 
-                <div className={style['content-wrapper']}>
+                <div style={{height: '70%'}}>
                     <Content  {...this.props}  />
                 </div>
 
-                <Footer/>
+                <Footer />
             </div>
         );
     }
