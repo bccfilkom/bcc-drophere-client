@@ -40,7 +40,7 @@ export default class AppRouter extends Component {
                     <Route path="/register" render={props => {
                         //if (!localStorage.getItem('bccdrophere_token'))
                         return <Home {...props} updateParticle={this.updateParticle} />;
-                        //return <Redirect to="/account" />
+                        //return <Redirect to="/account" /> 
                     }} />
                     <Route path="/account" render={props => {
                         if (localStorage.getItem('bccdrophere_token'))
