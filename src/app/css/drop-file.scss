@@ -72,6 +72,12 @@
         background-color: rgb(228, 239, 243);
         // box-shadow: 0 1px 0 0 rgb(208, 208, 208) inset;
         font-size: 16px;
+        overflow: hidden;
+        position: relative;
+
+        span {
+            z-index: 1;
+        }
     }
     .upload-file-container {
         margin: 20px 0;

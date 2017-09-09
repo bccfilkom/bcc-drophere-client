@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontIcon } from 'react-toolbox';
 import style from 'css/drop-file.scss';
+import ProgressBar from '../../common/ProgressBar';
 
 function formatBytes(bytes,decimals) {
     if(bytes == 0) return '0 Bytes';
@@ -16,16 +17,18 @@ function formatPercentage(percent) {
     if(percent == 100)
       return <FontIcon value="check" className={style['icon-small']} />;
     else
-      return <span>{percent}%</span>;
+      return <span>{percent * 100}%</span>;
 }
 export default class FileItem extends Component {
     render() {
+        var finished = this.props.percentage == 1;
         return (
             <div className={style['file-list-item']}>
+                {this.props.percentage != 1 ? <ProgressBar progress={this.props.percentage} /> : ''}
                 <span>{this.props.title}</span>
                 <span className={style['percentage-and-size']}>
                     <span className={style['percentage']}>
-                      {formatPercentage(this.props.percentage)}
+                      {finished ? <span>&#10004;</span> : formatPercentage(this.props.percentage)}
                     </span>
                     {formatBytes(this.props.size)}
                 </span>

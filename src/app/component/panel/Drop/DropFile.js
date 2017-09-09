@@ -4,6 +4,7 @@ import FileItem from './FileItem';
 import axios from 'axios';
 import Loading from '../../common/Loading';
 import Snackbar from 'react-toolbox/lib/snackbar';
+import ProgressBar from '../../common/ProgressBar';
 
 export default class DropFile extends Component {
     state = {
@@ -22,7 +23,7 @@ export default class DropFile extends Component {
             this.setState({
                 message: {
                     ...this.state.message,
-                    stillUploading: true
+                    stillUploading: true 
                 }
             });
             return;
@@ -49,7 +50,7 @@ export default class DropFile extends Component {
         axios.post('http://localhost:3000/api/anjay', formData, {
             // config
             onUploadProgress: (progressEvent) => {
-                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                let percentCompleted = Math.round(progressEvent.loaded / progressEvent.total);
                 // console.log(`Progress: ${percentCompleted} %`)
                 this.setState({
                     uploadProgress: percentCompleted
