@@ -1,3 +1,5 @@
 node_modules
 not_important
 yarn.lock
+package-lock.json
+public/upload_temp/

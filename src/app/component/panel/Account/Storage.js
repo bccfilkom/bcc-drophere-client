@@ -23,16 +23,16 @@ class Storage extends Component {
         this.setState({...this.state, [name]: value});
     };
 
-    updateToken = dropboxtoken => {
+    updateToken = token => {
         axios.post('http://45.32.115.11:6321/graphql', {
             query: `
-            mutation dropboxtoken($dropboxtoken: String!) {
-                dropboxtoken(dropboxtoken: $dropboxtoken) {
+            mutation dropboxtoken($token: String!) {
+                dropboxtoken(token: $token) {
                     msg
                 }
-            }`, 
+            }`,
             variables: {
-                dropboxtoken
+                token
             },
             operationName: 'dropboxtoken'
         }).then(res => {
@@ -41,22 +41,31 @@ class Storage extends Component {
                 console.log(dropboxtoken.msg)
                 return this.props.updateLoading(Storage.DROPBOX_LOADING, false);
             }
-            
+
             console.log(res.data.errors);
         }).catch((res) => {
-            console.log(res, 'fck');
+            console.log(res, 'Error occurred');
         });
     }
 
     onClick = () => {
         updateToken = this.updateToken;
         this.props.updateLoading(Storage.DROPBOX_LOADING);
-        window.open(
+        let win = window.open(
             'https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
             //'http://localhost:3000/dropauth#access_token=_6nPyBosMEYAAAAAAAAQGgGMtMkYvdej6T8p1pi_scWAxH57fZtH8rvmrvmxqCrv&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
             'Authorization',
             `height=400,width=800`
         );
+        const { updateLoading } = this.props;
+        function checkWinClose() {
+          if (!win.closed) {
+            setTimeout(checkWinClose, 500);
+          } else {
+            updateLoading(Storage.DROPBOX_LOADING, false);
+          }
+        }
+        checkWinClose();
     }
 
     renderContent() {
@@ -79,7 +88,7 @@ class Storage extends Component {
     render() {
         return (
             <div className={style.container}>
-                <h1>Koneksi Dropbox</h1>
+                <h1>Koneksi </h1>
                 {this.renderContent()}
                 {this.props.loading ? <Loading /> : '' }
             </div>

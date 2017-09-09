@@ -24413,6 +24413,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
@@ -24426,6 +24428,18 @@ var _dropFile2 = _interopRequireDefault(_dropFile);
 var _FileItem = __webpack_require__(586);
 
 var _FileItem2 = _interopRequireDefault(_FileItem);
+
+var _axios = __webpack_require__(55);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _Loading = __webpack_require__(91);
+
+var _Loading2 = _interopRequireDefault(_Loading);
+
+var _snackbar = __webpack_require__(489);
+
+var _snackbar2 = _interopRequireDefault(_snackbar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24450,28 +24464,79 @@ var DropFile = function (_Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DropFile.__proto__ || Object.getPrototypeOf(DropFile)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
-            file: null
+            file: null,
+            uploadProgress: 0,
+            uploading: false,
+            showUploadingMessage: false,
+            message: {
+                stillUploading: false,
+                fileSizeLimitExceeds: false
+            }
+        }, _this.fileSizeLimitExceedsWarningHandler = function () {
+            _this.setState({ message: _extends({}, _this.state.message, { fileSizeLimitExceeds: false }) });
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(DropFile, [{
         key: 'handleFile',
         value: function handleFile(file) {
-            this.setState({ file: file });
-            // console.log(e.dataTransfer.files.item(0));            
-            // let fr = new FileReader();
-            // fr.onload = ev => {
-            //     console.log(ev.target.result);
-            // }
-            // fr.readAsText(e.dataTransfer.files.item(0));
+            var _this2 = this;
+
+            if (this.state.uploading) {
+                this.setState({
+                    message: _extends({}, this.state.message, {
+                        stillUploading: true
+                    })
+                });
+                return;
+            }
+            // max 10 mb (10 * 1024 * 1024)
+            if (file.size > 10485760) {
+                this.setState({
+                    message: _extends({}, this.state.message, {
+                        fileSizeLimitExceeds: true
+                    })
+                });
+                return;
+            }
+
+            this.setState({
+                file: file,
+                uploadProgress: 0,
+                uploading: true
+            });
+
+            var formData = new FormData();
+            formData.append('photo', file);
+            _axios2.default.post('http://localhost:3000/api/anjay', formData, {
+                // config
+                onUploadProgress: function onUploadProgress(progressEvent) {
+                    var percentCompleted = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+                    // console.log(`Progress: ${percentCompleted} %`)
+                    _this2.setState({
+                        uploadProgress: percentCompleted
+                    });
+                }
+            }).then(function (res) {
+                _this2.setState({ uploading: false });
+                // console.log(`Upload File Completed:`, res)
+            }).catch(function (error) {
+                _this2.setState({ uploading: false });
+                // console.log(`Error Uploading file: ${error}`)
+            });
+        }
+    }, {
+        key: 'stillUploadingWarningHandler',
+        value: function stillUploadingWarningHandler() {
+            this.setState({ message: _extends({}, this.state.message, { stillUploading: false }) });
         }
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             var fileList = void 0;
-            if (this.state.file && _typeof(this.state.file) === "object") fileList = _react2.default.createElement(_FileItem2.default, { title: this.state.file.name, size: this.state.file.size });
+            if (this.state.file && _typeof(this.state.file) === "object") fileList = _react2.default.createElement(_FileItem2.default, { title: this.state.file.name, size: this.state.file.size, percentage: this.state.uploadProgress });
 
             return _react2.default.createElement(
                 'div',
@@ -24496,7 +24561,7 @@ var DropFile = function (_Component) {
                     {
                         className: _dropFile2.default['drop-file-container'],
                         ref: function ref(el) {
-                            return _this2.dropArea = el;
+                            return _this3.dropArea = el;
                         } },
                     _react2.default.createElement(
                         'span',
@@ -24519,51 +24584,77 @@ var DropFile = function (_Component) {
                                 { className: _dropFile2.default['upload-file-button'] },
                                 'PILIH FILE UNTUK DIUNGGAH'
                             ),
-                            _react2.default.createElement('input', { type: 'file', ref: function ref(e) {
-                                    return _this2.fileUploadElement = e;
-                                }, name: 'uploadFile', id: 'uploadFile', className: _dropFile2.default['upload-file'] })
+                            _react2.default.createElement('input', {
+                                type: 'file',
+                                ref: function ref(e) {
+                                    return _this3.fileUploadElement = e;
+                                },
+                                name: 'uploadFile',
+                                id: 'uploadFile',
+                                className: _dropFile2.default['upload-file'],
+                                disabled: this.state.uploading
+                            })
                         )
-                    )
+                    ),
+                    this.state.uploading ? _react2.default.createElement(_Loading2.default, null) : ''
                 ),
                 _react2.default.createElement(
                     'div',
                     {
                         ref: function ref(e) {
-                            return _this2.fileListContainer = e;
+                            return _this3.fileListContainer = e;
                         },
                         className: _dropFile2.default['file-list-container'] },
                     fileList
-                )
+                ),
+                _react2.default.createElement(_snackbar2.default, {
+                    action: 'Dismiss',
+                    active: this.state.message.stillUploading,
+                    label: 'Harap tunggu, sedang mengunggah file.',
+                    timeout: 3000,
+                    onTimeout: this.stillUploadingWarningHandler.bind(this),
+                    onClick: this.stillUploadingWarningHandler.bind(this),
+                    type: 'warning'
+                }),
+                _react2.default.createElement(_snackbar2.default, {
+                    action: 'Dismiss',
+                    active: this.state.message.fileSizeLimitExceeds,
+                    label: 'Ukuran file melebihi batas (10 MB)',
+                    timeout: 3000,
+                    onTimeout: this.fileSizeLimitExceedsWarningHandler,
+                    onClick: this.fileSizeLimitExceedsWarningHandler,
+                    type: 'warning'
+                })
             );
         }
     }, {
         key: 'componentDidMount',
         value: function componentDidMount() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.dropArea.ondragenter = function (e, event) {
                 e.preventDefault();
-                _this3.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
+                _this4.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
             };
             this.dropArea.ondragover = function (e) {
                 e.preventDefault();
-                if (!_this3.dropArea.classList.contains(_dropFile2.default['drop-file-container-ondrag'])) _this3.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
+                if (!_this4.dropArea.classList.contains(_dropFile2.default['drop-file-container-ondrag'])) _this4.dropArea.classList.add(_dropFile2.default['drop-file-container-ondrag']);
             };
             this.dropArea.ondragleave = function (e) {
                 e.preventDefault();
-                _this3.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
+                _this4.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
             };
             this.dropArea.ondrop = function (e) {
                 e.preventDefault();
-                _this3.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
+                _this4.dropArea.classList.remove(_dropFile2.default['drop-file-container-ondrag']);
                 // console.log(typeof e.dataTransfer.files.item(0) === "object");
                 // console.log(e.dataTransfer.files.item(0));
                 // this.selectedFile = e.dataTransfer.files.item(0);
-                _this3.handleFile(e.dataTransfer.files.item(0));
+                _this4.handleFile(e.dataTransfer.files.item(0));
             };
             this.fileUploadElement.onchange = function (e) {
                 e.preventDefault();
-                _this3.handleFile(e.target.files[0]);
+                _this4.handleFile(e.target.files[0]);
                 // console.log(e.target.files);
                 // console.log(e.dataTransfer.files);
             };
@@ -63293,11 +63384,11 @@ var Storage = function (_Component) {
             password: ''
         }, _this.handleChange = function (name, value) {
             _this.setState(_extends({}, _this.state, _defineProperty({}, name, value)));
-        }, _this.updateToken = function (dropboxtoken) {
+        }, _this.updateToken = function (token) {
             _axios2.default.post('http://45.32.115.11:6321/graphql', {
-                query: '\n            mutation dropboxtoken($dropboxtoken: String!) {\n                dropboxtoken(dropboxtoken: $dropboxtoken) {\n                    msg\n                }\n            }',
+                query: '\n            mutation dropboxtoken($token: String!) {\n                dropboxtoken(token: $token) {\n                    msg\n                }\n            }',
                 variables: {
-                    dropboxtoken: dropboxtoken
+                    token: token
                 },
                 operationName: 'dropboxtoken'
             }).then(function (res) {
@@ -63309,14 +63400,24 @@ var Storage = function (_Component) {
 
                 console.log(res.data.errors);
             }).catch(function (res) {
-                console.log(res, 'fck');
+                console.log(res, 'Error occurred');
             });
         }, _this.onClick = function () {
             updateToken = _this.updateToken;
             _this.props.updateLoading(Storage.DROPBOX_LOADING);
-            window.open('https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
+            var win = window.open('https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
             //'http://localhost:3000/dropauth#access_token=_6nPyBosMEYAAAAAAAAQGgGMtMkYvdej6T8p1pi_scWAxH57fZtH8rvmrvmxqCrv&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
             'Authorization', 'height=400,width=800');
+            var updateLoading = _this.props.updateLoading;
+
+            function checkWinClose() {
+                if (!win.closed) {
+                    setTimeout(checkWinClose, 500);
+                } else {
+                    updateLoading(Storage.DROPBOX_LOADING, false);
+                }
+            }
+            checkWinClose();
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -63347,7 +63448,7 @@ var Storage = function (_Component) {
                 _react2.default.createElement(
                     'h1',
                     null,
-                    'Koneksi Dropbox'
+                    'Koneksi '
                 ),
                 this.renderContent(),
                 this.props.loading ? _react2.default.createElement(_Loading2.default, null) : ''
@@ -63671,6 +63772,15 @@ function formatBytes(bytes, decimals) {
         i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
+function formatPercentage(percent) {
+    if (isNaN(percent)) percent = 0;
+    if (percent == 100) return _react2.default.createElement(_reactToolbox.FontIcon, { value: 'check', className: _dropFile2.default['icon-small'] });else return _react2.default.createElement(
+        'span',
+        null,
+        percent,
+        '%'
+    );
+}
 
 var FileItem = function (_Component) {
     _inherits(FileItem, _Component);
@@ -63694,7 +63804,12 @@ var FileItem = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'span',
-                    null,
+                    { className: _dropFile2.default['percentage-and-size'] },
+                    _react2.default.createElement(
+                        'span',
+                        { className: _dropFile2.default['percentage'] },
+                        formatPercentage(this.props.percentage)
+                    ),
                     formatBytes(this.props.size)
                 )
             );
@@ -63810,7 +63925,6 @@ var Password = function (_Component) {
     _createClass(Password, [{
         key: 'render',
         value: function render() {
-            console.log('tahe');
             return _react2.default.createElement(
                 'div',
                 { className: _dropFile2.default.container },
@@ -65655,11 +65769,13 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, ".drop-file--font-small--9oUKQe9M {\n  font-size: 16px !important; }\n\n.drop-file--container--1nC4WL-_ {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-weight: 300;\n  font-size: 8pt;\n  height: 100%; }\n  .drop-file--container--1nC4WL-_ .drop-file--title--ty6QjEjb {\n    font-weight: 300;\n    font-size: 25px; }\n  .drop-file--container--1nC4WL-_ .drop-file--subtitle--2hJBZFcv {\n    font-weight: 300;\n    font-size: 14px;\n    color: #5a5a5a;\n    line-height: 2; }\n  .drop-file--container--1nC4WL-_ .drop-file--time-limit--1Yus66_d {\n    color: #e74c3c;\n    font-weight: 500; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-title--3IQjA9hO {\n    font-size: 20px; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-separator--1PDztIa6 {\n    font-size: 15px; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-file-container-ondrag--3vwENL96 {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-file-container--hLl0Y1hb {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 100%;\n    max-height: 340px; }\n  .drop-file--container--1nC4WL-_ .drop-file--file-list-container--3N8b0EjX {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .drop-file--container--1nC4WL-_ .drop-file--file-list-item--3jhAUZtH {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    font-size: 16px; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-container--P2A5siLS {\n    margin: 20px 0; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file--1VtV412W {\n    display: none; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-button--2AJ4yAHF {\n    padding: 7px 12px;\n    border-radius: 12px;\n    border: 1px solid #858585;\n    -webkit-transition: .3s;\n    transition: .3s;\n    cursor: pointer; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-button--2AJ4yAHF:hover {\n    background-color: #318bf3;\n    border-color: #318bf3;\n    color: #eeeeee;\n    -webkit-transition: .3s;\n    transition: .3s; }\n", "", {"version":3,"sources":["/./src/app/css/drop-file.scss"],"names":[],"mappings":"AAAA;EACE,2BAA2B,EAAE;;AAE/B;EACE,gCAAgC;EAChC,gCAAgC;EAChC,yBAAyB;EACzB,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;EAC5B,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB;EAC/B,iBAAiB;EACjB,eAAe;EACf,aAAa,EAAE;EACf;IACE,iBAAiB;IACjB,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,gBAAgB;IAChB,eAAe;IACf,eAAe,EAAE;EACnB;IACE,eAAe;IACf,iBAAiB,EAAE;EACrB;IACE,gBAAgB,EAAE;EACpB;IACE,gBAAgB,EAAE;EACpB;IACE,qCAAqC;IACrC,eAAe,EAAE;EACnB;IACE,iBAAiB;IACjB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,WAAW;IACX,aAAa;IACb,kBAAkB,EAAE;EACtB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,iBAAiB;IACjB,WAAW,EAAE;EACf;IACE,YAAY;IACZ,mBAAmB;IACnB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,+BAA+B;IAC/B,8BAA8B;QAC1B,wBAAwB;YACpB,oBAAoB;IAC5B,0BAA0B;QACtB,uBAAuB;YACnB,+BAA+B;IACvC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,gBAAgB,EAAE;EACpB;IACE,eAAe,EAAE;EACnB;IACE,cAAc,EAAE;EAClB;IACE,kBAAkB;IAClB,oBAAoB;IACpB,0BAA0B;IAC1B,wBAAwB;IACxB,gBAAgB;IAChB,gBAAgB,EAAE;EACpB;IACE,0BAA0B;IAC1B,sBAAsB;IACtB,eAAe;IACf,wBAAwB;IACxB,gBAAgB,EAAE","file":"drop-file.scss","sourcesContent":[".font-small {\n  font-size: 16px !important; }\n\n.container {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-weight: 300;\n  font-size: 8pt;\n  height: 100%; }\n  .container .title {\n    font-weight: 300;\n    font-size: 25px; }\n  .container .subtitle {\n    font-weight: 300;\n    font-size: 14px;\n    color: #5a5a5a;\n    line-height: 2; }\n  .container .time-limit {\n    color: #e74c3c;\n    font-weight: 500; }\n  .container .drop-title {\n    font-size: 20px; }\n  .container .drop-separator {\n    font-size: 15px; }\n  .container .drop-file-container-ondrag {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .container .drop-file-container {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 100%;\n    max-height: 340px; }\n  .container .file-list-container {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .container .file-list-item {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    font-size: 16px; }\n  .container .upload-file-container {\n    margin: 20px 0; }\n  .container .upload-file {\n    display: none; }\n  .container .upload-file-button {\n    padding: 7px 12px;\n    border-radius: 12px;\n    border: 1px solid #858585;\n    -webkit-transition: .3s;\n    transition: .3s;\n    cursor: pointer; }\n  .container .upload-file-button:hover {\n    background-color: #318bf3;\n    border-color: #318bf3;\n    color: #eeeeee;\n    -webkit-transition: .3s;\n    transition: .3s; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, ".drop-file--icon-small--39eD3h6y {\n  font-size: 16px; }\n\n.drop-file--percentage--3_aWys9A {\n  padding-right: 10px; }\n\n.drop-file--percentage-and-size--2ySe51wB {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.drop-file--container--1nC4WL-_ {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-weight: 300;\n  font-size: 8pt;\n  height: 100%; }\n  .drop-file--container--1nC4WL-_ .drop-file--title--ty6QjEjb {\n    font-weight: 300;\n    font-size: 25px; }\n  .drop-file--container--1nC4WL-_ .drop-file--subtitle--2hJBZFcv {\n    font-weight: 300;\n    font-size: 14px;\n    color: #5a5a5a;\n    line-height: 2; }\n  .drop-file--container--1nC4WL-_ .drop-file--time-limit--1Yus66_d {\n    color: #e74c3c;\n    font-weight: 500; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-title--3IQjA9hO {\n    font-size: 20px; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-separator--1PDztIa6 {\n    font-size: 15px; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-file-container-ondrag--3vwENL96 {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .drop-file--container--1nC4WL-_ .drop-file--drop-file-container--hLl0Y1hb {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 100%;\n    max-height: 340px; }\n  .drop-file--container--1nC4WL-_ .drop-file--file-list-container--3N8b0EjX {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .drop-file--container--1nC4WL-_ .drop-file--file-list-item--3jhAUZtH {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    font-size: 16px; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-container--P2A5siLS {\n    margin: 20px 0; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file--1VtV412W {\n    display: none; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-button--2AJ4yAHF {\n    padding: 7px 12px;\n    border-radius: 12px;\n    border: 1px solid #858585;\n    -webkit-transition: .3s;\n    transition: .3s;\n    cursor: pointer; }\n  .drop-file--container--1nC4WL-_ .drop-file--upload-file-button--2AJ4yAHF:hover {\n    background-color: #318bf3;\n    border-color: #318bf3;\n    color: #eeeeee;\n    -webkit-transition: .3s;\n    transition: .3s; }\n  .drop-file--container--1nC4WL-_ .drop-file--still-uploading-message--1Y04pR0B {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    font-size: 16px;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    color: red;\n    background-color: #e4eff3;\n    width: 90%; }\n", "", {"version":3,"sources":["/./src/app/css/drop-file.scss"],"names":[],"mappings":"AAAA;EACE,gBAAgB,EAAE;;AAEpB;EACE,oBAAoB,EAAE;;AAExB;EACE,qBAAqB;EACrB,qBAAqB;EACrB,cAAc;EACd,+BAA+B;EAC/B,8BAA8B;MAC1B,wBAAwB;UACpB,oBAAoB,EAAE;;AAEhC;EACE,gCAAgC;EAChC,gCAAgC;EAChC,yBAAyB;EACzB,0BAA0B;MACtB,uBAAuB;UACnB,oBAAoB;EAC5B,6BAA6B;EAC7B,8BAA8B;MAC1B,2BAA2B;UACvB,uBAAuB;EAC/B,iBAAiB;EACjB,eAAe;EACf,aAAa,EAAE;EACf;IACE,iBAAiB;IACjB,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,gBAAgB;IAChB,eAAe;IACf,eAAe,EAAE;EACnB;IACE,eAAe;IACf,iBAAiB,EAAE;EACrB;IACE,gBAAgB,EAAE;EACpB;IACE,gBAAgB,EAAE;EACpB;IACE,qCAAqC;IACrC,eAAe,EAAE;EACnB;IACE,iBAAiB;IACjB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,WAAW;IACX,aAAa;IACb,kBAAkB,EAAE;EACtB;IACE,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;QAC1B,2BAA2B;YACvB,uBAAuB;IAC/B,0BAA0B;QACtB,uBAAuB;YACnB,oBAAoB;IAC5B,iBAAiB;IACjB,WAAW,EAAE;EACf;IACE,YAAY;IACZ,mBAAmB;IACnB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,+BAA+B;IAC/B,8BAA8B;QAC1B,wBAAwB;YACpB,oBAAoB;IAC5B,0BAA0B;QACtB,uBAAuB;YACnB,+BAA+B;IACvC,oBAAoB;IACpB,0BAA0B;IAC1B,0BAA0B;IAC1B,gBAAgB,EAAE;EACpB;IACE,eAAe,EAAE;EACnB;IACE,cAAc,EAAE;EAClB;IACE,kBAAkB;IAClB,oBAAoB;IACpB,0BAA0B;IAC1B,wBAAwB;IACxB,gBAAgB;IAChB,gBAAgB,EAAE;EACpB;IACE,0BAA0B;IAC1B,sBAAsB;IACtB,eAAe;IACf,wBAAwB;IACxB,gBAAgB,EAAE;EACpB;IACE,iBAAiB;IACjB,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,yBAAyB;QACrB,sBAAsB;YAClB,wBAAwB;IAChC,gBAAgB;IAChB,oBAAoB;IACpB,0BAA0B;IAC1B,WAAW;IACX,0BAA0B;IAC1B,WAAW,EAAE","file":"drop-file.scss","sourcesContent":[".icon-small {\n  font-size: 16px; }\n\n.percentage {\n  padding-right: 10px; }\n\n.percentage-and-size {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: row;\n          flex-direction: row; }\n\n.container {\n  display: -webkit-box !important;\n  display: -ms-flexbox !important;\n  display: flex !important;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  font-weight: 300;\n  font-size: 8pt;\n  height: 100%; }\n  .container .title {\n    font-weight: 300;\n    font-size: 25px; }\n  .container .subtitle {\n    font-weight: 300;\n    font-size: 14px;\n    color: #5a5a5a;\n    line-height: 2; }\n  .container .time-limit {\n    color: #e74c3c;\n    font-weight: 500; }\n  .container .drop-title {\n    font-size: 20px; }\n  .container .drop-separator {\n    font-size: 15px; }\n  .container .drop-file-container-ondrag {\n    background-color: #318bf3 !important;\n    color: #ffffff; }\n  .container .drop-file-container {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    width: 90%;\n    height: 100%;\n    max-height: 340px; }\n  .container .file-list-container {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: column;\n            flex-direction: column;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    margin-top: 15px;\n    width: 90%; }\n  .container .file-list-item {\n    width: 100%;\n    padding: 10px 15px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n        -ms-flex-direction: row;\n            flex-direction: row;\n    -webkit-box-pack: justify;\n        -ms-flex-pack: justify;\n            justify-content: space-between;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    background-color: #e4eff3;\n    font-size: 16px; }\n  .container .upload-file-container {\n    margin: 20px 0; }\n  .container .upload-file {\n    display: none; }\n  .container .upload-file-button {\n    padding: 7px 12px;\n    border-radius: 12px;\n    border: 1px solid #858585;\n    -webkit-transition: .3s;\n    transition: .3s;\n    cursor: pointer; }\n  .container .upload-file-button:hover {\n    background-color: #318bf3;\n    border-color: #318bf3;\n    color: #eeeeee;\n    -webkit-transition: .3s;\n    transition: .3s; }\n  .container .still-uploading-message {\n    margin-top: 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    font-size: 16px;\n    border-radius: 10px;\n    border: 1px solid #d0d0d0;\n    color: red;\n    background-color: #e4eff3;\n    width: 90%; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 exports.locals = {
-	"font-small": "drop-file--font-small--9oUKQe9M",
+	"icon-small": "drop-file--icon-small--39eD3h6y",
+	"percentage": "drop-file--percentage--3_aWys9A",
+	"percentage-and-size": "drop-file--percentage-and-size--2ySe51wB",
 	"container": "drop-file--container--1nC4WL-_",
 	"title": "drop-file--title--ty6QjEjb",
 	"subtitle": "drop-file--subtitle--2hJBZFcv",
@@ -65672,7 +65788,8 @@ exports.locals = {
 	"file-list-item": "drop-file--file-list-item--3jhAUZtH",
 	"upload-file-container": "drop-file--upload-file-container--P2A5siLS",
 	"upload-file": "drop-file--upload-file--1VtV412W",
-	"upload-file-button": "drop-file--upload-file-button--2AJ4yAHF"
+	"upload-file-button": "drop-file--upload-file-button--2AJ4yAHF",
+	"still-uploading-message": "drop-file--still-uploading-message--1Y04pR0B"
 };
 
 /***/ }),

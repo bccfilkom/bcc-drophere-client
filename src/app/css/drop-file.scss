@@ -1,5 +1,12 @@
-.font-small {
-    font-size: 16px !important;
+.icon-small {
+    font-size: 16px;
+}
+.percentage {
+    padding-right: 10px;
+}
+.percentage-and-size {
+  display: flex;
+  flex-direction: row;
 }
 .container {
     display: flex !important;
@@ -29,7 +36,7 @@
     .drop-separator {
         font-size: 15px;
     }
-    .drop-file-container-ondrag { 
+    .drop-file-container-ondrag {
         background-color: #318bf3 !important;
         color: #ffffff;
     }
@@ -43,6 +50,7 @@
         border: 1px solid rgb(208, 208, 208);
         background-color: rgb(228, 239, 243);
         width: 90%;
+
         height: 100%;
         max-height: 340px
     }
@@ -88,5 +96,17 @@
         border-color: #318bf3;
         color: #eeeeee;
         transition: .3s;
+    }
+    .still-uploading-message {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 1px solid rgb(208, 208, 208);
+        color: red;
+        background-color: rgb(228, 239, 243);
+        width: 90%;
+
     }
 }

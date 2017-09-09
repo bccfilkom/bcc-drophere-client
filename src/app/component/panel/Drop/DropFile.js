@@ -1,32 +1,89 @@
 import React, { Component } from 'react';
 import style from 'css/drop-file.scss';
 import FileItem from './FileItem';
+import axios from 'axios';
+import Loading from '../../common/Loading';
+import Snackbar from 'react-toolbox/lib/snackbar';
 
 export default class DropFile extends Component {
     state = {
-        file: null
+        file: null,
+        uploadProgress: 0,
+        uploading: false,
+        showUploadingMessage: false,
+        message: {
+            stillUploading: false,
+            fileSizeLimitExceeds: false
+        }
     }
 
     handleFile(file) {
-        this.setState({ file });
-        // console.log(e.dataTransfer.files.item(0));            
-        // let fr = new FileReader();
-        // fr.onload = ev => {
-        //     console.log(ev.target.result);
-        // }
-        // fr.readAsText(e.dataTransfer.files.item(0));
+        if (this.state.uploading) {
+            this.setState({
+                message: {
+                    ...this.state.message,
+                    stillUploading: true
+                }
+            });
+            return;
+        }
+        // max 10 mb (10 * 1024 * 1024)
+        if(file.size > 10485760){
+            this.setState({
+                message: {
+                    ...this.state.message,
+                    fileSizeLimitExceeds: true
+                }
+            })
+            return;
+        }
+
+        this.setState({
+            file,
+            uploadProgress: 0,
+            uploading: true
+        });
+
+        const formData = new FormData();
+        formData.append('photo', file);
+        axios.post('http://localhost:3000/api/anjay', formData, {
+            // config
+            onUploadProgress: (progressEvent) => {
+                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                // console.log(`Progress: ${percentCompleted} %`)
+                this.setState({
+                    uploadProgress: percentCompleted
+                })
+            }
+        })
+            .then(res => {
+                this.setState({ uploading: false });
+                // console.log(`Upload File Completed:`, res)
+            })
+            .catch(error => {
+                this.setState({ uploading: false });
+                // console.log(`Error Uploading file: ${error}`)
+            });
+    }
+
+    stillUploadingWarningHandler() {
+        this.setState({ message: { ...this.state.message, stillUploading: false } });
+    }
+    fileSizeLimitExceedsWarningHandler = () => {
+        this.setState({ message: { ...this.state.message, fileSizeLimitExceeds: false } });
     }
 
     render() {
         let fileList;
         if (this.state.file && typeof this.state.file === "object")
-            fileList = <FileItem title={this.state.file.name} size={this.state.file.size} />;
+            fileList = <FileItem title={this.state.file.name} size={this.state.file.size} percentage={this.state.uploadProgress} />;
 
         return (
             <div className={style.container}>
                 <span className={style.title}>Kirim File ke Laporan Praktikum Bab 4</span>
                 <span className={style.subtitle}>Tarik atau pilih file untuk diunggah</span>
                 <span className={style['time-limit']}>Tautan akan ditutup pada : Minggu, 27 Agustus 2017 pukul 23:59 WIB</span>
+
                 <div
                     className={style['drop-file-container']}
                     ref={el => this.dropArea = el}>
@@ -35,15 +92,42 @@ export default class DropFile extends Component {
                     <div className={style['upload-file-container']}>
                         <label for="uploadFile">
                             <span className={style['upload-file-button']}>PILIH FILE UNTUK DIUNGGAH</span>
-                            <input type="file" ref={e => this.fileUploadElement = e} name="uploadFile" id="uploadFile" className={style['upload-file']} />
+                            <input
+                                type="file"
+                                ref={e => this.fileUploadElement = e}
+                                name="uploadFile"
+                                id="uploadFile"
+                                className={style['upload-file']}
+                                disabled={this.state.uploading}
+                            />
                         </label>
                     </div>
+                    {this.state.uploading ? <Loading /> : ''}
                 </div>
                 <div
                     ref={e => this.fileListContainer = e}
                     className={style['file-list-container']}>
                     {fileList}
                 </div>
+
+                <Snackbar
+                    action="Dismiss"
+                    active={this.state.message.stillUploading}
+                    label="Harap tunggu, sedang mengunggah file."
+                    timeout={3000}
+                    onTimeout={this.stillUploadingWarningHandler.bind(this)}
+                    onClick={this.stillUploadingWarningHandler.bind(this)}
+                    type="warning"
+                />
+                <Snackbar
+                    action="Dismiss"
+                    active={this.state.message.fileSizeLimitExceeds}
+                    label="Ukuran file melebihi batas (10 MB)"
+                    timeout={3000}
+                    onTimeout={this.fileSizeLimitExceedsWarningHandler}
+                    onClick={this.fileSizeLimitExceedsWarningHandler}
+                    type="warning"
+                />
             </div>
         );
     }
