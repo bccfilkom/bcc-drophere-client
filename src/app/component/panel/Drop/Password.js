@@ -3,7 +3,6 @@ import style from 'css/drop-file.scss';
 import PasswordInput from './PasswordInput'
 export default class Password extends Component {
     render() {
-        console.log('tahe');
         return (
             <div className={style.container}>
                 <span className={style.title}>Kirim File ke Laporan Praktikum Bab 4</span>

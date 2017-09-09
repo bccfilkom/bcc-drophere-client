@@ -2,7 +2,9 @@
 const express = require('express');
 var app = express();
 const path = require('path');
-
+const fs = require('fs');
+const multer = require('multer');
+const upload = multer({ dest: 'public/upload_temp' });
 //ROUTER CONFIG (API)
 module.exports = function (router) {
     app = router ? router : app;
@@ -12,6 +14,19 @@ module.exports = function (router) {
     });
 
     //OTHER API CODE
+    app.post('/anjay', upload.single('photo'), (req, res) => {
+        res.json({
+            message: 'OK',
+            filename: `${req.file.filename}`
+        })
+        console.log(`File Uploaded:
+        OriginalName ${req.file.originalname}
+        Form FieldName: ${req.file.fieldname}
+        Size: ${req.file.size}
+        Path: ${req.file.path}`
+        );
+        fs.unlinkSync(req.file.path);
+    });
 };
 
 //SOME FUNCTION MAY HELP
@@ -21,6 +36,6 @@ function getSpecificData(obj, ...data) {
     return res;
 }
 
-function authenticate (req, res, next) {
+function authenticate(req, res, next) {
     //for authentication
 }
