@@ -14,7 +14,7 @@ export default class Drop extends Component {
     
     render() {
         return (
-            <div className={style.container}>
+            <div className={style.container} style={{height: '100%'}}>
                 <div className={style.header}>
                     <Header />
                 </div>

@@ -6,6 +6,7 @@ import ReduxPromise from 'redux-promise';
 import reducer from './reducer';
 import AppRouter from './AppRouter';
 
+
 class App extends Component {
     render() {
         return (

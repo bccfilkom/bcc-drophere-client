@@ -29,7 +29,7 @@ class Content extends Component {
         
         if (pathname.search('/account/profile') != -1) {
             this.props.updateSelected(MENU, 0);
-        } else if (pathname.search('/account/connection') != -1) {
+        } else if (pathname.search('/account/storage') != -1) {
             this.props.updateSelected(MENU, 1);
         } else if (pathname.search('/account/pages') != -1) {
             this.props.updateSelected(MENU, 2);

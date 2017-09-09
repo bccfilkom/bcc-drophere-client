@@ -3,6 +3,7 @@ import Input from 'react-toolbox/lib/input';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
 import * as actions from 'action';
+import axios from 'axios';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
@@ -11,7 +12,37 @@ import style from 'css/account-profile.scss';
 
 import Loading from '../../common/Loading';
 
+var UPDATE_DATA = 'updateProfileData';
+var GET_DATA = 'getProfileData';
+
 class Profile extends Component {
+    componentDidMount() {
+        return;
+        this.props.updateLoading(Profile.GET_DATA);
+        axios.post('http://45.32.115.11:6321/graphql', {
+            query: `
+            mutation dropboxtoken($dropboxtoken: String!) {
+                dropboxtoken(dropboxtoken: $dropboxtoken) {
+                    msg
+                }
+            }`, 
+            variables: {
+                dropboxtoken
+            },
+            operationName: 'dropboxtoken'
+        }).then(res => {
+            var dropboxtoken = res.data.data.dropboxtoken;
+            if (dropboxtoken) {
+                console.log(dropboxtoken.msg)
+                return this.props.updateLoading(Storage.DROPBOX_LOADING, false);
+            }
+            
+            console.log(res.data.errors);
+        }).catch((res) => {
+            console.log(res, 'fck');
+        });
+    }
+
     state = {
         username: '',
         password: '',
@@ -22,17 +53,13 @@ class Profile extends Component {
         this.setState({...this.state, [name]: value});
     };
 
-    static id = "profileLoading";
-
     onSubmit = e => {
-        console.log('aoaooas')
         e.preventDefault();
-        
-        this.props.updateLoading(Profile.id);
+        this.props.updateLoading(UPDATE_DATA);
     }
 
     componentWillAppear() {
-        console.log($('switch-wrapper > div'));
+        
     }
 
     render() {
@@ -73,7 +100,7 @@ class Profile extends Component {
 }
 
 function mapStateToProps({ loading }, props) {
-    return { loading: loading[Profile.id] };
+    return { loading: loading[UPDATE_DATA] || loading[GET_DATA]};
 }
 
 export default connect(mapStateToProps, actions)(Profile);
