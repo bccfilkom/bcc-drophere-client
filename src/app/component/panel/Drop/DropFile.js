@@ -11,7 +11,6 @@ export default class DropFile extends Component {
         file: null,
         uploadProgress: 0,
         uploading: false,
-        showUploadingMessage: false,
         message: {
             stillUploading: false,
             fileSizeLimitExceeds: false
@@ -50,7 +49,7 @@ export default class DropFile extends Component {
         axios.post('http://localhost:3000/api/anjay', formData, {
             // config
             onUploadProgress: (progressEvent) => {
-                let percentCompleted = Math.round(progressEvent.loaded / progressEvent.total);
+                let percentCompleted = (progressEvent.loaded / progressEvent.total);
                 // console.log(`Progress: ${percentCompleted} %`)
                 this.setState({
                     uploadProgress: percentCompleted

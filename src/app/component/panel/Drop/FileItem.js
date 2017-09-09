@@ -17,7 +17,7 @@ function formatPercentage(percent) {
     if(percent == 100)
       return <FontIcon value="check" className={style['icon-small']} />;
     else
-      return <span>{percent * 100}%</span>;
+      return <span>{(percent * 100).toFixed()}%</span>;
 }
 export default class FileItem extends Component {
     render() {
