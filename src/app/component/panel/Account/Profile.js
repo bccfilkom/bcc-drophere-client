@@ -47,31 +47,34 @@ class Profile extends Component {
         username: '',
         password: '',
         email: '',
+        retype: '',
     }
 
     handleChange = (name, value) => {
         this.setState({...this.state, [name]: value});
     };
 
-    onSubmit = e => {
+    onSave = e => {
         e.preventDefault();
         this.props.updateLoading(UPDATE_DATA);
     }
 
-    componentWillAppear() {
-        
+    onUpdatePassword = e => {
+        e.preventDefault();
+        this.props.updateLoading(UPDATE_DATA);
     }
 
     render() {
         return (
             <div className={style.container + ' opening-transition'}>
-                <h1>Profil</h1>
                 <form onSubmit={this.onSubmit}>
+                <h1>Profil</h1>
                 <Input
                     type="text"
                     label="Username"
                     value={this.state.username}
                     onChange={this.handleChange.bind(this, 'username')}
+                    disabled
                 />
 
                 <Input
@@ -80,16 +83,26 @@ class Profile extends Component {
                     value={this.state.email}
                     onChange={this.handleChange.bind(this, 'email')}
                 />
-                
+                <div className={style['button-wrapper']}>
+                    <Button theme={theme1} onClick={this.onSave} icon="save" label="Save" raised primary />
+                </div>
+
+                <h1 style={{marginTop: 40}}>Change Password</h1>
                 <Input
                     type="text"
-                    label="Password"
+                    label="New Password"
                     value={this.state.passowrd}
                     onChange={this.handleChange.bind(this, 'password')}
                 />
+                <Input
+                    type="text"
+                    label="Retype Password"
+                    value={this.state.retype}
+                    onChange={this.handleChange.bind(this, 'retype')}
+                />
 
                 <div className={style['button-wrapper']}>
-                    <Button theme={theme1} onClick={this.onSubmit} icon="save" label="Save" raised primary />
+                    <Button theme={theme1} onClick={this.onUpdatePassword} icon="update" label="Update" raised primary />
                 </div>
 
                 {this.props.loading ? <Loading /> : '' }

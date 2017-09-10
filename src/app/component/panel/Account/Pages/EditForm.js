@@ -13,17 +13,27 @@ export default class NewPage extends Component {
         password: '',
         title: '',
         description: '',
-        notification: '',
-        deadline: '',
+        deadline: null,
     } 
 
     handleChange(name, value) {
         this.setState({[name]: value});
     }
 
+    onDelete = e => {
+        e.preventDefault();
+    }
+
+    onSave = e => {
+        e.preventDefault();
+
+        
+    }
+
     render() {
         return (
             <div>
+            <form>
             <SeparatedInput caption="http://bccdrophere.dev/">
                 <Input
                 hint="halaman"
@@ -60,17 +70,8 @@ export default class NewPage extends Component {
                 />
             </SeparatedInput>
             
-            <SeparatedInput caption="Notification">
-                <Input
-                hint="Jangan kirim notifikasi"
-                type="text"
-                value={this.state.notification}
-                onChange={this.handleChange.bind(this, 'notification')}
-                />
-            </SeparatedInput>
-            
             <SeparatedInput caption="Deadline">
-                <Input
+                <DatePicker
                     hint="Tautan akan mati pada deadline yang ditentukan"
                     type="text"
                     value={this.state.deadline}
@@ -79,9 +80,11 @@ export default class NewPage extends Component {
             </SeparatedInput>
 
                 <div className={style.btn}>
-                    <CustomButton red >Hapus Tautan</CustomButton>
-                    <CustomButton>Simpan</CustomButton>
+                    <CustomButton red onClick={this.onDelete} >Hapus Tautan</CustomButton>
+                    <CustomButton onClick={this.onSave}>Simpan</CustomButton>
                 </div>
+
+            </form>
             </div>
         );
     }

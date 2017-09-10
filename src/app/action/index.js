@@ -6,6 +6,7 @@ import {
     UPDATE_LOADING,
     LOGIN,
     UPDATE_PARTICLE,
+    GET_LINKS
 } from './types';
 
 export const updateSelected = (id, selected) => ({ type: UPDATE_SELECTED, id, selected });
@@ -65,5 +66,29 @@ export const login = (username, password) => axios.post('http://45.32.115.11:632
 });
 
 export const updateParticle = payload => ({type: UPDATE_PARTICLE, payload});
+
+export const getLinks = () => axios.post('http://45.32.115.11:6321/graphql', {
+    query: `
+    query {
+        links {
+            id
+            title
+            url
+            deskripsi
+            isProtected
+            deadline
+            password
+        }
+    }`
+}).then(res => {
+    var links = res.data.data.links;
+    if (links) {
+        return { type: GET_LINKS, links};
+    }
+    
+    return {type: GET_LINKS, errors: res.data.errors, error: res.data.errors[0].message};
+}).catch((res) => {
+    console.log(res, 'fck');
+});
 
 //TEMPAT MENGUBAH STATE

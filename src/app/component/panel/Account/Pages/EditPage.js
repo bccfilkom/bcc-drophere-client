@@ -11,9 +11,7 @@ import EditForm from './EditForm';
 
 export default class EditPage extends Component {
     componentWillMount() {
-        axios.get('/json/pages.json').then(res => {
-            this.setState({data: res.data});
-        });
+        this.props.getLinks();
     }
 
     state = {

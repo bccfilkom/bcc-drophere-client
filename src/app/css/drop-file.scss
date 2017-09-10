@@ -52,7 +52,6 @@
         width: 90%;
 
         height: 100%;
-        max-height: 340px
     }
     .file-list-container {
         display: flex;
@@ -92,7 +91,7 @@
     }
     .upload-file-button {
         padding: 7px 12px;
-        border-radius: 12px;
+        border-radius: 4px;
         border: 1px solid #858585;
         transition: .3s;
         cursor: pointer;

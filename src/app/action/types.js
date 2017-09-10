@@ -5,3 +5,4 @@ export const REGISTER = 'register';
 export const UPDATE_LOADING = 'updateLoading';
 export const LOGIN = 'login';
 export const UPDATE_PARTICLE = 'updateParticle';
+export const GET_LINKS = 'getLinks';
