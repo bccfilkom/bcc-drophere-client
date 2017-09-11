@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import { Button, IconButton } from 'react-toolbox/lib/button';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Input from 'react-toolbox/lib/input';
 
 import * as actions from 'action';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
-import style from 'css/connection.scss';
+import style from 'css/storage.scss';
 
 import Loading from '../../common/Loading';
+import CustomButton from '../../common/CustomButton';
+import path from 'path';
+
+var DROPBOX_LOADING = "storageDropboxLoading";
 
 class Storage extends Component {
     state = {
-        email: '',
-        password: '',
+        dropboxemail: '',
+        dropboxauth: false,
+        dropboxavatar: '',
     }
 
     static DROPBOX_LOADING = "storageDropboxLoading";
@@ -24,27 +30,25 @@ class Storage extends Component {
     };
 
     updateToken = token => {
+        this.props.updateLoading(DROPBOX_LOADING);
         axios.post('http://45.32.115.11:6321/graphql', {
             query: `
-            mutation dropboxtoken($token: String!) {
-                dropboxtoken(token: $token) {
-                    msg
+            query {
+                me {
+                    dropboxauth
                 }
-            }`,
-            variables: {
-                token
-            },
-            operationName: 'dropboxtoken'
+            }`
         }).then(res => {
-            var dropboxtoken = res.data.data.dropboxtoken;
-            if (dropboxtoken) {
-                console.log(dropboxtoken.msg)
-                return this.props.updateLoading(Storage.DROPBOX_LOADING, false);
+            var data = res.data.data.me;
+            console.log(data, res, 'finished')
+            if (data) {
+                var { dropboxemail, dropboxauth, dropboxavatar } = data;
+                this.setState({dropboxauth});
+                return this.props.updateLoading(DROPBOX_LOADING, false);
             }
-
-            console.log(res.data.errors);
         }).catch((res) => {
-            console.log(res, 'Error occurred');
+            console.log(res, 'ke sini malah')
+            return this.props.updateLoading(DROPBOX_LOADING, false);
         });
     }
 
@@ -62,14 +66,18 @@ class Storage extends Component {
           if (!win.closed) {
             setTimeout(checkWinClose, 500);
           } else {
-            updateLoading(Storage.DROPBOX_LOADING, false);
+            updateLoading(DROPBOX_LOADING, false);
           }
         }
         checkWinClose();
     }
 
+    onUnlink = e => {
+        
+    }
+
     renderContent() {
-        if (true) {
+        if (!this.state.dropboxauth) {
             return(
                 <div className={style['button-wrapper'] + ' opening-transition'}>
                     <Button theme={theme1} onClick={this.onClick} icon="link" label="Authorize" raised primary />
@@ -77,12 +85,20 @@ class Storage extends Component {
             );
         }
 
-        return <Input
-            type="text"
-            label="Username"
-            value={this.state.username}
-            onChange={this.handleChange.bind(this, 'username')}
-        />;
+        return (
+            <div className={style['list-container']}>
+                <img src={this.state.dropboxavatar} alt="Dropbox Avatar"/>
+                <div>
+                <Input 
+                    value={this.state.email}
+                    label="Dropbox Email"
+                />
+                </div>
+                <div className={style.btn}>
+                    <CustomButton red onClick={this.onUnlink} >Unlink</CustomButton>
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -97,7 +113,7 @@ class Storage extends Component {
 }
 
 function mapStateToProps({logintoken, loading}) {
-    return {logintoken, loading: loading[Storage.DROPBOX_LOADING]};
+    return {logintoken, loading: loading[DROPBOX_LOADING]};
 };
 
 export default connect(mapStateToProps, actions)(Storage);

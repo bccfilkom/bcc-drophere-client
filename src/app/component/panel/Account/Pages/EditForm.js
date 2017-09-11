@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 
 import SeparatedInput from '../../../common/SeparatedInput';
 import CustomButton from '../../../common/CustomButton';
-
 import Input from '../../../common/WrappedInput';
+
+import DatePicker from 'react-toolbox/lib/date_picker';
 
 import style from 'css/edit-page.scss';
 
 export default class NewPage extends Component {
     state = {
-        page: '',
+        slug: '',
         password: '',
         title: '',
         description: '',
         deadline: null,
-    } 
+    }
 
     handleChange(name, value) {
         this.setState({[name]: value});
@@ -31,6 +32,7 @@ export default class NewPage extends Component {
     }
 
     render() {
+        console.log(this.props.data);
         return (
             <div>
             <form>
@@ -38,8 +40,8 @@ export default class NewPage extends Component {
                 <Input
                 hint="halaman"
                 type="text"
-                value={this.state.page}
-                onChange={this.handleChange.bind(this, 'page')}
+                value={this.state.slug || this.props.data.slug}
+                onChange={this.handleChange.bind(this, 'slug')}
                 />
             </SeparatedInput>
             
@@ -56,7 +58,7 @@ export default class NewPage extends Component {
                 <Input
                 hint="Kirim file kepada"
                 type="text"
-                value={this.state.title}
+                value={this.state.title || this.props.data.title}
                 onChange={this.handleChange.bind(this, 'title')}
                 />
             </SeparatedInput>
@@ -65,7 +67,7 @@ export default class NewPage extends Component {
                 <Input
                 hint="Tarik atau pilih file untuk diunggah"
                 type="text"
-                value={this.state.description}
+                value={this.state.description || this.props.data.description || this.props.data.deskripsi}
                 onChange={this.handleChange.bind(this, 'description')}
                 />
             </SeparatedInput>
@@ -74,7 +76,7 @@ export default class NewPage extends Component {
                 <DatePicker
                     hint="Tautan akan mati pada deadline yang ditentukan"
                     type="text"
-                    value={this.state.deadline}
+                    value={this.state.deadline || new Date(this.props.data.deadline)}
                     onChange={this.handleChange.bind(this, 'deadline')}
                 />
             </SeparatedInput>
@@ -83,7 +85,6 @@ export default class NewPage extends Component {
                     <CustomButton red onClick={this.onDelete} >Hapus Tautan</CustomButton>
                     <CustomButton onClick={this.onSave}>Simpan</CustomButton>
                 </div>
-
             </form>
             </div>
         );

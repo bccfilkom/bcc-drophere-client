@@ -8,6 +8,10 @@ import AppRouter from './AppRouter';
 
 
 class App extends Component {
+    componentDidMount() {
+        $('#cube-loading-container').css('display', 'none');
+    }
+
     render() {
         return (
             <Provider store={ applyMiddleware(ReduxPromise)(createStore)(reducer) }>

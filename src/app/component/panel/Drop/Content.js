@@ -20,7 +20,7 @@ class Content extends Component {
                     <Switch>
                         {/* <Redirect from="/drop" exact to="/drop/password" /> */}
                         <Route path="/drop/password" exact component={Password} />
-                        <Route path="/drop/" exact component={DropFile} />
+                        <Route path="/:id" exact component={DropFile} />
                     </Switch>
                     {/* <Password /> */}
                     {/* <DropFile /> */}

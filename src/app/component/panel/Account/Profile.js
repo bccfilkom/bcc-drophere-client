@@ -7,39 +7,39 @@ import axios from 'axios';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
+import Loading from '../../common/Loading';
 
 import style from 'css/account-profile.scss';
 
-import Loading from '../../common/Loading';
 
 var UPDATE_DATA = 'updateProfileData';
 var GET_DATA = 'getProfileData';
 
 class Profile extends Component {
+    componentWillMount() {
+        this.props.updateLoading(GET_DATA, false);
+        this.props.updateLoading(UPDATE_DATA, false);
+    }
+
     componentDidMount() {
-        return;
-        this.props.updateLoading(Profile.GET_DATA);
+        this.props.updateLoading(GET_DATA);
         axios.post('http://45.32.115.11:6321/graphql', {
             query: `
-            mutation dropboxtoken($dropboxtoken: String!) {
-                dropboxtoken(dropboxtoken: $dropboxtoken) {
-                    msg
+            query {
+                me {
+                    username
+                    email
                 }
-            }`, 
-            variables: {
-                dropboxtoken
-            },
-            operationName: 'dropboxtoken'
+            }`
         }).then(res => {
-            var dropboxtoken = res.data.data.dropboxtoken;
-            if (dropboxtoken) {
-                console.log(dropboxtoken.msg)
-                return this.props.updateLoading(Storage.DROPBOX_LOADING, false);
+            var data = res.data.data.me;
+            if (data) {
+                var { username, email } = data;
+                this.setState({username, email});
+                return this.props.updateLoading(GET_DATA, false);
             }
-            
-            console.log(res.data.errors);
         }).catch((res) => {
-            console.log(res, 'fck');
+            return this.props.updateLoading(GET_DATA, false);
         });
     }
 
@@ -48,6 +48,7 @@ class Profile extends Component {
         password: '',
         email: '',
         retype: '',
+        current: '',
     }
 
     handleChange = (name, value) => {
@@ -90,6 +91,12 @@ class Profile extends Component {
                 <h1 style={{marginTop: 40}}>Change Password</h1>
                 <Input
                     type="text"
+                    label="Current Password"
+                    value={this.state.current}
+                    onChange={this.handleChange.bind(this, 'current')}
+                />
+                <Input
+                    type="text"
                     label="New Password"
                     value={this.state.passowrd}
                     onChange={this.handleChange.bind(this, 'password')}
@@ -101,11 +108,12 @@ class Profile extends Component {
                     onChange={this.handleChange.bind(this, 'retype')}
                 />
 
-                <div className={style['button-wrapper']}>
+                <div className={style['button-wrapper']} style={{marginBottom: 40}}>
                     <Button theme={theme1} onClick={this.onUpdatePassword} icon="update" label="Update" raised primary />
                 </div>
 
-                {this.props.loading ? <Loading /> : '' }
+                {this.props.updateDataLoading ? <Loading /> : '' }
+                {this.props.getDataLoading ? <Loading cube /> : '' }
                 </form>
             </div>
         );
@@ -113,7 +121,7 @@ class Profile extends Component {
 }
 
 function mapStateToProps({ loading }, props) {
-    return { loading: loading[UPDATE_DATA] || loading[GET_DATA]};
+    return { updateDataLoading: loading[UPDATE_DATA], getDataLoading: loading[GET_DATA]};
 }
 
 export default connect(mapStateToProps, actions)(Profile);

@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actions from 'action';
 
 import SeparatedInput from '../../../common/SeparatedInput';
 import CustomButton from '../../../common/CustomButton';
 import HideShower from '../../../common/HideShower';
+import Loading from '../../../common/Loading';
 
 import style from 'css/edit-page.scss';
 
 import EditForm from './EditForm';
 
-export default class EditPage extends Component {
+var GET_LINKS = 'getLinksLoadingEditPage';
+
+class EditPage extends Component {
     componentWillMount() {
-        this.props.getLinks();
+        this.props.updateLoading(GET_LINKS);
+        this.props.getLinks().then(res => {
+            this.props.updateLoading(GET_LINKS, false);
+            if (res.error) {
+                return this.setState({error: res.error});
+            }
+        }).catch(err => {
+            this.props.updateLoading(GET_LINKS, false);
+            console.log(err, 'err nih');
+        });
     }
 
     state = {
@@ -23,10 +37,11 @@ export default class EditPage extends Component {
     }
 
     renderContent = () => {
-        return this.state.data.map(data => {
+        if (this.props.links)
+        return this.props.links.map(data => {
             return <HideShower 
                 id="editPage"
-                label={`http://bccdrophere.dev/${data.page}`}
+                label={`http://bccdrophere.dev/${data.slug}`}
                 key={data.id}
                 pageId={data.id}
             ><EditForm data={data} /></HideShower>
@@ -44,7 +59,14 @@ export default class EditPage extends Component {
                     <CustomButton onClick={this.handleClick} style={{marginTop: -60, marginRight: 0}}>Buat Halaman Baru</CustomButton>
                 </div>
                 {this.renderContent()}
+                {this.props.loading ? <Loading /> : '' }
             </div>
         );
     }
 }
+
+function mapStateToProps({ loading, links }, props) {
+    return { loading: loading[GET_LINKS], links };
+}
+
+export default connect(mapStateToProps, actions)(EditPage);

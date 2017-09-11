@@ -73,15 +73,15 @@ export const getLinks = () => axios.post('http://45.32.115.11:6321/graphql', {
         links {
             id
             title
-            url
             deskripsi
             isProtected
             deadline
-            password
+            slug
         }
     }`
 }).then(res => {
     var links = res.data.data.links;
+    console.log(links);
     if (links) {
         return { type: GET_LINKS, links};
     }
