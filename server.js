@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { url } = require('./config/database');
+var compression = require('compression')
 
 //MONGOOSE CONFIG
 mongoose.Promise = global.Promise;
@@ -16,6 +17,7 @@ app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing
 
 //SET PUBlIC REQUEST
+app.use(compression())
 app.use(express.static('./public'));
 
 //API ROUTER

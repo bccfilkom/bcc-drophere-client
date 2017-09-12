@@ -14,20 +14,8 @@
 
 @font-face {
     font-family: "museo";
-    src: url('/font/MuseoSans-500.otf');
-    font-weight: 500;
-}
-
-@font-face {
-    font-family: "museo";
     src: url('/font/MuseoSans-700.otf');
     font-weight: 700;
-}
-
-@font-face {
-    font-family: "museo";
-    src: url('/font/MuseoSans-900.otf');
-    font-weight: 900;
 }
 
 /* ====== DEFAULT ====== */
