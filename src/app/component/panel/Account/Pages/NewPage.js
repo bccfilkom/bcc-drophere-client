@@ -29,13 +29,13 @@ class NewPage extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        var {title, deadline, password, description} = this.state;
+        var {title, page , deadline, password, description} = this.state;
         this.props.updateLoading(NEW_POST_LOADING);
         
         axios.post('http://45.32.115.11:6321/graphql', {
             query: `
             mutation {
-                createlink(title: "${title}", deskripsi: "${description}", deadline: ${deadline.getTime()}, password: "${password}") {
+                createlink(title: "${title}", slug: "${page}", deskripsi: "${description}", deadline: ${deadline.getTime()}, password: "${password}") {
                     id
                 }
             }`
