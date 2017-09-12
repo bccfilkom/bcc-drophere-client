@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
-import _ from 'lodash';
+import map from 'lodash/map';
 
 import * as actions from 'action';
 import { MENU } from 'action/id';
@@ -12,7 +12,7 @@ class Menu extends Component {
     renderList = () => {
         var { data, selected, match, history } = this.props;
         
-        return _.map(data, (listData, i) => {
+        return map(data, (listData, i) => {
             var loc = '';
 
             if (match) {
