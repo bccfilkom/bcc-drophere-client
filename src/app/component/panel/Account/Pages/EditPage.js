@@ -20,7 +20,7 @@ class EditPage extends Component {
         this.props.getLinks().then(res => {
             this.props.updateLoading(GET_LINKS, false);
             if (res.error) {
-                return this.setState({error: res.error});
+                return this.setState({error: res.error}); // what is this for?
             }
         }).catch(err => {
             this.props.updateLoading(GET_LINKS, false);

@@ -73,20 +73,23 @@ export const getLinks = () => axios.post('http://45.32.115.11:6321/graphql', {
         links {
             id
             title
-            deskripsi
+            description
             isProtected
             deadline
             slug
         }
     }`
 }).then(res => {
-    var links = res.data.data.links;
-    console.log(links);
-    if (links) {
-        return { type: GET_LINKS, links};
+    // check for error first
+    if(res.data.errors){
+        const error = res.data.errors[0].message;
+        return { type: GET_LINKS, errors: res.data.errors, error, links: null };
+    } else {
+        const links = res.data.data.links || null;
+        console.log("links");
+        return { type: GET_LINKS, links };
     }
     
-    return {type: GET_LINKS, errors: res.data.errors, error: res.data.errors[0].message};
 }).catch((res) => {
     console.log(res, 'fck');
 });
