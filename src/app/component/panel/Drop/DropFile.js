@@ -4,7 +4,6 @@ import FileItem from './FileItem';
 import axios from 'axios';
 import Loading from '../../common/Loading';
 import Snackbar from 'react-toolbox/lib/snackbar';
-import ProgressBar from '../../common/ProgressBar';
 import { uploadURL } from 'config';
 
 export default class DropFile extends Component {
@@ -12,6 +11,7 @@ export default class DropFile extends Component {
         file: null,
         uploadProgress: 0,
         uploading: false,
+        uploadFailed: false,
         message: {
             stillUploading: false,
             fileSizeLimitExceeds: false
@@ -42,7 +42,8 @@ export default class DropFile extends Component {
         this.setState({
             file,
             uploadProgress: 0,
-            uploading: true
+            uploading: true,
+            uploadFailed: false
         });
 
         const formData = new FormData();
@@ -63,7 +64,7 @@ export default class DropFile extends Component {
                 // console.log(`Upload File Completed:`, res)
             })
             .catch(error => {
-                this.setState({ uploading: false });
+                this.setState({ uploading: false, uploadFailed: true });
                 // console.log(`Error Uploading file: ${error}`)
             });
     }
@@ -78,7 +79,12 @@ export default class DropFile extends Component {
     render() {
         let fileList;
         if (this.state.file && typeof this.state.file === "object")
-            fileList = <FileItem title={this.state.file.name} size={this.state.file.size} percentage={this.state.uploadProgress} />;
+            fileList = <FileItem
+                title={this.state.file.name}
+                size={this.state.file.size}
+                percentage={this.state.uploadProgress}
+                uploading={this.state.uploading}
+                failed={this.state.uploadFailed} />;
 
         return (
             <div className={style.container}>
