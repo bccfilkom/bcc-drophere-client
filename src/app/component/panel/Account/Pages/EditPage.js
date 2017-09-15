@@ -16,6 +16,10 @@ var GET_LINKS = 'getLinksLoadingEditPage';
 
 class EditPage extends Component {
     componentWillMount() {
+        this.refresh();
+    }
+
+    refresh = () => {
         this.props.updateLoading(GET_LINKS);
         this.props.getLinks().then(res => {
             this.props.updateLoading(GET_LINKS, false);
@@ -37,14 +41,15 @@ class EditPage extends Component {
     }
 
     renderContent = () => {
+        console.log(this.props.links);
         if (this.props.links)
         return this.props.links.map(data => {
             return <HideShower 
                 id="editPage"
                 label={`http://bccdrophere.dev/${data.slug}`}
-                key={data.id}
+                key={data.id + Date.now() + ''}
                 pageId={data.id}
-            ><EditForm data={data} /></HideShower>
+            ><EditForm onRefresh={this.refresh} data={data} /></HideShower>
         });
     }
 

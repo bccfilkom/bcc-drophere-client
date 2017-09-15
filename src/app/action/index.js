@@ -89,7 +89,6 @@ export const getLinks = () => axios.post(endpointURL, {
         return { type: GET_LINKS, errors: res.data.errors, error, links: null };
     } else {
         const links = res.data.data.links || null;
-        console.log("links");
         return { type: GET_LINKS, links };
     }
     

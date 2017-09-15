@@ -32,14 +32,14 @@ export default class AppRouter extends Component {
                     <Redirect from="/" to="/home" exact />
                     <Redirect from="/login" to="/home" />
                     <Route path="/home" render={props => {
-                        //if (!localStorage.getItem('bccdrophere_token'))
+                        if (!localStorage.getItem('bccdrophere_token'))
                         return <Home {...props} updateParticle={this.updateParticle} />;
-                        //return <Redirect to="/account" />
+                        return <Redirect to="/account" />
                     }} />
                     <Route path="/register" render={props => {
-                        //if (!localStorage.getItem('bccdrophere_token'))
+                        if (!localStorage.getItem('bccdrophere_token'))
                         return <Home {...props} updateParticle={this.updateParticle} />;
-                        //return <Redirect to="/account" /> 
+                        return <Redirect to="/account" /> 
                     }} />
                     <Route path="/account" render={props => {
                         if (localStorage.getItem('bccdrophere_token'))
