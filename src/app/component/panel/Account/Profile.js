@@ -59,10 +59,16 @@ class Profile extends Component {
         e.preventDefault();
         this.props.updateLoading(UPDATE_DATA);
     }
-
+    
     onUpdatePassword = e => {
         e.preventDefault();
         this.props.updateLoading(UPDATE_DATA);
+
+        if(this.state.password !== this.state.retype) {
+            console.log('Password does not match');
+            this.props.updateLoading(UPDATE_DATA, false);
+            return;
+        }
     }
 
     render() {
@@ -90,19 +96,19 @@ class Profile extends Component {
 
                 <h1 style={{marginTop: 40}}>Change Password</h1>
                 <Input
-                    type="text"
+                    type="password"
                     label="Current Password"
                     value={this.state.current}
                     onChange={this.handleChange.bind(this, 'current')}
                 />
                 <Input
-                    type="text"
+                    type="password"
                     label="New Password"
-                    value={this.state.passowrd}
+                    value={this.state.password}
                     onChange={this.handleChange.bind(this, 'password')}
                 />
                 <Input
-                    type="text"
+                    type="password"
                     label="Retype Password"
                     value={this.state.retype}
                     onChange={this.handleChange.bind(this, 'retype')}

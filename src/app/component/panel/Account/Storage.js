@@ -57,7 +57,7 @@ class Storage extends Component {
         this.props.updateLoading(Storage.DROPBOX_LOADING);
         let win = window.open(
             'https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
-            //'http://localhost:3000/dropauth#access_token=_6nPyBosMEYAAAAAAAAQGgGMtMkYvdej6T8p1pi_scWAxH57fZtH8rvmrvmxqCrv&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
+            //'http://localhost:3000/dropauth#access_token=_1293819827319823y1823&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
             'Authorization',
             `height=400,width=800`
         );
