@@ -34,3 +34,12 @@
     color: #575757;
     font-weight: 600;
 }
+
+.logout {
+    border-top: rgba(158, 158, 158, 0.41) dotted 1px;
+    margin-top: 30px;
+
+    span {
+        color: #e74c3c !important;
+    }
+}

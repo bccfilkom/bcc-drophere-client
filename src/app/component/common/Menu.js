@@ -51,6 +51,19 @@ class Menu extends Component {
             <div className={style.container + ' wrapper'}>
                 <List selectable ripple>
                     {this.renderList()}
+                    <ListItem
+                        key={100}
+                        caption="Logout"
+                        leftIcon="exit_to_app"
+                        className={style.logout}
+                        onClick={e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            window.localStorage.removeItem('bccdrophere_token');
+                            this.props.history.push('/home');
+                        }}
+                    />
                 </List>
             </div>
         );

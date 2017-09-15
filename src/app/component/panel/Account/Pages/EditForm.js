@@ -1,20 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from 'action';
+import axios from 'axios';
+import Snackbar from 'react-toolbox/lib/snackbar';
 
 import SeparatedInput from '../../../common/SeparatedInput';
 import CustomButton from '../../../common/CustomButton';
 import Input from '../../../common/WrappedInput';
+import Loading from '../../../common/Loading';
 
 import DatePicker from 'react-toolbox/lib/date_picker';
 
 import style from 'css/edit-page.scss';
 
-export default class NewPage extends Component {
+import { endpointURL } from 'config';
+
+const EDIT_FORM_LOADING = 'editFormLoading';
+
+class EditForm extends Component {
     state = {
         slug: '',
         password: '',
         title: '',
         description: '',
         deadline: null,
+        id: '',
+        info: false,
+        infoLabel: '',
+        infoType: 'accept'
     }
 
     handleChange(name, value) {
@@ -23,32 +36,98 @@ export default class NewPage extends Component {
 
     onDelete = e => {
         e.preventDefault();
+        let { title, slug, description, password, deadline, id } = this.state;
+        this.props.updateLoading(EDIT_FORM_LOADING);
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                deletelink (linkId: ${id}) {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.deletelink;
+            
+            if (res.data.errors) {
+                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+            } else {
+                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+            }
+            //console.log(data.msg);
+            this.props.updateLoading(EDIT_FORM_LOADING, false);
+        }).catch((res) => {
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateLoading(EDIT_FORM_LOADING, false);
+        });
     }
 
     onSave = e => {
         e.preventDefault();
-
-        
+        let { title, slug, description, password, deadline, id } = this.state;
+        this.props.updateLoading(EDIT_FORM_LOADING);
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                updatelink (
+                    linkId: ${id}
+                    title: "${title}"
+                    slug: "${slug}"
+                    description: "${description}"
+                    deadline: ${deadline.getTime()}
+                    ${password == '' || !password ? '' : `password: "${password}"`}
+                ) {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.updatelink;
+            
+            if (res.data.errors) {
+                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+            } else {
+                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+            }
+            //console.log(data.msg);
+            this.props.updateLoading(EDIT_FORM_LOADING, false);
+        }).catch((res) => {
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateLoading(EDIT_FORM_LOADING, false);
+        });
     }
+
+    componentDidMount() {
+        let { id, title, slug, description, password, deadline } = this.props.data;
+        this.setState({id, title, slug, description, password, deadline: new Date(deadline)});
+    }
+    
+    handleSnackbarClick = (event, instance) => {
+        this.setState({ info: false });
+    };
+    
+    handleSnackbarTimeout = (event, instance) => {
+        this.setState({ info: false });
+    };
 
     render() {
         console.log(this.props.data);
         return (
             <div>
-            <form>
+            <form onSubmit={this.onSave}>
             <SeparatedInput caption="http://bccdrophere.dev/">
                 <Input
                 hint="halaman"
                 type="text"
                 value={this.state.slug || this.props.data.slug}
                 onChange={this.handleChange.bind(this, 'slug')}
+                required
                 />
             </SeparatedInput>
             
             <SeparatedInput caption="Password Unggah">
                 <Input
                 hint="password"
-                type="text"
+                type="password"
+                name={this.state.slug}
                 value={this.state.password}
                 onChange={this.handleChange.bind(this, 'password')}
                 />
@@ -60,6 +139,7 @@ export default class NewPage extends Component {
                 type="text"
                 value={this.state.title || this.props.data.title}
                 onChange={this.handleChange.bind(this, 'title')}
+                required
                 />
             </SeparatedInput>
             
@@ -81,12 +161,28 @@ export default class NewPage extends Component {
                 />
             </SeparatedInput>
 
-                <div className={style.btn}>
-                    <CustomButton red onClick={this.onDelete} >Hapus Tautan</CustomButton>
-                    <CustomButton onClick={this.onSave}>Simpan</CustomButton>
-                </div>
+            <div className={style.btn}>
+                <CustomButton type="button" red onClick={this.onDelete} >Hapus Tautan</CustomButton>
+                <CustomButton type="submit" onClick={this.onSave}>Simpan</CustomButton>
+            </div>
+            {this.props.loading ? <Loading /> : '' }
+            <Snackbar
+                action='Dismiss'
+                active={this.state.info}
+                label={this.state.infoLabel}
+                timeout={2000}
+                onClick={this.handleSnackbarClick}
+                onTimeout={this.handleSnackbarTimeout}
+                type={this.state.infoType}
+            />
             </form>
             </div>
         );
     }
 }
+
+function mapStateToProps({ loading }, props) {
+    return { loading: loading[EDIT_FORM_LOADING]};
+}
+
+export default connect(mapStateToProps, actions)(EditForm);

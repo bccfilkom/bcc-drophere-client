@@ -32,6 +32,7 @@ export const register = (username, email, password) => axios.post(endpointURL, {
     if (register) {
         var logintoken = register.logintoken;
         window.localStorage.setItem('bccdrophere_token', logintoken);
+        axios.defaults.headers.common['Authorization'] = logintoken;
         
         return { type: LOGIN, logintoken};
     }
@@ -57,6 +58,7 @@ export const login = (username, password) => axios.post(endpointURL, {
     if (login) {
         var logintoken = login.logintoken;
         window.localStorage.setItem('bccdrophere_token', logintoken);
+        axios.defaults.headers.common['Authorization'] = logintoken;
         
         return { type: LOGIN, logintoken};
     }

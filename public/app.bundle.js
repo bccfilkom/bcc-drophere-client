@@ -1811,6 +1811,7 @@ var register = exports.register = function register(username, email, password) {
         if (register) {
             var logintoken = register.logintoken;
             window.localStorage.setItem('bccdrophere_token', logintoken);
+            _axios2.default.defaults.headers.common['Authorization'] = logintoken;
 
             return { type: _types.LOGIN, logintoken: logintoken };
         }
@@ -1833,6 +1834,7 @@ var login = exports.login = function login(username, password) {
         if (login) {
             var logintoken = login.logintoken;
             window.localStorage.setItem('bccdrophere_token', logintoken);
+            _axios2.default.defaults.headers.common['Authorization'] = logintoken;
 
             return { type: _types.LOGIN, logintoken: logintoken };
         }
@@ -6458,7 +6460,8 @@ exports.default = function (props) {
     var small = props.small,
         children = props.children,
         onClick = props.onClick,
-        red = props.red;
+        red = props.red,
+        type = props.type;
 
 
     return _react2.default.createElement(
@@ -25499,13 +25502,28 @@ var Menu = function (_Component) {
     _createClass(Menu, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
                 { className: _menu2.default.container + ' wrapper' },
                 _react2.default.createElement(
                     _list.List,
                     { selectable: true, ripple: true },
-                    this.renderList()
+                    this.renderList(),
+                    _react2.default.createElement(_list.ListItem, {
+                        key: 100,
+                        caption: 'Logout',
+                        leftIcon: 'exit_to_app',
+                        className: _menu2.default.logout,
+                        onClick: function onClick(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            window.localStorage.removeItem('bccdrophere_token');
+                            _this2.props.history.push('/home');
+                        }
+                    })
                 )
             );
         }
@@ -57872,6 +57890,20 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(16);
+
+var _action = __webpack_require__(20);
+
+var actions = _interopRequireWildcard(_action);
+
+var _axios = __webpack_require__(43);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _snackbar = __webpack_require__(267);
+
+var _snackbar2 = _interopRequireDefault(_snackbar);
+
 var _SeparatedInput = __webpack_require__(104);
 
 var _SeparatedInput2 = _interopRequireDefault(_SeparatedInput);
@@ -57884,6 +57916,10 @@ var _WrappedInput = __webpack_require__(105);
 
 var _WrappedInput2 = _interopRequireDefault(_WrappedInput);
 
+var _Loading = __webpack_require__(50);
+
+var _Loading2 = _interopRequireDefault(_Loading);
+
 var _date_picker = __webpack_require__(146);
 
 var _date_picker2 = _interopRequireDefault(_date_picker);
@@ -57891,6 +57927,10 @@ var _date_picker2 = _interopRequireDefault(_date_picker);
 var _editPage = __webpack_require__(174);
 
 var _editPage2 = _interopRequireDefault(_editPage);
+
+var _config = __webpack_require__(106);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -57902,37 +57942,110 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var NewPage = function (_Component) {
-    _inherits(NewPage, _Component);
+var EDIT_FORM_LOADING = 'editFormLoading';
 
-    function NewPage() {
+var EditForm = function (_Component) {
+    _inherits(EditForm, _Component);
+
+    function EditForm() {
         var _ref;
 
         var _temp, _this, _ret;
 
-        _classCallCheck(this, NewPage);
+        _classCallCheck(this, EditForm);
 
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = NewPage.__proto__ || Object.getPrototypeOf(NewPage)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = EditForm.__proto__ || Object.getPrototypeOf(EditForm)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             slug: '',
             password: '',
             title: '',
             description: '',
-            deadline: null
+            deadline: null,
+            id: '',
+            info: false,
+            infoLabel: '',
+            infoType: 'accept'
         }, _this.onDelete = function (e) {
             e.preventDefault();
+            var _this$state = _this.state,
+                title = _this$state.title,
+                slug = _this$state.slug,
+                description = _this$state.description,
+                password = _this$state.password,
+                deadline = _this$state.deadline,
+                id = _this$state.id;
+
+            _this.props.updateLoading(EDIT_FORM_LOADING);
+            _axios2.default.post(_config.endpointURL, {
+                query: '\n            mutation {\n                deletelink (linkId: ' + id + ') {\n                    msg\n                }\n            }'
+            }).then(function (res) {
+                var data = res.data.data.deletelink;
+
+                if (res.data.errors) {
+                    _this.setState({ infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel' });
+                } else {
+                    _this.setState({ infoLabel: data.msg, info: true, infoType: 'accept' });
+                }
+                //console.log(data.msg);
+                _this.props.updateLoading(EDIT_FORM_LOADING, false);
+            }).catch(function (res) {
+                _this.setState({ infoLabel: res, info: true, infoType: 'cancel' });
+                _this.props.updateLoading(EDIT_FORM_LOADING, false);
+            });
         }, _this.onSave = function (e) {
             e.preventDefault();
+            var _this$state2 = _this.state,
+                title = _this$state2.title,
+                slug = _this$state2.slug,
+                description = _this$state2.description,
+                password = _this$state2.password,
+                deadline = _this$state2.deadline,
+                id = _this$state2.id;
+
+            _this.props.updateLoading(EDIT_FORM_LOADING);
+            _axios2.default.post(_config.endpointURL, {
+                query: '\n            mutation {\n                updatelink (\n                    linkId: ' + id + '\n                    title: "' + title + '"\n                    slug: "' + slug + '"\n                    description: "' + description + '"\n                    deadline: ' + deadline.getTime() + '\n                    ' + (password == '' || !password ? '' : 'password: "' + password + '"') + '\n                ) {\n                    msg\n                }\n            }'
+            }).then(function (res) {
+                var data = res.data.data.updatelink;
+
+                if (res.data.errors) {
+                    _this.setState({ infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel' });
+                } else {
+                    _this.setState({ infoLabel: data.msg, info: true, infoType: 'accept' });
+                }
+                //console.log(data.msg);
+                _this.props.updateLoading(EDIT_FORM_LOADING, false);
+            }).catch(function (res) {
+                _this.setState({ infoLabel: res, info: true, infoType: 'cancel' });
+                _this.props.updateLoading(EDIT_FORM_LOADING, false);
+            });
+        }, _this.handleSnackbarClick = function (event, instance) {
+            _this.setState({ info: false });
+        }, _this.handleSnackbarTimeout = function (event, instance) {
+            _this.setState({ info: false });
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
-    _createClass(NewPage, [{
+    _createClass(EditForm, [{
         key: 'handleChange',
         value: function handleChange(name, value) {
             this.setState(_defineProperty({}, name, value));
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _props$data = this.props.data,
+                id = _props$data.id,
+                title = _props$data.title,
+                slug = _props$data.slug,
+                description = _props$data.description,
+                password = _props$data.password,
+                deadline = _props$data.deadline;
+
+            this.setState({ id: id, title: title, slug: slug, description: description, password: password, deadline: new Date(deadline) });
         }
     }, {
         key: 'render',
@@ -57943,7 +58056,7 @@ var NewPage = function (_Component) {
                 null,
                 _react2.default.createElement(
                     'form',
-                    null,
+                    { onSubmit: this.onSave },
                     _react2.default.createElement(
                         _SeparatedInput2.default,
                         { caption: 'http://bccdrophere.dev/' },
@@ -57951,7 +58064,8 @@ var NewPage = function (_Component) {
                             hint: 'halaman',
                             type: 'text',
                             value: this.state.slug || this.props.data.slug,
-                            onChange: this.handleChange.bind(this, 'slug')
+                            onChange: this.handleChange.bind(this, 'slug'),
+                            required: true
                         })
                     ),
                     _react2.default.createElement(
@@ -57959,7 +58073,8 @@ var NewPage = function (_Component) {
                         { caption: 'Password Unggah' },
                         _react2.default.createElement(_WrappedInput2.default, {
                             hint: 'password',
-                            type: 'text',
+                            type: 'password',
+                            name: this.state.slug,
                             value: this.state.password,
                             onChange: this.handleChange.bind(this, 'password')
                         })
@@ -57971,7 +58086,8 @@ var NewPage = function (_Component) {
                             hint: 'Kirim file kepada',
                             type: 'text',
                             value: this.state.title || this.props.data.title,
-                            onChange: this.handleChange.bind(this, 'title')
+                            onChange: this.handleChange.bind(this, 'title'),
+                            required: true
                         })
                     ),
                     _react2.default.createElement(
@@ -57999,24 +58115,40 @@ var NewPage = function (_Component) {
                         { className: _editPage2.default.btn },
                         _react2.default.createElement(
                             _CustomButton2.default,
-                            { red: true, onClick: this.onDelete },
+                            { type: 'button', red: true, onClick: this.onDelete },
                             'Hapus Tautan'
                         ),
                         _react2.default.createElement(
                             _CustomButton2.default,
-                            { onClick: this.onSave },
+                            { type: 'submit', onClick: this.onSave },
                             'Simpan'
                         )
-                    )
+                    ),
+                    this.props.loading ? _react2.default.createElement(_Loading2.default, null) : '',
+                    _react2.default.createElement(_snackbar2.default, {
+                        action: 'Dismiss',
+                        active: this.state.info,
+                        label: this.state.infoLabel,
+                        timeout: 2000,
+                        onClick: this.handleSnackbarClick,
+                        onTimeout: this.handleSnackbarTimeout,
+                        type: this.state.infoType
+                    })
                 )
             );
         }
     }]);
 
-    return NewPage;
+    return EditForm;
 }(_react.Component);
 
-exports.default = NewPage;
+function mapStateToProps(_ref2, props) {
+    var loading = _ref2.loading;
+
+    return { loading: loading[EDIT_FORM_LOADING] };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(EditForm);
 
 /***/ }),
 /* 702 */
@@ -61188,7 +61320,7 @@ exports = module.exports = __webpack_require__(5)();
 
 
 // module
-exports.push([module.i, ".menu--container--3uvQG3Qc {\n  max-width: 250px; }\n  .menu--container--3uvQG3Qc a {\n    text-decoration: none !important; }\n\n.menu--fly--2ziyvjp3 {\n  position: fixed;\n  top: 88px;\n  left: 0;\n  z-index: 1;\n  height: 100%; }\n\n.menu--selected--1MOk49Ab {\n  border-right: #2196F3 solid 3px; }\n  .menu--selected--1MOk49Ab span {\n    color: #2196F3 !important; }\n\n.menu--normal--2eRGbfN7 {\n  border-right: #E8E8E8 solid 3px; }\n\n.menu--subheader--_c3_8TMP {\n  text-align: center;\n  margin: 10px 0px;\n  padding-left: 0px;\n  font-size: 12pt;\n  color: #575757;\n  font-weight: 600; }\n", "", {"version":3,"sources":["/./src/app/css/menu.scss"],"names":[],"mappings":"AAAA;EACE,iBAAiB,EAAE;EACnB;IACE,iCAAiC,EAAE;;AAEvC;EACE,gBAAgB;EAChB,UAAU;EACV,QAAQ;EACR,WAAW;EACX,aAAa,EAAE;;AAEjB;EACE,gCAAgC,EAAE;EAClC;IACE,0BAA0B,EAAE;;AAEhC;EACE,gCAAgC,EAAE;;AAEpC;EACE,mBAAmB;EACnB,iBAAiB;EACjB,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB,EAAE","file":"menu.scss","sourcesContent":[".container {\n  max-width: 250px; }\n  .container a {\n    text-decoration: none !important; }\n\n.fly {\n  position: fixed;\n  top: 88px;\n  left: 0;\n  z-index: 1;\n  height: 100%; }\n\n.selected {\n  border-right: #2196F3 solid 3px; }\n  .selected span {\n    color: #2196F3 !important; }\n\n.normal {\n  border-right: #E8E8E8 solid 3px; }\n\n.subheader {\n  text-align: center;\n  margin: 10px 0px;\n  padding-left: 0px;\n  font-size: 12pt;\n  color: #575757;\n  font-weight: 600; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, ".menu--container--3uvQG3Qc {\n  max-width: 250px; }\n  .menu--container--3uvQG3Qc a {\n    text-decoration: none !important; }\n\n.menu--fly--2ziyvjp3 {\n  position: fixed;\n  top: 88px;\n  left: 0;\n  z-index: 1;\n  height: 100%; }\n\n.menu--selected--1MOk49Ab {\n  border-right: #2196F3 solid 3px; }\n  .menu--selected--1MOk49Ab span {\n    color: #2196F3 !important; }\n\n.menu--normal--2eRGbfN7 {\n  border-right: #E8E8E8 solid 3px; }\n\n.menu--subheader--_c3_8TMP {\n  text-align: center;\n  margin: 10px 0px;\n  padding-left: 0px;\n  font-size: 12pt;\n  color: #575757;\n  font-weight: 600; }\n\n.menu--logout--1zvJZ83F {\n  border-top: rgba(158, 158, 158, .41) dotted 1px;\n  margin-top: 30px; }\n  .menu--logout--1zvJZ83F span {\n    color: #e74c3c !important; }\n", "", {"version":3,"sources":["/./src/app/css/menu.scss"],"names":[],"mappings":"AAAA;EACE,iBAAiB,EAAE;EACnB;IACE,iCAAiC,EAAE;;AAEvC;EACE,gBAAgB;EAChB,UAAU;EACV,QAAQ;EACR,WAAW;EACX,aAAa,EAAE;;AAEjB;EACE,gCAAgC,EAAE;EAClC;IACE,0BAA0B,EAAE;;AAEhC;EACE,gCAAgC,EAAE;;AAEpC;EACE,mBAAmB;EACnB,iBAAiB;EACjB,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB,EAAE;;AAErB;EACE,gDAAgD;EAChD,iBAAiB,EAAE;EACnB;IACE,0BAA0B,EAAE","file":"menu.scss","sourcesContent":[".container {\n  max-width: 250px; }\n  .container a {\n    text-decoration: none !important; }\n\n.fly {\n  position: fixed;\n  top: 88px;\n  left: 0;\n  z-index: 1;\n  height: 100%; }\n\n.selected {\n  border-right: #2196F3 solid 3px; }\n  .selected span {\n    color: #2196F3 !important; }\n\n.normal {\n  border-right: #E8E8E8 solid 3px; }\n\n.subheader {\n  text-align: center;\n  margin: 10px 0px;\n  padding-left: 0px;\n  font-size: 12pt;\n  color: #575757;\n  font-weight: 600; }\n\n.logout {\n  border-top: rgba(158, 158, 158, .41) dotted 1px;\n  margin-top: 30px; }\n  .logout span {\n    color: #e74c3c !important; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 exports.locals = {
@@ -61196,7 +61328,8 @@ exports.locals = {
 	"fly": "menu--fly--2ziyvjp3",
 	"selected": "menu--selected--1MOk49Ab",
 	"normal": "menu--normal--2eRGbfN7",
-	"subheader": "menu--subheader--_c3_8TMP"
+	"subheader": "menu--subheader--_c3_8TMP",
+	"logout": "menu--logout--1zvJZ83F"
 };
 
 /***/ }),
