@@ -14,6 +14,8 @@ import Loading from '../../common/Loading';
 import CustomButton from '../../common/CustomButton';
 import path from 'path';
 
+import { endpointURL } from 'config';
+
 var DROPBOX_LOADING = "storageDropboxLoading";
 
 class Storage extends Component {
@@ -31,7 +33,7 @@ class Storage extends Component {
 
     updateToken = token => {
         this.props.updateLoading(DROPBOX_LOADING);
-        axios.post('http://45.32.115.11:6321/graphql', {
+        axios.post(endpointURL, {
             query: `
             query {
                 me {

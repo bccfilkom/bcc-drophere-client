@@ -8,6 +8,7 @@ import {
     UPDATE_PARTICLE,
     GET_LINKS
 } from './types';
+import { endpointURL } from 'config';
 
 export const updateSelected = (id, selected) => ({ type: UPDATE_SELECTED, id, selected });
 
@@ -15,7 +16,7 @@ export const updateLoading = (id, loading = true) => ({ type: UPDATE_LOADING, id
 
 export const updatePage = (id, page) => ({ type: UPDATE_PAGE, id, page });
 
-export const register = (username, email, password) => axios.post('http://45.32.115.11:6321/graphql', {
+export const register = (username, email, password) => axios.post(endpointURL, {
     query: `
     mutation register($username: String!, $email: String!, $password: String!) {
         register(username: $username, email: $email, password: $password) {
@@ -40,7 +41,7 @@ export const register = (username, email, password) => axios.post('http://45.32.
     console.log(res, 'fck');
 });
 
-export const login = (username, password) => axios.post('http://45.32.115.11:6321/graphql', {
+export const login = (username, password) => axios.post(endpointURL, {
     query: `
     mutation login($username: String!, $password: String!) {
         login(username: $username, password: $password) {
@@ -67,7 +68,7 @@ export const login = (username, password) => axios.post('http://45.32.115.11:632
 
 export const updateParticle = payload => ({type: UPDATE_PARTICLE, payload});
 
-export const getLinks = () => axios.post('http://45.32.115.11:6321/graphql', {
+export const getLinks = () => axios.post(endpointURL, {
     query: `
     query {
         links {
@@ -81,7 +82,7 @@ export const getLinks = () => axios.post('http://45.32.115.11:6321/graphql', {
     }`
 }).then(res => {
     // check for error first
-    if(res.data.errors){
+    if (res.data.errors){
         const error = res.data.errors[0].message;
         return { type: GET_LINKS, errors: res.data.errors, error, links: null };
     } else {

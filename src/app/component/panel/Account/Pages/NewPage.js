@@ -12,6 +12,8 @@ import style from 'css/edit-page.scss';
 import Input from '../../../common/WrappedInput';
 import Loading from '../../../common/Loading';
 
+import { endpointURL } from 'config';
+
 const NEW_POST_LOADING = 'newPostLoading';
 
 class NewPage extends Component {
@@ -32,10 +34,10 @@ class NewPage extends Component {
         var {title, page , deadline, password, description} = this.state;
         this.props.updateLoading(NEW_POST_LOADING);
         
-        axios.post('http://45.32.115.11:6321/graphql', {
+        axios.post(endpointURL, {
             query: `
             mutation {
-                createlink(title: "${title}", slug: "${page}", deskripsi: "${description}", deadline: ${deadline.getTime()}, password: "${password}") {
+                createlink(title: "${title}", slug: "${page}", description: "${description}", deadline: ${deadline.getTime()}, password: "${password}") {
                     id
                 }
             }`

@@ -45,7 +45,8 @@ export default class DropFile extends Component {
         });
 
         const formData = new FormData();
-        formData.append('photo', file);
+        formData.append('file', file);
+        formData.append('linkid', this.props.match.params.id)
         axios.post('http://localhost:3000/api/anjay', formData, {
             // config
             onUploadProgress: (progressEvent) => {

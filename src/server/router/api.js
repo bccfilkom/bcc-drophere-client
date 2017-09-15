@@ -14,7 +14,7 @@ module.exports = function (router) {
     });
 
     //OTHER API CODE
-    app.post('/anjay', upload.single('photo'), (req, res) => {
+    app.post('/anjay', upload.single('file'), (req, res) => {
         res.json({
             message: 'OK',
             filename: `${req.file.filename}`
