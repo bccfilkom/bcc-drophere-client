@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loading from '../../common/Loading';
 import Snackbar from 'react-toolbox/lib/snackbar';
 import ProgressBar from '../../common/ProgressBar';
+import { uploadURL } from 'config';
 
 export default class DropFile extends Component {
     state = {
@@ -47,7 +48,7 @@ export default class DropFile extends Component {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('linkid', this.props.match.params.id)
-        axios.post('http://localhost:3000/api/anjay', formData, {
+        axios.post(uploadURL, formData, {
             // config
             onUploadProgress: (progressEvent) => {
                 let percentCompleted = (progressEvent.loaded / progressEvent.total);
