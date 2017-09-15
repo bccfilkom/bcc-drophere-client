@@ -3,6 +3,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
+import Snackbar from 'react-toolbox/lib/snackbar';
 
 import * as actions from 'action';
 
@@ -23,40 +24,74 @@ class Storage extends Component {
         dropboxemail: '',
         dropboxauth: false,
         dropboxavatar: '',
+        info: false,
+        infoLabel: '',
+        infoType: 'accept',
     }
-
-    static DROPBOX_LOADING = "storageDropboxLoading";
 
     handleChange = (name, value) => {
         this.setState({...this.state, [name]: value});
     };
 
-    updateToken = token => {
+    componentDidMount() {
+        this.updateData();
+    }
+
+    updateData = () => {
         this.props.updateLoading(DROPBOX_LOADING);
         axios.post(endpointURL, {
             query: `
             query {
                 me {
-                    dropboxauth
+                    dropboxemail
+                    dropboxavatar
                 }
             }`
         }).then(res => {
             var data = res.data.data.me;
-            console.log(data, res, 'finished')
-            if (data) {
-                var { dropboxemail, dropboxauth, dropboxavatar } = data;
-                this.setState({dropboxauth});
-                return this.props.updateLoading(DROPBOX_LOADING, false);
+
+            if (!res.data.errors) {
+                var { dropboxemail, dropboxavatar } = data;
+                this.setState({dropboxavatar, dropboxemail});
+                //console.log(data);
             }
+
+            this.props.updateLoading(DROPBOX_LOADING, false);
         }).catch((res) => {
-            console.log(res, 'ke sini malah')
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateLoading(DROPBOX_LOADING, false);
+        });
+    }
+
+    updateToken = token => {
+        this.props.updateLoading(DROPBOX_LOADING);
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                dropboxtoken (token: "${token}") {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.dropboxtoken;
+            
+            if (res.data.errors) {
+                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+            } else {
+                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+            }
+            
+            this.updateData();
+            //console.log(data.msg);
+        }).catch((res) => {
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
             return this.props.updateLoading(DROPBOX_LOADING, false);
         });
     }
 
     onClick = () => {
         updateToken = this.updateToken;
-        this.props.updateLoading(Storage.DROPBOX_LOADING);
+        this.props.updateLoading(DROPBOX_LOADING);
         let win = window.open(
             'https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
             //'http://localhost:3000/dropauth#access_token=_1293819827319823y1823&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
@@ -75,11 +110,40 @@ class Storage extends Component {
     }
 
     onUnlink = e => {
-        
+        this.props.updateLoading(DROPBOX_LOADING);
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                dropboxunlink {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.dropboxunlink;
+            
+            if (res.data.errors) {
+                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+            } else {
+                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+            }
+            
+            this.updateData();
+        }).catch((res) => {
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            return this.props.updateLoading(DROPBOX_LOADING, false);
+        });
     }
+    
+    handleSnackbarClick = (event, instance) => {
+        this.setState({ info: false });
+    };
+    
+    handleSnackbarTimeout = (event, instance) => {
+        this.setState({ info: false });
+    };
 
     renderContent() {
-        if (!this.state.dropboxauth) {
+        if (!this.state.dropboxemail) {
             return(
                 <div className={style['button-wrapper'] + ' opening-transition'}>
                     <Button theme={theme1} onClick={this.onClick} icon="link" label="Authorize" raised primary />
@@ -90,10 +154,11 @@ class Storage extends Component {
         return (
             <div className={style['list-container']}>
                 <img src={this.state.dropboxavatar} alt="Dropbox Avatar"/>
-                <div>
+                <div className={style.right}>
                 <Input 
-                    value={this.state.email}
+                    value={this.state.dropboxemail}
                     label="Dropbox Email"
+                    disabled
                 />
                 </div>
                 <div className={style.btn}>
@@ -109,6 +174,15 @@ class Storage extends Component {
                 <h1>Koneksi </h1>
                 {this.renderContent()}
                 {this.props.loading ? <Loading /> : '' }
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.info}
+                    label={this.state.infoLabel}
+                    timeout={2000}
+                    onClick={this.handleSnackbarClick}
+                    onTimeout={this.handleSnackbarTimeout}
+                    type={this.state.infoType}
+                />
             </div>
         );
     }

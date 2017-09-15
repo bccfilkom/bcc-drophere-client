@@ -4,6 +4,7 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
 import * as actions from 'action';
 import axios from 'axios';
+import Snackbar from 'react-toolbox/lib/snackbar';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
@@ -30,20 +31,21 @@ class Profile extends Component {
             query {
                 me {
                     username
-                    emai
+                    email
                 }
             }`
         }).then(res => {
             var data = res.data.data.me;
-            console.log('coba', res);
-            if (data) {
+
+            if (!res.data.errors) {
                 var { username, email } = data;
                 this.setState({username, email});
-                return this.props.updateLoading(GET_DATA, false);
             }
+
+            this.props.updateLoading(GET_DATA, false);
         }).catch((res) => {
-            console.log('coba', typeof res)
-            return this.props.updateLoading(GET_DATA, false);
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateLoading(GET_DATA, false);
         });
     }
 
@@ -53,10 +55,24 @@ class Profile extends Component {
         email: '',
         retype: '',
         current: '',
+        passwordErr: null,
+        retypeErr: null,
+        info: false,
+        infoLabel: '',
+        infoType: 'accept',
     }
 
     handleChange = (name, value) => {
-        this.setState({...this.state, [name]: value});
+        var pass = name == 'password' ? value : this.state.password;
+        var retype = name == 'retype' ? value : this.state.retype;
+        if (name == 'retype' || (name == 'password' && retype != '')) {
+            if (retype != pass) {
+                return this.setState({[name]: value, retypeErr: 'Password tidak cocok'});
+            }
+            return this.setState({[name]: value, retypeErr: null});
+        }
+
+        this.setState({[name]: value});
     };
 
     onSave = e => {
@@ -67,26 +83,62 @@ class Profile extends Component {
     onUpdatePassword = e => {
         e.preventDefault();
         this.props.updateLoading(UPDATE_PASSWORD);
+        let {password, retype, current} = this.state;
+        let loc1 = {};
+        var err = false;
 
-        if(this.state.password !== this.state.retype) {
-            console.log('Password does not match');
+        if (password === '') {
+            if (password.length < 6) {
+                loc1.passwordErr = "Panjang minimal password adalah 6";
+                err = true;
+            } else loc1.passwordErr = null;
+        } else if (password != retype) {
+            loc1.retypeErr = "Password tidak cocok";
+            err = true
+        } else loc1.retypeErr = null;
+        console.log(err);
+
+        if(err) {
+            this.setState(loc1);
             this.props.updateLoading(UPDATE_PASSWORD, false);
             return;
         }
-    }
 
-    onProfileSubmit = e => {
-        console.log('aa')
-    }
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                updatePassword (oldPassword:"${current}", newPassword:"${password}") {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.updatePassword;
 
-    onPasswordSubmit = e => {
+            if (res.data.errors) {
+                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+            } else {
+                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+            }
 
+            this.props.updateLoading(UPDATE_PASSWORD, false);
+        }).catch((res) => {
+            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            return this.props.updateLoading(UPDATE_PASSWORD, false);
+        });
     }
+    
+    handleSnackbarClick = (event, instance) => {
+        this.setState({ info: false });
+    };
+    
+    handleSnackbarTimeout = (event, instance) => {
+        this.setState({ info: false });
+    };
 
     render() {
         return (
             <div className={style.container + ' opening-transition'}>
-                <form onSubmit={this.onProfileSubmit} >
+                <form onSubmit={this.onSave} >
                 <h1>Profil</h1>
                 <Input
                     type="text"
@@ -99,46 +151,57 @@ class Profile extends Component {
                 <Input
                     type="text"
                     label="Email"
-                    value={this.state.email}
+                    value={this.state.email} required
                     onChange={this.handleChange.bind(this, 'email')}
                 />
                 <div className={style['button-wrapper']}>
-                    <Button type="submit" theme={theme1} onClick={this.onSave} icon="save" label="Save" raised primary />
+                    <Button type="submit" theme={theme1} icon="save" label="Save" raised primary />
                 </div>
                 {this.props.updateProfileLoading ? <Loading /> : '' }
                 </form>
 
-                <form onSubmit={this.onPasswordSubmit}>
+                <form onSubmit={this.onUpdatePassword}>
                 <h1 style={{marginTop: 40}}>Change Password</h1>
                 <Input
                     type="password"
                     label="Current Password"
                     name="password"
-                    value={this.state.current}
+                    value={this.state.current} required
                     onChange={this.handleChange.bind(this, 'current')}
                 />
                 <Input
                     type="password"
                     label="New Password"
                     name="current_password"
-                    value={this.state.password}
+                    value={this.state.password} required
                     onChange={this.handleChange.bind(this, 'password')}
+                    error={this.state.passwordErr}
                 />
                 <Input
                     type="password"
                     label="Retype Password"
                     name="retype_password"
-                    value={this.state.retype}
+                    value={this.state.retype} required
                     onChange={this.handleChange.bind(this, 'retype')}
+                    error={this.state.retypeErr}
                 />
 
                 <div className={style['button-wrapper']} style={{marginBottom: 40}}>
-                    <Button type="submit" theme={theme1} onClick={this.onUpdatePassword} icon="update" label="Update" raised primary />
+                    <Button type="submit" theme={theme1} icon="update" label="Update" raised primary />
                 </div>
 
                 {this.props.updatePasswordLoading ? <Loading /> : '' }
                 </form>
                 {this.props.getDataLoading ? <Loading cube /> : '' }
+                <Snackbar
+                    action='Dismiss'
+                    active={this.state.info}
+                    label={this.state.infoLabel}
+                    timeout={2000}
+                    onClick={this.handleSnackbarClick}
+                    onTimeout={this.handleSnackbarTimeout}
+                    type={this.state.infoType}
+                />
             </div>
         );
     }

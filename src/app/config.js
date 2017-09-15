@@ -1,2 +1,2 @@
-export const endpointURL =  'http://45.32.115.11:6321/graphql';
-export const uploadURL =  'http://45.32.115.11:6321/uploadfile';
+export const endpointURL =  'http://175.45.187.250:8881/graphql';
+export const uploadURL =  'http://175.45.187.250:8881/uploadfile';
