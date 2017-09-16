@@ -115,3 +115,24 @@
 
     }
 }
+
+
+.sponsor-container {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin-top: 10px;
+    min-height: 40px;
+
+    .sponsor-wrapper {
+        display: flex;
+        flex: 1;
+        background: #e2e2e2;
+        color: #969696;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        margin: 0px 2px;
+        border: 1px solid #cacaca;
+    }
+}
