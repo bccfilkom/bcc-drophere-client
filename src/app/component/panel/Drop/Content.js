@@ -8,7 +8,7 @@ import DropFile from './DropFile';
 import Password from './Password';
 import Header from './Header';
 import Menu from '../../common/Menu';
-import Loading from '../../common/Loading';
+import LoadingCube from '../../common/LoadingCube';
 import style from 'css/drop-content.scss';
 
 import * as actions from 'action';
@@ -66,7 +66,7 @@ class Content extends Component {
             <div className={style.container + ' wrapper'}>
                 <div className={style.content}>
                     {this.renderContent()}
-                    {this.props.loading ? <Loading /> : '' }
+                    {this.props.loading ? <LoadingCube /> : '' }
                 </div>
             </div>
         );
