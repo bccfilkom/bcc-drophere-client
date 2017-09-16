@@ -6,6 +6,7 @@ import SeparatedInput from '../../../common/SeparatedInput';
 import CustomButton from '../../../common/CustomButton';
 import axios from 'axios';
 import DatePicker from 'react-toolbox/lib/date_picker';
+import TimePicker from 'react-toolbox/lib/time_picker';
 
 import style from 'css/edit-page.scss';
 
@@ -37,7 +38,7 @@ class NewPage extends Component {
         axios.post(endpointURL, {
             query: `
             mutation {
-                createlink(title: "${title}", slug: "${page}", description: "${description}", deadline: ${deadline.getTime()}, password: "${password}") {
+                createlink(title: "${title}", slug: "${page}", description: "${description}"${deadline ? `, deadline: ${deadline.getTime()}` : ''}, password: "${password}") {
                     id
                 }
             }`
@@ -55,6 +56,8 @@ class NewPage extends Component {
     }
 
     render() {
+        let initialTime = new Date();
+        initialTime.setHours(23, 59);
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
@@ -96,7 +99,7 @@ class NewPage extends Component {
                     />
                 </SeparatedInput>
                 
-                <SeparatedInput caption="Deadline">
+                <SeparatedInput caption="Deadline Tanggal">
                     <DatePicker
                         hint="Tautan akan mati pada deadline yang ditentukan"
                         type="text"
@@ -104,6 +107,16 @@ class NewPage extends Component {
                         onChange={this.handleChange.bind(this, 'deadline')}
                     />
                 </SeparatedInput>
+
+                { this.state.deadline ? 
+                <SeparatedInput caption="Deadline Waktu">
+                    <TimePicker
+                        hint="Waktu penutupan"
+                        value={this.state.deadline}
+                        onChange={this.handleChange.bind(this, 'deadline')}
+                    />
+                </SeparatedInput> : ''
+                }
 
                 <div className={style.btn}><CustomButton type="submit">Buat Halaman</CustomButton></div>
                 {this.props.loading ? <Loading /> : '' }

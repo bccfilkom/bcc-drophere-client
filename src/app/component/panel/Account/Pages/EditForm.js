@@ -10,6 +10,7 @@ import Input from '../../../common/WrappedInput';
 import Loading from '../../../common/Loading';
 
 import DatePicker from 'react-toolbox/lib/date_picker';
+import TimePicker from 'react-toolbox/lib/time_picker';
 
 import style from 'css/edit-page.scss';
 
@@ -161,6 +162,16 @@ class EditForm extends Component {
                     onChange={this.handleChange.bind(this, 'deadline')}
                 />
             </SeparatedInput>
+
+            { this.state.deadline ? 
+            <SeparatedInput caption="Deadline Waktu">
+                <TimePicker
+                    hint="Waktu penutupan"
+                    value={this.state.deadline}
+                    onChange={this.handleChange.bind(this, 'deadline')}
+                />
+            </SeparatedInput> : ''
+            }
 
             <div className={style.btn}>
                 <CustomButton type="button" red onClick={this.onDelete} >Hapus Tautan</CustomButton>
