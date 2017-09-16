@@ -5,7 +5,12 @@ import { createStore, applyMiddleware } from 'redux';
 import ReduxPromise from 'redux-promise';
 import reducer from './reducer';
 import AppRouter from './AppRouter';
+import { ThemeProvider } from 'react-css-themr';
+import theme from 'css/theme.scss';
 
+const contextTheme = {
+    RTInput: theme
+};
 
 class App extends Component {
     componentDidMount() {
@@ -15,7 +20,9 @@ class App extends Component {
     render() {
         return (
             <Provider store={ applyMiddleware(ReduxPromise)(createStore)(reducer) }>
-                <AppRouter />
+                <ThemeProvider theme={contextTheme}>
+                <AppRouter /> 
+                </ThemeProvider>
             </Provider>
         );
     }
