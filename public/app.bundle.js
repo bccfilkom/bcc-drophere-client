@@ -25561,14 +25561,15 @@ exports.default = function (_ref) {
 
     var style = {
         container: {
-            width: Math.floor(progress * 100).toString() + '%',
+            width: (progress * 100).toString() + '%',
             position: 'absolute',
             top: 0,
             left: 0,
             height: '100%',
             backgroundColor: '#a6dcf0',
             zIndex: 0,
-            transition: '.5s'
+            transition: "width .5s"
+
         }
     };
 
@@ -25909,10 +25910,6 @@ var _snackbar = __webpack_require__(69);
 
 var _snackbar2 = _interopRequireDefault(_snackbar);
 
-var _ProgressBar = __webpack_require__(314);
-
-var _ProgressBar2 = _interopRequireDefault(_ProgressBar);
-
 var _config = __webpack_require__(60);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25941,6 +25938,7 @@ var DropFile = function (_Component) {
             file: null,
             uploadProgress: 0,
             uploading: false,
+            uploadFailed: false,
             message: {
                 stillUploading: false,
                 fileSizeLimitExceeds: false
@@ -25976,7 +25974,8 @@ var DropFile = function (_Component) {
             this.setState({
                 file: file,
                 uploadProgress: 0,
-                uploading: true
+                uploading: true,
+                uploadFailed: false
             });
 
             var formData = new FormData();
@@ -25995,7 +25994,7 @@ var DropFile = function (_Component) {
                 _this2.setState({ uploading: false });
                 // console.log(`Upload File Completed:`, res)
             }).catch(function (error) {
-                _this2.setState({ uploading: false });
+                _this2.setState({ uploading: false, uploadFailed: true });
                 // console.log(`Error Uploading file: ${error}`)
             });
         }
@@ -26010,7 +26009,12 @@ var DropFile = function (_Component) {
             var _this3 = this;
 
             var fileList = void 0;
-            if (this.state.file && _typeof(this.state.file) === "object") fileList = _react2.default.createElement(_FileItem2.default, { title: this.state.file.name, size: this.state.file.size, percentage: this.state.uploadProgress });
+            if (this.state.file && _typeof(this.state.file) === "object") fileList = _react2.default.createElement(_FileItem2.default, {
+                title: this.state.file.name,
+                size: this.state.file.size,
+                percentage: this.state.uploadProgress,
+                uploading: this.state.uploading,
+                failed: this.state.uploadFailed });
 
             return _react2.default.createElement(
                 'div',
@@ -59208,15 +59212,6 @@ function formatBytes(bytes, decimals) {
         i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
-function formatPercentage(percent) {
-    if (isNaN(percent)) percent = 0;
-    if (percent == 100) return _react2.default.createElement(_reactToolbox.FontIcon, { value: 'check', className: _dropFile2.default['icon-small'] });else return _react2.default.createElement(
-        'span',
-        null,
-        (percent * 100).toFixed(),
-        '%'
-    );
-}
 
 var FileItem = function (_Component) {
     _inherits(FileItem, _Component);
@@ -59228,9 +59223,45 @@ var FileItem = function (_Component) {
     }
 
     _createClass(FileItem, [{
+        key: 'formatPercentage',
+        value: function formatPercentage() {
+            var _props = this.props,
+                percent = _props.percentage,
+                uploading = _props.uploading,
+                failed = _props.failed;
+
+            if (isNaN(percent)) percent = 0;
+            if (failed) return _react2.default.createElement(
+                'div',
+                { style: { color: "red", fontSize: 16, display: "flex", alignItems: "center" } },
+                _react2.default.createElement(
+                    'span',
+                    { style: { paddingRight: 5 } },
+                    'Upload failed'
+                ),
+                _react2.default.createElement(_reactToolbox.FontIcon, { value: 'error', className: _dropFile2.default['icon-small'] })
+            );
+            if (percent == 1) {
+                if (uploading) return _react2.default.createElement(
+                    'span',
+                    null,
+                    'Syncing...'
+                );
+                return _react2.default.createElement(
+                    'span',
+                    null,
+                    '\u2714'
+                );
+            } else return _react2.default.createElement(
+                'span',
+                null,
+                (percent * 100).toFixed(2),
+                '%'
+            );
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var finished = this.props.percentage == 1;
             return _react2.default.createElement(
                 'div',
                 { className: _dropFile2.default['file-list-item'] },
@@ -59246,11 +59277,7 @@ var FileItem = function (_Component) {
                     _react2.default.createElement(
                         'span',
                         { className: _dropFile2.default['percentage'] },
-                        finished ? _react2.default.createElement(
-                            'span',
-                            null,
-                            '\u2714'
-                        ) : formatPercentage(this.props.percentage)
+                        this.formatPercentage()
                     ),
                     formatBytes(this.props.size)
                 )
