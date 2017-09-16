@@ -59008,6 +59008,12 @@ var _account2 = _interopRequireDefault(_account);
 
 var _reactRouterDom = __webpack_require__(26);
 
+var _axios = __webpack_require__(31);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _config = __webpack_require__(51);
+
 var _Profile = __webpack_require__(314);
 
 var _Profile2 = _interopRequireDefault(_Profile);
@@ -59044,7 +59050,22 @@ var Home = function (_Component) {
     _createClass(Home, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             this.props.updateParticle(false);
+            _axios2.default.post(_config.endpointURL, {
+                query: '\n            query {\n                me {\n                    username\n                    email\n                }\n            }'
+            }).then(function (res) {
+                var data = res.data.data.me;
+
+                if (res.data.errors) {
+                    window.localStorage.removeItem('bccdrophere_token');
+                    _this2.props.history.push('/home');
+                }
+            }).catch(function (res) {
+                window.localStorage.removeItem('bccdrophere_token');
+                _this2.props.history.push('/home');
+            });
         }
     }, {
         key: 'render',
@@ -59552,6 +59573,7 @@ var PasswordInput = function (_Component) {
             e.preventDefault();
             _this.props.updateLoading('dropFileContentLoading');
             _this.props.unlockPassword(_this.props.data.slug, _this).then(function (res) {
+                if (res.errors) _this.props.updateInfo({ active: true, label: 'Incorrect Passsword or Connection Issue', type: 'cancel' });
                 _this.props.updateLoading('dropFileContentLoading', false);
             }).catch(function (err) {
                 _this.props.updateLoading('dropFileContentLoading');

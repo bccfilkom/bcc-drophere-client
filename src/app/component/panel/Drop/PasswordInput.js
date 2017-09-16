@@ -9,6 +9,7 @@ class PasswordInput extends Component {
         e.preventDefault();
         this.props.updateLoading('dropFileContentLoading');
         this.props.unlockPassword(this.props.data.slug, this).then(res => {
+            if (res.errors) this.props.updateInfo({active: true, label: 'Incorrect Passsword or Connection Issue', type: 'cancel'});
             this.props.updateLoading('dropFileContentLoading', false);
         }).catch(err => {
             this.props.updateLoading('dropFileContentLoading');
