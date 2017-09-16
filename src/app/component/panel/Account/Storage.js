@@ -3,7 +3,6 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import Input from 'react-toolbox/lib/input';
-import Snackbar from 'react-toolbox/lib/snackbar';
 
 import * as actions from 'action';
 
@@ -24,9 +23,6 @@ class Storage extends Component {
         dropboxemail: '',
         dropboxauth: false,
         dropboxavatar: '',
-        info: false,
-        infoLabel: '',
-        infoType: 'accept',
     }
 
     handleChange = (name, value) => {
@@ -58,7 +54,7 @@ class Storage extends Component {
 
             this.props.updateLoading(DROPBOX_LOADING, false);
         }).catch((res) => {
-            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateInfo({label: res, active: true, type: 'cancel'});
             this.props.updateLoading(DROPBOX_LOADING, false);
         });
     }
@@ -76,15 +72,15 @@ class Storage extends Component {
             var data = res.data.data.dropboxtoken;
             
             if (res.data.errors) {
-                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+                this.props.updateInfo({label: res.data.errors[0].message, active: true, type: 'cancel'});
             } else {
-                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+                this.props.updateInfo({label: data.msg, active: true, type: 'accept'});
             }
             
             this.updateData();
             //console.log(data.msg);
         }).catch((res) => {
-            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateInfo({label: res, active: true, type: 'cancel'});
             return this.props.updateLoading(DROPBOX_LOADING, false);
         });
     }
@@ -133,14 +129,6 @@ class Storage extends Component {
             return this.props.updateLoading(DROPBOX_LOADING, false);
         });
     }
-    
-    handleSnackbarClick = (event, instance) => {
-        this.setState({ info: false });
-    };
-    
-    handleSnackbarTimeout = (event, instance) => {
-        this.setState({ info: false });
-    };
 
     renderContent() {
         if (!this.state.dropboxemail) {
@@ -174,15 +162,6 @@ class Storage extends Component {
                 <h1>Koneksi </h1>
                 {this.renderContent()}
                 {this.props.loading ? <Loading /> : '' }
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.info}
-                    label={this.state.infoLabel}
-                    timeout={2000}
-                    onClick={this.handleSnackbarClick}
-                    onTimeout={this.handleSnackbarTimeout}
-                    type={this.state.infoType}
-                />
             </div>
         );
     }

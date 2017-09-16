@@ -8,6 +8,16 @@
     cursor: pointer;
     transition: .3s;
     font-weight: 300;
+
+    p {
+        display: flex;
+        align-items: center;
+
+        i {
+            font-size: 18px !important;
+            margin-left: 10px;
+        }
+    }
 }
 
 .container:hover {

@@ -22,8 +22,9 @@ class HideShower extends Component {
     
     render() {
         return (
-            <div>
+            <div className={style.wrapper}>
                 {this.renderContent()}
+                <div />
             </div>
         );
     }

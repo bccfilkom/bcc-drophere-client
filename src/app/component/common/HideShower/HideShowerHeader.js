@@ -20,7 +20,8 @@ class HideShower extends Component {
     render() {
         return (
             <div className={style.container} onClick={this.handleClick}>
-                <p>{this.props.label}</p>
+                <p>{this.props.label} {this.props.data.isProtected ? <i className="material-icons">locked</i> : ''}</p>
+
                 <i className="material-icons">mode_edit</i>
             </div>
         );

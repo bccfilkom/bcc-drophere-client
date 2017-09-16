@@ -6,7 +6,9 @@ import {
     UPDATE_LOADING,
     LOGIN,
     UPDATE_PARTICLE,
-    GET_LINKS
+    GET_LINKS,
+    UPDATE_INFO,
+    UNLOCK_PASSWORD
 } from './types';
 import { endpointURL } from 'config';
 
@@ -94,6 +96,34 @@ export const getLinks = () => axios.post(endpointURL, {
     
 }).catch((res) => {
     console.log(res, 'fck');
+});
+
+export const updateInfo = payload => ({ type: UPDATE_INFO, payload });
+
+export const unlockPassword = (slug, password) => axios.post(endpointURL, {
+    query: `
+    query {
+        links {
+            id
+            title
+            description
+            isProtected
+            deadline
+            slug
+        }
+    }`
+}).then(res => {
+    // check for error first
+    console.log(res, 'got it');
+    if (res.data.errors){
+        const error = res.data.errors[0].message;
+        return { type: UNLOCK_PASSWORD, errors: res.data.errors, error, links: null, slug };
+    } else {
+        const links = res.data.data.links || null;
+        return { type: UNLOCK_PASSWORD, slug };
+    }
+}).catch((res) => {
+    return { type: UNLOCK_PASSWORD, errors: res, error: '', links: null };
 });
 
 //TEMPAT MENGUBAH STATE

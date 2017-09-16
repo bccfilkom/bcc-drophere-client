@@ -116,7 +116,7 @@ class EditForm extends Component {
             <form onSubmit={this.onSave}>
             <SeparatedInput caption="http://bccdrophere.dev/">
                 <Input
-                hint="halaman"
+                hint="halaman*"
                 type="text"
                 value={this.state.slug || this.props.data.slug}
                 onChange={this.handleChange.bind(this, 'slug')}
@@ -136,7 +136,7 @@ class EditForm extends Component {
             
             <SeparatedInput caption="Judul">
                 <Input
-                hint="Kirim file kepada"
+                hint="Kirim file kepada*"
                 type="text"
                 value={this.state.title || this.props.data.title}
                 onChange={this.handleChange.bind(this, 'title')}

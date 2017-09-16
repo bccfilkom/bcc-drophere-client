@@ -41,7 +41,6 @@ class EditPage extends Component {
     }
 
     renderContent = () => {
-        console.log(this.props.links);
         if (this.props.links)
         return this.props.links.map(data => {
             return <HideShower 
@@ -49,6 +48,7 @@ class EditPage extends Component {
                 label={`http://bccdrophere.dev/${data.slug}`}
                 key={data.id + Date.now() + ''}
                 pageId={data.id}
+                data={data}
             ><EditForm onRefresh={this.refresh} data={data} /></HideShower>
         });
     }

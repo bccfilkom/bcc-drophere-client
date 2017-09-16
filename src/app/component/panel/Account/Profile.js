@@ -4,7 +4,6 @@ import { Button, IconButton } from 'react-toolbox/lib/button';
 import { connect } from 'react-redux';
 import * as actions from 'action';
 import axios from 'axios';
-import Snackbar from 'react-toolbox/lib/snackbar';
 
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
@@ -44,7 +43,7 @@ class Profile extends Component {
 
             this.props.updateLoading(GET_DATA, false);
         }).catch((res) => {
-            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateInfo({label: res, active: true, type: 'cancel'});
             this.props.updateLoading(GET_DATA, false);
         });
     }
@@ -57,9 +56,6 @@ class Profile extends Component {
         current: '',
         passwordErr: null,
         retypeErr: null,
-        info: false,
-        infoLabel: '',
-        infoType: 'accept',
     }
 
     handleChange = (name, value) => {
@@ -115,25 +111,17 @@ class Profile extends Component {
             var data = res.data.data.updatePassword;
 
             if (res.data.errors) {
-                this.setState({infoLabel: res.data.errors[0].message, info: true, infoType: 'cancel'});
+                this.props.updateInfo({label: res.data.errors[0].message, active: true, type: 'cancel'});
             } else {
-                this.setState({infoLabel: data.msg, info: true, infoType: 'accept'});
+                this.props.updateInfo({label: data.msg, active: true, type: 'accept'});
             }
 
             this.props.updateLoading(UPDATE_PASSWORD, false);
         }).catch((res) => {
-            this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.props.updateInfo({label: res, active: true, type: 'cancel'});
             return this.props.updateLoading(UPDATE_PASSWORD, false);
         });
     }
-    
-    handleSnackbarClick = (event, instance) => {
-        this.setState({ info: false });
-    };
-    
-    handleSnackbarTimeout = (event, instance) => {
-        this.setState({ info: false });
-    };
 
     render() {
         return (
@@ -193,15 +181,6 @@ class Profile extends Component {
                 {this.props.updatePasswordLoading ? <Loading /> : '' }
                 </form>
                 {this.props.getDataLoading ? <Loading cube /> : '' }
-                <Snackbar
-                    action='Dismiss'
-                    active={this.state.info}
-                    label={this.state.infoLabel}
-                    timeout={2000}
-                    onClick={this.handleSnackbarClick}
-                    onTimeout={this.handleSnackbarTimeout}
-                    type={this.state.infoType}
-                />
             </div>
         );
     }

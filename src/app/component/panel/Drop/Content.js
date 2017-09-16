@@ -51,13 +51,14 @@ class Content extends Component {
     }
 
     renderContent = () => {
-        let { data, locked } = this.state;
+        let { data } = this.state;
+        let unlocked = data ? this.props.unlocked[data.slug] : false;
         if (!data) return (
-            <div>
-                <span>404 NOT FOUND</span>
+            <div style={{marginTop: 60}}>
+                <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>- 404 NOT FOUND -</span>
             </div>
-        ); else if (data.isProtected || locked) return <Password data={data} {...this.props} />;
-        else return <DropFile data={this.data} {...this.props} />;
+        ); else if (data.isProtected && !unlocked) return <Password data={data} {...this.props} />;
+        else return <DropFile data={data} {...this.props} />;
     }
 
     render() {
@@ -73,8 +74,8 @@ class Content extends Component {
 }
 
 
-function mapStateToProps({ loading }, props) {
-    return { loading: loading[DROP_FILE_LOADING] };
+function mapStateToProps({ loading, unlocked }, props) {
+    return { loading: loading[DROP_FILE_LOADING], unlocked };
 }
 
 export default connect(mapStateToProps, actions)(Content);

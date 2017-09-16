@@ -1,7 +1,5 @@
 .container {
     width: 100%;
-    border: 1px solid #e3e3e3;
-    border-radius: 0 0 10px 10px;
     border-top: none;
     overflow: hidden;
     transform-origin: top center;
@@ -23,4 +21,9 @@
     padding: 0;
     border-width: 0;
     transition: .3s all;
+}
+
+.wrapper {
+    border: 1px solid #e3e3e3;
+    border-radius: 0 0 10px 10px;
 }
