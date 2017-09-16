@@ -64,6 +64,7 @@ class NewPage extends Component {
                     type="text"
                     value={this.state.page}
                     onChange={this.handleChange.bind(this, 'page')}
+                    required
                     />
                 </SeparatedInput>
                 
@@ -82,6 +83,7 @@ class NewPage extends Component {
                     type="text"
                     value={this.state.title}
                     onChange={this.handleChange.bind(this, 'title')}
+                    required
                     />
                 </SeparatedInput>
                 
@@ -103,7 +105,7 @@ class NewPage extends Component {
                     />
                 </SeparatedInput>
 
-                <div className={style.btn}><CustomButton>Buat Halaman</CustomButton></div>
+                <div className={style.btn}><CustomButton type="submit">Buat Halaman</CustomButton></div>
                 {this.props.loading ? <Loading /> : '' }
                 </form>
             </div>

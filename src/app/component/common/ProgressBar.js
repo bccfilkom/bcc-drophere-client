@@ -10,6 +10,7 @@ export default ({progress}) => {
             height: '100%',
             backgroundColor: '#a6dcf0',
             zIndex: 0,
+            transition: '.5s'
         }
     }
 

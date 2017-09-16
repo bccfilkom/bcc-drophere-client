@@ -151,7 +151,7 @@ class Profile extends Component {
                 <Input
                     type="text"
                     label="Email"
-                    value={this.state.email} required
+                    value={this.state.email}
                     onChange={this.handleChange.bind(this, 'email')}
                 />
                 <div className={style['button-wrapper']}>
@@ -161,19 +161,19 @@ class Profile extends Component {
                 </form>
 
                 <form onSubmit={this.onUpdatePassword}>
-                <h1 style={{marginTop: 40}}>Change Password</h1>
+                <h1 className={style['change-password-title']} style={{marginTop: 40}}>Change Password</h1>
                 <Input
                     type="password"
                     label="Current Password"
                     name="password"
-                    value={this.state.current} required
+                    value={this.state.current}
                     onChange={this.handleChange.bind(this, 'current')}
                 />
                 <Input
                     type="password"
                     label="New Password"
                     name="current_password"
-                    value={this.state.password} required
+                    value={this.state.password}
                     onChange={this.handleChange.bind(this, 'password')}
                     error={this.state.passwordErr}
                 />
@@ -181,7 +181,7 @@ class Profile extends Component {
                     type="password"
                     label="Retype Password"
                     name="retype_password"
-                    value={this.state.retype} required
+                    value={this.state.retype}
                     onChange={this.handleChange.bind(this, 'retype')}
                     error={this.state.retypeErr}
                 />
