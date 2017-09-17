@@ -1,2 +1,2 @@
-export const endpointURL =  'https://175.45.187.250:8881/graphql';
-export const uploadURL =  'https://175.45.187.250:8881/uploadfile';
+export const endpointURL =  'https://bccdrophere-filkom.ub.ac.id/graphql';
+export const uploadURL =  'https://bccdrophere-filkom.ub.ac.id/uploadfile';
