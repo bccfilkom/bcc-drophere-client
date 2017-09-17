@@ -58326,6 +58326,7 @@ var EditForm = function (_Component) {
                         _react2.default.createElement(_date_picker2.default, {
                             hint: 'Tautan akan mati pada deadline yang ditentukan',
                             type: 'text',
+                            minDate: this.state.deadline - 86400000,
                             value: this.state.deadline || new Date(this.props.data.deadline),
                             onChange: this.handleChange.bind(this, 'deadline')
                         })
