@@ -61,8 +61,18 @@ class Content extends Component {
             <div style={{marginTop: 60}}>
                 <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>{loading ? '' : '- 404 NOT FOUND -'}</span>
             </div>
-        ); else if (data.isProtected && !unlocked) return <Password data={data} {...this.props} />;
-        else return <DropFile data={data} {...this.props} />;
+        ); else if (data.deadline) {
+            console.log(data.deadline, data.deadline > Date.now());
+            if (data.deadline < Date.now()) {
+                return (
+                    <div style={{marginTop: 60}}>
+                        <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>LINK EXPIRED</span>
+                    </div>
+                );
+            } else if (data.isProtected && !unlocked) return <Password data={data} {...this.props} />;
+            else return <DropFile data={data} {...this.props} password={unlocked} />;
+        } else if (data.isProtected && !unlocked) return <Password data={data} {...this.props} />;
+        else return <DropFile data={data} {...this.props} password={unlocked} />;
     }
 
     render() {

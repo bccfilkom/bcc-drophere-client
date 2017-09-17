@@ -50,7 +50,8 @@ class DropFile extends Component {
 
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('linkid', this.props.data.id)
+        formData.append('linkid', this.props.data.id);
+        formData.append('password', this.props.password);
         axios.post(uploadURL, formData, {
             // config
             onUploadProgress: (progressEvent) => {

@@ -100,23 +100,26 @@ export const getLinks = () => axios.post(endpointURL, {
 
 export const updateInfo = payload => ({ type: UPDATE_INFO, payload });
 
-export const unlockPassword = (id, password) => axios.post(endpointURL, {
-    query: `
-    mutation {
-        checklinkpassword (linkId: ${id}, password: "${password}") {
-            msg
+
+export const unlockPassword = (id, password) => {
+    return axios.post(endpointURL, {
+        query: `
+        mutation {
+            checklinkpassword (linkId: ${id}, password: "${password}") {
+                msg
+            }
+        }`
+    }).then(res => {
+        // check for error first
+        if (res.data.errors) {
+            const error = res.data.errors[0].message;
+            return { type: UNLOCK_PASSWORD, errors: res.data.errors, error, links: null, id };
+        } else {
+            return { type: UNLOCK_PASSWORD, id, password };
         }
-    }`
-}).then(res => {
-    // check for error first
-    if (res.data.errors) {
-        const error = res.data.errors[0].message;
-        return { type: UNLOCK_PASSWORD, errors: res.data.errors, error, links: null, id };
-    } else {
-        return { type: UNLOCK_PASSWORD, id };
-    }
-}).catch((res) => {
-    return { type: UNLOCK_PASSWORD, errors: res, error: '', links: null };
-});
+    }).catch((res) => {
+        return { type: UNLOCK_PASSWORD, errors: res, error: '', links: null };
+    });
+}
 
 //TEMPAT MENGUBAH STATE
