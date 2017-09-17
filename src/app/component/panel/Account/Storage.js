@@ -89,7 +89,7 @@ class Storage extends Component {
         updateToken = this.updateToken;
         this.props.updateLoading(DROPBOX_LOADING);
         let win = window.open(
-            'https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=http://localhost:3000/dropauth',
+            'https://www.dropbox.com/oauth2/authorize?response_type=token&client_id=ojyhbt7ixgei5j9&redirect_uri=https://bccdrophere-filkom.ub.ac.id/dropauth',
             //'http://localhost:3000/dropauth#access_token=_1293819827319823y1823&token_type=bearer&uid=104613955&account_id=dbid%3AAABzjG2YLydqtZU9fEVJmM-oHmAcN6cLB_w',
             'Authorization',
             `height=400,width=800`
