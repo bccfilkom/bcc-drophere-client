@@ -5,8 +5,10 @@ import axios from 'axios';
 import Loading from '../../common/Loading';
 import Snackbar from 'react-toolbox/lib/snackbar';
 import { uploadURL } from 'config';
+import { connect } from 'react-redux';
+import * as actions from 'action';
 
-export default class DropFile extends Component {
+class DropFile extends Component {
     state = {
         file: null,
         uploadProgress: 0,
@@ -56,15 +58,17 @@ export default class DropFile extends Component {
                 // console.log(`Progress: ${percentCompleted} %`)
                 this.setState({
                     uploadProgress: percentCompleted
-                })
+                });
             }
         })
             .then(res => {
                 this.setState({ uploading: false });
+                this.props.updateInfo({label: res.data.msg, active: true, type: 'warning'});
                 // console.log(`Upload File Completed:`, res)
             })
             .catch(error => {
                 this.setState({ uploading: false, uploadFailed: true });
+                this.props.updateInfo({label: error, active: true, type: 'cancel'});
                 // console.log(`Error Uploading file: ${error}`)
             });
     }
@@ -182,3 +186,9 @@ export default class DropFile extends Component {
         }
     }
 }
+
+function mapStateToProps(state, props) {
+    return { };
+}
+
+export default connect(mapStateToProps, actions)(DropFile);

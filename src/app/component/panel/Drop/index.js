@@ -24,7 +24,7 @@ export default class Drop extends Component {
                     <Content  {...this.props}  />
                 </div>
 
-                <div className={style2['sponsor-container']} style={{width: '81%', margin: 'auto'}}>
+                <div className={style2['sponsor-container']} style={{width: '81%', margin: '10px auto 0px auto'}}>
                     <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
                     <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
                     <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
