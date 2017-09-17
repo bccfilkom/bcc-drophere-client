@@ -190,7 +190,7 @@ class EditForm extends Component {
             />
             </form>
             </div>
-        );
+        ); 
     }
 }
 
