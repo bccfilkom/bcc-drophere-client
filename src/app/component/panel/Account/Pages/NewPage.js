@@ -61,9 +61,9 @@ class NewPage extends Component {
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                <SeparatedInput caption="http://bccdrophere.dev/">
+                <SeparatedInput caption="bccdrophere/">
                     <Input
-                    hint="halaman"
+                    hint="Halaman"
                     type="text"
                     value={this.state.page}
                     onChange={this.handleChange.bind(this, 'page')}

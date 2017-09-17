@@ -115,9 +115,9 @@ class EditForm extends Component {
         return (
             <div>
             <form onSubmit={this.onSave}>
-            <SeparatedInput caption="http://bccdrophere.dev/">
+            <SeparatedInput caption="bccdrophere/">
                 <Input
-                hint="halaman*"
+                hint="Halaman"
                 type="text"
                 value={this.state.slug || this.props.data.slug}
                 onChange={this.handleChange.bind(this, 'slug')}
