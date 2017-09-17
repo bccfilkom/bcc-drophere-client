@@ -103,6 +103,7 @@ class NewPage extends Component {
                     <DatePicker
                         hint="Tautan akan mati pada deadline yang ditentukan"
                         type="text"
+                        minDate={new Date() - 86400000}
                         value={this.state.deadline}
                         onChange={this.handleChange.bind(this, 'deadline')}
                     />
