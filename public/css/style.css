@@ -23,7 +23,7 @@
 	box-sizing: border-box;
 }
 
-html, body {
+html, body, textarea {
 	font-family: "museo", "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	font-size: 10pt;
 	line-height: 1.5;

@@ -58,7 +58,7 @@ class AppRouter extends Component {
                         return <Account {...props} updateParticle={this.updateParticle} />;
                         return <Redirect to="/home" />
                     }} />
-                    <Route path="/:id" render={props => <Drop updateParticle={this.updateParticle} {...props} />} />
+                    <Route path="/:slug" render={props => <Drop updateParticle={this.updateParticle} {...props} />} />
                     </Switch>
                     <Snackbar
                         action={this.props.info.action}

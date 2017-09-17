@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import style from 'css/account-support';
-import CustomInput from '../../common/CustomInput';
+import Input from 'react-toolbox/lib/input';
+import { Button, IconButton } from 'react-toolbox/lib/button';
+import theme1 from 'css/common-button.scss';
+import theme2 from 'css/rtb-danger-button.scss';
 
 export default class Support extends Component {
     state = {
@@ -15,12 +18,18 @@ export default class Support extends Component {
         return (
             <div className={style.container + ' opening-transition'}>
                 <h1>Support</h1>
-                <CustomInput
-                type="text"
-                label="Masukkan pesan anda"
-                value={this.state.message}
-                onChange={this.handleChange.bind(this, "message")}
+                <Input
+                    type="text"
+                    label="Message"
+                    value={this.state.message}
+                    onChange={this.handleChange.bind(this, 'message')}
+                    multiline
+                    maxLength={500}
+                    rows={5}
                 />
+                <div className={style['button-wrapper']} style={{marginBottom: 40}}>
+                    <Button type="submit" theme={theme1} icon="send" label="Send" raised primary />
+                </div>
             </div>
         );
     }

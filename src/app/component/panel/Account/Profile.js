@@ -74,6 +74,27 @@ class Profile extends Component {
     onSave = e => {
         e.preventDefault();
         this.props.updateLoading(UPDATE_PROFILE);
+        axios.post(endpointURL, {
+            query: `
+            mutation {
+                updateprofile (newemail:"${this.state.email}") {
+                    msg
+                }
+            }`
+        }).then(res => {
+            var data = res.data.data.updateprofile;
+
+            if (res.data.errors) {
+                this.props.updateInfo({label: res.data.errors[0].message, active: true, type: 'cancel'});
+            } else {
+                this.props.updateInfo({label: data.msg, active: true, type: 'accept'});
+            }
+
+            this.props.updateLoading(UPDATE_PROFILE, false);
+        }).catch((res) => {
+            this.props.updateInfo({label: res, active: true, type: 'cancel'});
+            return this.props.updateLoading(UPDATE_PROFILE, false);
+        });
     }
     
     onUpdatePassword = e => {

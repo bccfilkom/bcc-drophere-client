@@ -8,7 +8,7 @@ import DropFile from './DropFile';
 import Password from './Password';
 import Header from './Header';
 import Menu from '../../common/Menu';
-import LoadingCube from '../../common/LoadingCube';
+import Loading from '../../common/Loading';
 import style from 'css/drop-content.scss';
 
 import * as actions from 'action';
@@ -20,6 +20,7 @@ class Content extends Component {
     state = {
         data: null,
         locked: true,
+        loading: true,
     }
 
     componentDidMount() {
@@ -27,7 +28,7 @@ class Content extends Component {
         axios.post(endpointURL, {
             query: `
             query {
-                link (slug: "${this.props.match.params.id}") {
+                link (slug: "${this.props.match.params.slug}") {
                     id
                     title
                     isProtected
@@ -43,19 +44,22 @@ class Content extends Component {
                 this.setState({data});
             }
 
+            this.setState({loading: false});
             this.props.updateLoading(DROP_FILE_LOADING, false);
         }).catch((res) => {
             this.setState({infoLabel: res, info: true, infoType: 'cancel'});
+            this.setState({loading: false});
             this.props.updateLoading(DROP_FILE_LOADING, false);
         });
     }
 
     renderContent = () => {
-        let { data } = this.state;
-        let unlocked = data ? this.props.unlocked[data.slug] : false;
+        let { data, loading } = this.state;
+        let unlocked = data ? this.props.unlocked[data.id] : false;
+        
         if (!data) return (
             <div style={{marginTop: 60}}>
-                <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>- 404 NOT FOUND -</span>
+                <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>{loading ? '' : '- 404 NOT FOUND -'}</span>
             </div>
         ); else if (data.isProtected && !unlocked) return <Password data={data} {...this.props} />;
         else return <DropFile data={data} {...this.props} />;
@@ -66,7 +70,7 @@ class Content extends Component {
             <div className={style.container + ' wrapper'}>
                 <div className={style.content}>
                     {this.renderContent()}
-                    {this.props.loading ? <LoadingCube /> : '' }
+                    {this.props.loading ? <Loading cube /> : '' }
                 </div>
             </div>
         );

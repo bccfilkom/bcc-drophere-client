@@ -100,27 +100,20 @@ export const getLinks = () => axios.post(endpointURL, {
 
 export const updateInfo = payload => ({ type: UPDATE_INFO, payload });
 
-export const unlockPassword = (slug, password) => axios.post(endpointURL, {
+export const unlockPassword = (id, password) => axios.post(endpointURL, {
     query: `
-    query {
-        links {
-            id
-            title
-            description
-            isProtected
-            deadline
-            slug
+    mutation {
+        checklinkpassword (linkId: ${id}, password: "${password}") {
+            msg
         }
     }`
 }).then(res => {
     // check for error first
-    console.log(res, 'got it');
-    if (res.data.errors){
+    if (res.data.errors) {
         const error = res.data.errors[0].message;
-        return { type: UNLOCK_PASSWORD, errors: res.data.errors, error, links: null, slug };
+        return { type: UNLOCK_PASSWORD, errors: res.data.errors, error, links: null, id };
     } else {
-        const links = res.data.data.links || null;
-        return { type: UNLOCK_PASSWORD, slug };
+        return { type: UNLOCK_PASSWORD, id };
     }
 }).catch((res) => {
     return { type: UNLOCK_PASSWORD, errors: res, error: '', links: null };
