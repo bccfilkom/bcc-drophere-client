@@ -45,7 +45,7 @@ class EditPage extends Component {
         return this.props.links.map(data => {
             return <HideShower 
                 id="editPage"
-                label={`http://bccdrophere.dev/${data.slug}`}
+                label={`https://bccdrophere-filkom.ub.ac.id/${data.slug}`}
                 key={data.id + Date.now() + ''}
                 pageId={data.id}
                 data={data}

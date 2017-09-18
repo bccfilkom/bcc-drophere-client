@@ -71,8 +71,9 @@ class NewPage extends Component {
                     />
                 </SeparatedInput>
                 
-                <SeparatedInput caption="Password Unggah">
+                <SeparatedInput password caption="Password Unggah">
                     <Input
+                    password
                     hint="password"
                     type="text"
                     value={this.state.password}

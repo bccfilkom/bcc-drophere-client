@@ -125,8 +125,9 @@ class EditForm extends Component {
                 />
             </SeparatedInput>
             
-            <SeparatedInput caption="Password Unggah">
+            <SeparatedInput password caption="Password Unggah">
                 <Input
+                password
                 hint="password"
                 type="password"
                 name={this.state.slug}

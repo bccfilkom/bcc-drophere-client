@@ -273,3 +273,12 @@ form {
   input:required {
     box-shadow:none;
 }
+
+.footer-link {
+    font-weight: 700;
+    color: inherit;
+}
+
+.footer-link:hover {
+    color: #009cff;
+}
