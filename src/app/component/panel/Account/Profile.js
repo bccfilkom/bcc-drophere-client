@@ -8,6 +8,7 @@ import axios from 'axios';
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
 import Loading from '../../common/Loading';
+import Preloader from '../../common/Preloader';
 
 import style from 'css/account-profile.scss';
 import { endpointURL } from 'config';
@@ -147,8 +148,10 @@ class Profile extends Component {
     render() {
         return (
             <div className={style.container + ' opening-transition'}>
-                <form onSubmit={this.onSave} >
                 <h1>Profil</h1>
+                { !this.props.getDataLoading ?
+                <div className="opening-transition">
+                <form onSubmit={this.onSave} >
                 <Input
                     type="text"
                     label="Username"
@@ -201,7 +204,9 @@ class Profile extends Component {
 
                 {this.props.updatePasswordLoading ? <Loading /> : '' }
                 </form>
-                {this.props.getDataLoading ? <Loading cube /> : '' }
+                </div>
+                 : <Preloader />
+                }
             </div>
         );
     }

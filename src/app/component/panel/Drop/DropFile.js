@@ -84,7 +84,7 @@ class DropFile extends Component {
     render() {
         let fileList;
         const data = this.props.data;
-        let hari, tanggal, bulan, tahun, deadline, date;
+        let hari, tanggal, bulan, tahun, deadline, date, jam, menit;
         
         if (data) if (data.deadline) {
             deadline = new Date(data.deadline);
@@ -93,6 +93,8 @@ class DropFile extends Component {
             bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][deadline.getMonth()];
             tahun = deadline.getFullYear();
             date = `${hari}, ${tanggal} ${bulan} ${tahun}`;
+            jam = deadline.getHours();
+            menit = deadline.getMinutes();
         }
 
         if (this.state.file && typeof this.state.file === "object")
@@ -107,7 +109,7 @@ class DropFile extends Component {
             <div className={style.container}>
                 {data ? <span className={style.title}>{data.title}</span> : ''}
                 {data ? <span className={style.subtitle}>{data.description}</span> : ''}
-                {data ? (data.deadline ? <span className={style['time-limit']}>Tautan akan ditutup pada : {date} pukul 23:59 WIB</span> : '') : '' }
+                {data ? (data.deadline ? <span className={style['time-limit']}>Tautan akan ditutup pada : {date} pukul {`${jam}:${menit}`} WIB</span> : '') : '' }
             
                 <div
                     className={style['drop-file-container']}

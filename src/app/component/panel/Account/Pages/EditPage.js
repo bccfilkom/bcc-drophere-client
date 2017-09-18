@@ -64,7 +64,6 @@ class EditPage extends Component {
                     <CustomButton onClick={this.handleClick} style={{marginTop: -60, marginRight: 0}}>Buat Halaman Baru</CustomButton>
                 </div>
                 {this.renderContent()}
-                {this.props.loading ? <Loading /> : '' }
             </div>
         );
     }

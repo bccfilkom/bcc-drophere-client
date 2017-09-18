@@ -9,6 +9,7 @@ import * as actions from 'action';
 import theme1 from 'css/common-button.scss';
 import theme2 from 'css/rtb-danger-button.scss';
 import style from 'css/storage.scss';
+import Preloader from '../../common/Preloader';
 
 import Loading from '../../common/Loading';
 import CustomButton from '../../common/CustomButton';
@@ -17,6 +18,7 @@ import path from 'path';
 import { endpointURL } from 'config';
 
 var DROPBOX_LOADING = "storageDropboxLoading";
+var GET_DATA_LOADING = "storageGetDataLoading";
 
 class Storage extends Component {
     state = {
@@ -30,11 +32,11 @@ class Storage extends Component {
     };
 
     componentDidMount() {
-        this.updateData();
+        this.updateData(GET_DATA_LOADING);
     }
 
-    updateData = () => {
-        this.props.updateLoading(DROPBOX_LOADING);
+    updateData = (loading = DROPBOX_LOADING) => {
+        this.props.updateLoading(loading);
         axios.post(endpointURL, {
             query: `
             query {
@@ -52,10 +54,10 @@ class Storage extends Component {
                 //console.log(data);
             }
 
-            this.props.updateLoading(DROPBOX_LOADING, false);
+            this.props.updateLoading(loading, false);
         }).catch((res) => {
             this.props.updateInfo({label: res, active: true, type: 'cancel'});
-            this.props.updateLoading(DROPBOX_LOADING, false);
+            this.props.updateLoading(loading, false);
         });
     }
 
@@ -160,15 +162,19 @@ class Storage extends Component {
         return (
             <div className={style.container}>
                 <h1>Koneksi </h1>
-                {this.renderContent()}
-                {this.props.loading ? <Loading /> : '' }
+                {this.props.getDateLoading ? <Preloader />
+                :   <div>
+                        {this.renderContent()}
+                        {this.props.loading ? <Loading /> : '' }
+                    </div>
+                }
             </div>
         );
     }
 }
 
 function mapStateToProps({logintoken, loading}) {
-    return {logintoken, loading: loading[DROPBOX_LOADING]};
+    return {logintoken, loading: loading[DROPBOX_LOADING], getDateLoading: loading[GET_DATA_LOADING]};
 };
 
 export default connect(mapStateToProps, actions)(Storage);

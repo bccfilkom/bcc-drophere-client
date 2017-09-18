@@ -282,3 +282,45 @@ form {
 .footer-link:hover {
     color: #009cff;
 }
+
+.loader, .loader2, .loader3 {
+    border: 3px solid rgba(255,255,255,0);
+    border-radius: 50%;
+    border-top-color: #3498db;
+    width: 120px;
+    height: 120px;
+    
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin .7s linear infinite;
+    position: absolute;
+}
+  
+.loader2 { 
+    width: 100px; height: 100px; transform: rotate(30deg); 
+    animation: spin .5s linear infinite;
+    border-top-color: #e67e22;
+}
+
+.loader3 { 
+    width: 80px; height: 80px; transform: rotate(100deg); 
+    animation: spin .9s linear infinite;
+    border-top-color: #2ecc71;
+}
+  
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 380px;
+}
+  
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
