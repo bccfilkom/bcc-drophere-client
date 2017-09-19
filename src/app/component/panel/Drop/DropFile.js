@@ -31,7 +31,7 @@ class DropFile extends Component {
             return;
         }
         // max 10 mb (10 * 1024 * 1024)
-        if(file.size > 10485760){
+        if(file.size > 104857600){
             this.setState({
                 message: {
                     ...this.state.message,
@@ -64,7 +64,7 @@ class DropFile extends Component {
         })
             .then(res => {
                 this.setState({ uploading: false });
-                this.props.updateInfo({label: res.data.msg, active: true, type: 'warning'});
+                this.props.updateInfo({label: res.data.msg, active: true, type: 'accept'});
                 // console.log(`Upload File Completed:`, res)
             })
             .catch(error => {
@@ -149,7 +149,7 @@ class DropFile extends Component {
                 <Snackbar
                     action="Dismiss"
                     active={this.state.message.fileSizeLimitExceeds}
-                    label="Ukuran file melebihi batas (10 MB)"
+                    label="Ukuran file melebihi batas (100 MB)"
                     timeout={3000}
                     onTimeout={this.fileSizeLimitExceedsWarningHandler}
                     onClick={this.fileSizeLimitExceedsWarningHandler}

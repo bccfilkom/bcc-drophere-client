@@ -10,11 +10,15 @@
 
     .top {
         display: flex;
-        width: 100%;
+        width: 98%;
         border-bottom: 1px solid #D8D8D8;
 
+        @media screen and (max-width: 400px) {
+            justify-content: center;
+        }
+
         img {
-            height: 158px;
+            height: 210px;
             margin: 30px;
             margin-top: 30px;
             margin-left: 20px;
