@@ -159,12 +159,8 @@ class EditForm extends Component {
                 <DatePicker
                     hint="Tautan akan mati pada deadline yang ditentukan"
                     type="text"
-<<<<<<< HEAD
                     minDate={(this.state.deadline < Date.now() ? this.state.deadline - 86400000 : new Date() - 86400000)}
-                    value={this.state.deadline || new Date(this.props.data.deadline)}
-=======
                     value={this.state.deadline || this.props.data.deadline}
->>>>>>> f59867ca135c1a20893c28a0cae8c7ddd9dc64ed
                     onChange={this.handleChange.bind(this, 'deadline')}
                 />
             </SeparatedInput>
