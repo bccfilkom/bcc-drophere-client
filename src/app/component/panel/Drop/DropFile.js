@@ -93,8 +93,8 @@ class DropFile extends Component {
             bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'][deadline.getMonth()];
             tahun = deadline.getFullYear();
             date = `${hari}, ${tanggal} ${bulan} ${tahun}`;
-            jam = deadline.getHours();
-            menit = deadline.getMinutes();
+            jam = deadline.getHours().toString().padStart(2, '0');
+            menit = deadline.getMinutes().toString().padStart(2, '0');
         }
 
         if (this.state.file && typeof this.state.file === "object")
