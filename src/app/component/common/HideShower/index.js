@@ -15,7 +15,7 @@ class HideShower extends Component {
 
     render() {
         return (
-            <div style={{marginBottom: 10}}>
+            <div style={{marginBottom: 10, animationDelay: this.props.index * .1 + 's'}} className="list-anim">
             <HideShowerHeader {...this.props} />
             <HideShowerContent {...this.props} />
             </div>

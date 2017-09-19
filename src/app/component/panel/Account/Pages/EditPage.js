@@ -7,6 +7,7 @@ import SeparatedInput from '../../../common/SeparatedInput';
 import CustomButton from '../../../common/CustomButton';
 import HideShower from '../../../common/HideShower';
 import Loading from '../../../common/Loading';
+import Preloader from '../../../common/Preloader';
 
 import style from 'css/edit-page.scss';
 
@@ -23,6 +24,7 @@ class EditPage extends Component {
         this.props.updateLoading(GET_LINKS);
         this.props.getLinks().then(res => {
             this.props.updateLoading(GET_LINKS, false);
+            this.setState({isFetching: false});
             if (res.error) {
                 return this.setState({error: res.error}); // what is this for?
             }
@@ -33,7 +35,8 @@ class EditPage extends Component {
     }
 
     state = {
-        data: []
+        data: [],
+        isFetching: true
     }
 
     handleChange(name, value) {
@@ -41,16 +44,18 @@ class EditPage extends Component {
     }
 
     renderContent = () => {
-        if (this.props.links)
-        return this.props.links.map(data => {
+        if (this.props.links && !this.state.isFetching)
+        return this.props.links.map((data, i) => {
             return <HideShower 
                 id="editPage"
                 label={`https://bccdrophere-filkom.ub.ac.id/${data.slug}`}
                 key={data.id + Date.now() + ''}
                 pageId={data.id}
                 data={data}
+                index={i}
             ><EditForm onRefresh={this.refresh} data={data} /></HideShower>
         });
+        else return <Preloader />
     }
 
     handleClick = e => {

@@ -62,7 +62,7 @@ class NewPage extends Component {
         let initialTime = new Date();
         initialTime.setHours(23, 59);
         return (
-            <div>
+            <div className="opening-transition">
                 <form onSubmit={this.onSubmit}>
                 <SeparatedInput caption="bccdrophere/">
                     <Input

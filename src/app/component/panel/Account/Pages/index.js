@@ -11,7 +11,7 @@ import style from 'css/pages.scss';
 export default class Pages extends Component {
     render() {
         return (
-            <div className={style.container + ' opening-transition'}>
+            <div className={style.container}>
                 <h1>Halaman</h1>
                 <Switch>
                 <Route path="/account/pages" exact component={EditPage} />

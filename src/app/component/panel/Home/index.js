@@ -15,10 +15,10 @@ export default class Home extends Component {
         return (
             <div className={style.container}>
                 <div className={style.content}>
-                    <div className={style.header}>
+                    <div className={style.header + ' left-to-right-anim'}>
                         <Header />
                     </div>
-                    <div className={style.auth}>
+                    <div className={style.auth + ' right-to-left-anim'}>
                         <Switch>
                             <Route path="/home" exact component={Login} />
                             <Route path="/register" exact component={Register} />
