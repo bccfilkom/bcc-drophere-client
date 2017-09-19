@@ -100,7 +100,7 @@ class EditForm extends Component {
 
     componentDidMount() {
         let { id, title, slug, description, password, deadline } = this.props.data;
-        this.setState({id, title, slug, description, password, deadline: new Date(deadline)});
+        this.setState({id, title, slug, description, password, deadline: deadline ? new Date(deadline) : null});
     }
     
     handleSnackbarClick = (event, instance) => {
@@ -159,16 +159,16 @@ class EditForm extends Component {
                 <DatePicker
                     hint="Tautan akan mati pada deadline yang ditentukan"
                     type="text"
-                    value={this.state.deadline || new Date(this.props.data.deadline)}
+                    value={this.state.deadline || this.props.data.deadline}
                     onChange={this.handleChange.bind(this, 'deadline')}
                 />
             </SeparatedInput>
 
-            { this.state.deadline ? 
+            {this.state.deadline ? 
             <SeparatedInput caption="Deadline Waktu">
                 <TimePicker
                     hint="Waktu penutupan"
-                    value={this.state.deadline}
+                    value={this.state.deadline || this.props.data.deadline}
                     onChange={this.handleChange.bind(this, 'deadline')}
                 />
             </SeparatedInput> : ''

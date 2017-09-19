@@ -34,15 +34,16 @@ class NewPage extends Component {
         e.preventDefault();
         var {title, page , deadline, password, description} = this.state;
         this.props.updateLoading(NEW_POST_LOADING);
-        
-        axios.post(endpointURL, {
+        let query = {
             query: `
             mutation {
                 createlink(title: "${title}", slug: "${page}", description: "${description}"${deadline ? `, deadline: ${deadline.getTime()}` : ''}, password: "${password}") {
                     title
                 }
             }`
-        }).then(res => {
+        };
+        
+        axios.post(endpointURL, query).then(res => {
             var createlink = res.data.data.createlink;
             if (!res.data.errors) {
                 this.props.history.push('/account/pages');
