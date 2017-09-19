@@ -20,12 +20,12 @@ export default class Drop extends Component {
                     <Header />
                 </div>
 
-                <div style={{height: '68%'}}>
+                <div style={{height: '67%'}}>
                     <Content  {...this.props}  />
                 </div>
 
                 <div className={style2['sponsor-container']} style={{width: '81%', margin: '10px auto 0px auto'}}>
-                    <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
+                    <div className={style2['sponsor-wrapper']}><img src="/img/carbon37.png"/></div>
                     <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
                     <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
                 </div>

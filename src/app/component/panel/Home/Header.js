@@ -6,11 +6,7 @@ export default class Header extends Component {
         return (
             <div className={style.container}>
                 <div className={style.top}>
-                    <img src="/img/bcc-logo-vertical-fit.png" alt="BCC LOGO" />
-                    <div className={style.title}>
-                        <h1>Drop</h1>
-                        <h1 style={{marginTop: 30}}>Here</h1>
-                    </div>
+                    <img src="/img/drophere-logo.png" alt="BCC LOGO" />
                 </div>
                 <div className={style.middle}>
                     <p>Sebuah fasilitas untuk mengunggah file yang terintegrasi dengan cloud storage Dropbox dan Google Drive</p>

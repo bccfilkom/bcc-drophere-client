@@ -4,7 +4,7 @@ import Header from './Header';
 import Login from './Login';
 import Register from './Register';
 import Footer from '../../common/Footer';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 export default class Home extends Component {
     componentDidMount() {

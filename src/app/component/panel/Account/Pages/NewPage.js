@@ -34,24 +34,27 @@ class NewPage extends Component {
         e.preventDefault();
         var {title, page , deadline, password, description} = this.state;
         this.props.updateLoading(NEW_POST_LOADING);
-        
-        axios.post(endpointURL, {
+        let query = {
             query: `
             mutation {
                 createlink(title: "${title}", slug: "${page}", description: "${description}"${deadline ? `, deadline: ${deadline.getTime()}` : ''}, password: "${password}") {
-                    id
+                    title
                 }
             }`
-        }).then(res => {
+        };
+        
+        axios.post(endpointURL, query).then(res => {
             var createlink = res.data.data.createlink;
-            if (createlink) {
+            if (!res.data.errors) {
                 this.props.history.push('/account/pages');
+                this.props.updateInfo({active: true, label: `Page ${createlink.title} was created!`, type: 'accept'});
                 return this.props.updateLoading(NEW_POST_LOADING, false);
             }
 
-            console.log(res.data.errors);
+            throw res.data.errors[0].message;
         }).catch((res) => {
-            console.log(res, 'Error occurred');
+            this.props.updateInfo({active: true, label: res, type: 'cancel'});
+            this.props.updateLoading(NEW_POST_LOADING, false);
         });
     }
 

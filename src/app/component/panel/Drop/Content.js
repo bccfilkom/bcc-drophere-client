@@ -58,14 +58,14 @@ class Content extends Component {
         let unlocked = data ? this.props.unlocked[data.id] : false;
         
         if (!data) return (
-            <div style={{marginTop: 60}}>
+            <div style={{paddingTop: 60}}>
                 <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>{loading ? '' : '- 404 NOT FOUND -'}</span>
             </div>
         ); else if (data.deadline) {
             console.log(data.deadline, data.deadline > Date.now());
             if (data.deadline < Date.now()) {
                 return (
-                    <div style={{marginTop: 60}}>
+                    <div style={{paddingTop: 60}}>
                         <span style={{textAlign: 'center', fontSize: '20pt', fontWeight: 100}}>LINK EXPIRED</span>
                     </div>
                 );
@@ -80,7 +80,7 @@ class Content extends Component {
             <div className={style.container + ' wrapper'}>
                 <div className={style.content}>
                     {this.renderContent()}
-                    {this.props.loading ? <Loading cube /> : '' }
+                    {this.props.loading ? <Loading circular /> : '' }
                 </div>
             </div>
         );
