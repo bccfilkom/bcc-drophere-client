@@ -77,7 +77,7 @@ class Register extends Component {
                 </div>
 
                 <div className={style.footer}>
-                    <p>Sudah memiliki akun? <Link to="/login">Masuk</Link></p>
+                    <p>Sudah memiliki akun? <Link to="/home">Masuk</Link></p>
                 </div>
             </div>
         );
