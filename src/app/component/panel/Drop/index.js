@@ -9,8 +9,37 @@ import Footer from '../../common/Footer';
 import Content from './Content';
 
 export default class Drop extends Component {
+    state = {
+        data: [],
+    }
     componentDidMount() {
         this.props.updateParticle(true);
+        this.loadSponsor();
+    }
+
+    loadSponsor = () => {
+        axios.get('/json/sponsor.json').then(({data}) => {
+            let res = [];
+            for (let i = 0; i < 3; i++) {
+                let random = Math.floor(Math.random() * data.length);
+                res.push(data[random]);
+                data.splice(random, 1);
+            }
+            
+            this.setState({data: res});
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+
+    renderSponsor() {
+        let data = this.state.data;
+
+        return data.map(obj => {
+            return (
+                <div className={style2['sponsor-wrapper']}><a href={obj.link} target="_blank"><img src={obj.img}/></a></div>
+            );
+        });
     }
     
     render() {
@@ -25,9 +54,7 @@ export default class Drop extends Component {
                 </div>
 
                 <div className={style2['sponsor-container']} style={{width: '81%', margin: '10px auto 0px auto'}}>
-                    <div className={style2['sponsor-wrapper']}><img src="/img/carbon37.png"/></div>
-                    <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
-                    <div className={style2['sponsor-wrapper']}>Banner Iklan</div>
+                    {this.renderSponsor()}
                 </div>
 
                 <Footer />

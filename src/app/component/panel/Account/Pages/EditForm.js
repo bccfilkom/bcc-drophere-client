@@ -91,6 +91,7 @@ class EditForm extends Component {
             }
             //console.log(data.msg);
             this.props.updateLoading(EDIT_FORM_LOADING, false);
+            this.props.updateLink(this.props.index, this.props.data);
             //this.props.onRefresh();
         }).catch((res) => {
             this.setState({infoLabel: res, info: true, infoType: 'cancel'});

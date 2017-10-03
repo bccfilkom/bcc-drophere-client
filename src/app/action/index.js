@@ -8,7 +8,8 @@ import {
     UPDATE_PARTICLE,
     GET_LINKS,
     UPDATE_INFO,
-    UNLOCK_PASSWORD
+    UNLOCK_PASSWORD,
+    UPDATE_LINK
 } from './types';
 import { endpointURL } from 'config';
 
@@ -98,8 +99,9 @@ export const getLinks = () => axios.post(endpointURL, {
     console.log(res, 'fck');
 });
 
-export const updateInfo = payload => ({ type: UPDATE_INFO, payload });
+export const updateLink = (index, data) => ({type: UPDATE_LINK, index, data});
 
+export const updateInfo = payload => ({ type: UPDATE_INFO, payload });
 
 export const unlockPassword = (id, password) => {
     return axios.post(endpointURL, {
