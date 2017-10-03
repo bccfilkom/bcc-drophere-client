@@ -9,7 +9,11 @@ import {
     GET_LINKS,
     UPDATE_INFO,
     UNLOCK_PASSWORD,
+<<<<<<< HEAD
     UPDATE_LINK
+=======
+    UPDATE_LINK,
+>>>>>>> 14e77d39620e7fb1d55b5afd65a2b2492d45bd82
 } from './types';
 import { endpointURL } from 'config';
 

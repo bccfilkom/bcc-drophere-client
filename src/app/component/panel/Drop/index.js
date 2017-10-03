@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import style from 'css/account.scss';
 import style2 from 'css/drop-file.scss'
 import { Route, Switch, Redirect } from 'react-router-dom';
@@ -12,6 +14,10 @@ export default class Drop extends Component {
     state = {
         data: [],
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14e77d39620e7fb1d55b5afd65a2b2492d45bd82
     componentDidMount() {
         this.props.updateParticle(true);
         this.loadSponsor();
