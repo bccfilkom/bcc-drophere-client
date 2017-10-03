@@ -53,7 +53,7 @@ class EditPage extends Component {
                 pageId={data.id}
                 data={data}
                 index={i}
-            ><EditForm onRefresh={this.refresh} data={data} /></HideShower>
+            ><EditForm onRefresh={this.refresh} data={data} index={i} /></HideShower>
         });
         else return <Preloader />
     }
