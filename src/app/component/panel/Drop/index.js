@@ -14,7 +14,6 @@ export default class Drop extends Component {
     state = {
         data: [],
     }
-
     componentDidMount() {
         this.props.updateParticle(true);
         this.loadSponsor();
