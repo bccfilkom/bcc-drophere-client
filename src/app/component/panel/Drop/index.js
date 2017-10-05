@@ -22,12 +22,19 @@ export default class Drop extends Component {
 
     loadSponsor = () => {
         axios.get('/json/sponsor.json').then(({data}) => {
-            let res = [];
-            for (let i = 0; i < 3; i++) {
+            let res = [], remain = 0;
+            for (let i = 0; i < data.length; i++) if (data[i].special) {
+                res.push(data[i]);
+                data.splice(i, 1);
+            }
+            remain = res.length;
+            for (let i = 0; i < 3 - remain; i++) {
                 let random = Math.floor(Math.random() * data.length);
                 res.push(data[random]);
                 data.splice(random, 1);
             }
+
+            console.log(res);
             
             this.setState({data: res});
         }).catch(err => {

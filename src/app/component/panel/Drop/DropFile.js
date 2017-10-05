@@ -129,7 +129,7 @@ class DropFile extends Component {
                             />
                         </label>
                     </div>
-                    {this.state.uploading ? <Loading /> : ''}
+                    {this.state.uploading ? <Loading circular/> : ''}
                 </div>
                 <div
                     ref={e => this.fileListContainer = e}

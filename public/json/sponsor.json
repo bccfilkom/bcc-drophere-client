@@ -1,7 +1,8 @@
 [
     {
         "img": "/img/carbon37.png",
-        "link": "http://carbon.filkom.ub.ac.id/"
+        "link": "http://carbon.filkom.ub.ac.id/",
+        "special": "true"
     },
     {
         "img": "/img/carbon37.png",
