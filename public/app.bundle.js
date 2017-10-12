@@ -59986,7 +59986,7 @@ var Drop = function (_Component) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Drop.__proto__ || Object.getPrototypeOf(Drop)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             data: []
         }, _this.loadSponsor = function () {
-            _axios2.default.get('http://github.com/bccfilkom/bcc-drophere-client/raw/master/public/json/sponsor.json').then(function (_ref2) {
+            _axios2.default.get('https://github.com/bccfilkom/bcc-drophere-client/raw/master/public/json/sponsor.json').then(function (_ref2) {
                 var data = _ref2.data;
 
                 var res = [],
