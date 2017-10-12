@@ -20,7 +20,7 @@ export default class Drop extends Component {
     }
 
     loadSponsor = () => {
-        axios.get('https://raw.githubusercontent.com/bccfilkom/bcc-drophere-client/master/public/json/sponsor.json').then(({data}) => {
+        axios.get('/json/sponsor.json').then(({data}) => {
             let res = [], remain = 0;
             for (let i = 0; i < data.length; i++) if (data[i].special) {
                 res.push(data[i]);
