@@ -1241,10 +1241,131 @@ $exports.store = store;
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-throw new Error("Module build failed: SyntaxError: Unexpected token (1:1)\n\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 1 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m   | \u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 2 | \u001b[39m\u001b[36mimport\u001b[39m axios from \u001b[32m'axios'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 3 | \u001b[39m\u001b[36mimport\u001b[39m { \n \u001b[90m 4 | \u001b[39m    \u001b[33mUPDATE_SELECTED\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n");
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.unlockPassword = exports.updateInfo = exports.updateLink = exports.getLinks = exports.updateParticle = exports.login = exports.register = exports.updatePage = exports.updateLoading = exports.updateSelected = undefined;
+
+var _axios = __webpack_require__(21);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _types = __webpack_require__(40);
+
+var _config = __webpack_require__(46);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var updateSelected = exports.updateSelected = function updateSelected(id, selected) {
+    return { type: _types.UPDATE_SELECTED, id: id, selected: selected };
+};
+
+var updateLoading = exports.updateLoading = function updateLoading(id) {
+    var loading = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    return { type: _types.UPDATE_LOADING, id: id, loading: loading };
+};
+
+var updatePage = exports.updatePage = function updatePage(id, page) {
+    return { type: _types.UPDATE_PAGE, id: id, page: page };
+};
+
+var register = exports.register = function register(username, email, password) {
+    return _axios2.default.post(_config.endpointURL, {
+        query: '\n    mutation register($username: String!, $email: String!, $password: String!) {\n        register(username: $username, email: $email, password: $password) {\n            logintoken\n        }\n    }',
+        variables: {
+            username: username, email: email, password: password
+        },
+        operationName: 'register'
+    }).then(function (res) {
+        var register = res.data.data.register;
+        if (register) {
+            var logintoken = register.logintoken;
+            window.localStorage.setItem('bccdrophere_token', logintoken);
+            _axios2.default.defaults.headers.common['Authorization'] = logintoken;
+
+            return { type: _types.LOGIN, logintoken: logintoken };
+        }
+
+        return { type: _types.LOGIN, errors: res.data.errors, error: res.data.errors[0].message };
+    }).catch(function (res) {
+        console.log(res, 'fck');
+    });
+};
+
+var login = exports.login = function login(username, password) {
+    return _axios2.default.post(_config.endpointURL, {
+        query: '\n    mutation login($username: String!, $password: String!) {\n        login(username: $username, password: $password) {\n            logintoken\n        }\n    }',
+        variables: {
+            username: username, password: password
+        },
+        operationName: 'login'
+    }).then(function (res) {
+        var login = res.data.data.login;
+        if (login) {
+            var logintoken = login.logintoken;
+            window.localStorage.setItem('bccdrophere_token', logintoken);
+            _axios2.default.defaults.headers.common['Authorization'] = logintoken;
+
+            return { type: _types.LOGIN, logintoken: logintoken };
+        }
+
+        return { type: _types.LOGIN, errors: res.data.errors, error: res.data.errors[0].message };
+    }).catch(function (res) {
+        console.log(res, 'fck');
+    });
+};
+
+var updateParticle = exports.updateParticle = function updateParticle(payload) {
+    return { type: _types.UPDATE_PARTICLE, payload: payload };
+};
+
+var getLinks = exports.getLinks = function getLinks() {
+    return _axios2.default.post(_config.endpointURL, {
+        query: '\n    query {\n        links {\n            id\n            title\n            description\n            isProtected\n            deadline\n            slug\n        }\n    }'
+    }).then(function (res) {
+        // check for error first
+        if (res.data.errors) {
+            var error = res.data.errors[0].message;
+            return { type: _types.GET_LINKS, errors: res.data.errors, error: error, links: null };
+        } else {
+            var links = res.data.data.links || null;
+            return { type: _types.GET_LINKS, links: links };
+        }
+    }).catch(function (res) {
+        console.log(res, 'fck');
+    });
+};
+
+var updateLink = exports.updateLink = function updateLink(index, data) {
+    return { type: _types.UPDATE_LINK, index: index, data: data };
+};
+
+var updateInfo = exports.updateInfo = function updateInfo(payload) {
+    return { type: _types.UPDATE_INFO, payload: payload };
+};
+
+var unlockPassword = exports.unlockPassword = function unlockPassword(id, password) {
+    return _axios2.default.post(_config.endpointURL, {
+        query: '\n        mutation {\n            checklinkpassword (linkId: ' + id + ', password: "' + password + '") {\n                msg\n            }\n        }'
+    }).then(function (res) {
+        // check for error first
+        if (res.data.errors) {
+            var error = res.data.errors[0].message;
+            return { type: _types.UNLOCK_PASSWORD, errors: res.data.errors, error: error, links: null, id: id };
+        } else {
+            return { type: _types.UNLOCK_PASSWORD, id: id, password: password };
+        }
+    }).catch(function (res) {
+        return { type: _types.UNLOCK_PASSWORD, errors: res, error: '', links: null };
+    });
+};
+
+//TEMPAT MENGUBAH STATE
 
 /***/ }),
 /* 16 */
@@ -59865,7 +59986,7 @@ var Drop = function (_Component) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Drop.__proto__ || Object.getPrototypeOf(Drop)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
             data: []
         }, _this.loadSponsor = function () {
-            _axios2.default.get('/json/sponsor.json').then(function (_ref2) {
+            _axios2.default.get('http://github.com/bccfilkom/bcc-drophere-client/raw/master/public/json/sponsor.json').then(function (_ref2) {
                 var data = _ref2.data;
 
                 var res = [],
