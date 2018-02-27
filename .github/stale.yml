@@ -1,0 +1,11 @@
+daysUntilStale: 20
+daysUntilClose: 7
+exemptLabels:
+  - pinned
+  - security
+staleLabel: wontfix
+markComment: >
+  Issue ini secara otomatis akan ditutup karena belum ada
+  Aktivitas Terbaru. Issue Ini akan ditutup jika tidak ada aktivitas lebih lanjut yang terjadi. Terima kasih
+  atas kontribusi anda
+closeComment: true
